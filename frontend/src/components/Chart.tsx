@@ -18,6 +18,12 @@ const Chart = () => {
           vertLines: { color: "#444" },
           horzLines: { color: "#444" },
         },
+        timeScale: {
+          timeVisible: true,
+          secondsVisible: false,
+          borderColor: "#444",
+          rightOffset: 1,
+        },
       });
       const candlestickSeries = chart.addCandlestickSeries({
         upColor: "#26a651",
@@ -30,24 +36,26 @@ const Chart = () => {
       chart.timeScale().fitContent();
 
       const fetchData = () => {
-        fetch(
-          `https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=${interval}`
-        )
-          .then((res) => res.json())
-          .then((data) => {
-            const cdata = data.map((d: any) => ({
-              time: d[0] / 1000,
-              open: parseFloat(d[1]),
-              high: parseFloat(d[2]),
-              low: parseFloat(d[3]),
-              close: parseFloat(d[4]),
-            }));
-            candlestickSeries.setData(cdata);
-          });
+        if (chart) {
+          fetch(
+            `https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=${interval}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              const cdata = data.map((d: any) => ({
+                time: d[0] / 1000,
+                open: parseFloat(d[1]),
+                high: parseFloat(d[2]),
+                low: parseFloat(d[3]),
+                close: parseFloat(d[4]),
+              }));
+              candlestickSeries.setData(cdata);
+            });
+        }
       };
 
       fetchData();
-      const intervalId = window.setInterval(fetchData, 200);
+      const intervalId = window.setInterval(fetchData, 500);
 
       return () => {
         window.clearInterval(intervalId);
@@ -59,10 +67,30 @@ const Chart = () => {
   return (
     <div className="flex flex-col items-center">
       <div className="mb-4">
-        <button className="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1" onClick={() => setInterval("1m")}>Minute</button>
-        <button className="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1" onClick={() => setInterval("1d")}>Tag</button>
-        <button className="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1" onClick={() => setInterval("1w")}>Woche</button>
-        <button className="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1" onClick={() => setInterval("1M")}>Monat</button>
+        <button
+          className="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1"
+          onClick={() => setInterval("1m")}
+        >
+          Minute
+        </button>
+        <button
+          className="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1"
+          onClick={() => setInterval("1d")}
+        >
+          Tag
+        </button>
+        <button
+          className="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1"
+          onClick={() => setInterval("1w")}
+        >
+          Woche
+        </button>
+        <button
+          className="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1"
+          onClick={() => setInterval("1M")}
+        >
+          Monat
+        </button>
       </div>
       <div
         className="container_chart"
