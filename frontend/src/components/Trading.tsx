@@ -18,7 +18,7 @@ const Trading: React.FC<TradingProps> = ({ selectedCoin }) => {
   };
 
   return (
-    <div className="trading bg-zinc-800 text-white p-4">
+    <div className="trading bg-zinc-800 text-white p-4 m-auto">
       <h2 className="text-2xl font-bold mb-4">Trading</h2>
       <div className="mb-4">
         <label className="block mb-2">Menge:</label>
