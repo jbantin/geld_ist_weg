@@ -23,10 +23,17 @@ interface NewsItem {
 const News = () => {
   const [news, setNews] = useState<NewsItem[]>([]);
 
-  useEffect(() => {
+  const fetchNews = () => {
     fetch("https://api.coingecko.com/api/v3/search/trending")
       .then((res) => res.json())
       .then((data) => setNews(data.coins.map((coin: any) => coin.item)));
+  };
+
+  useEffect(() => {
+    fetchNews();
+    const intervalId = setInterval(fetchNews, 60000); // 1 Minute
+
+    return () => clearInterval(intervalId);
   }, []);
 
   return (

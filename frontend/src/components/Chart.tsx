@@ -8,15 +8,24 @@ interface ChartProps {
 
 const Chart: React.FC<ChartProps> = ({ selectedCoin }) => {
     const container = useRef<HTMLDivElement>(null);
+    const chartRef = useRef<any>(null);
     const [interval, setInterval] = useState("1d");
 
     useEffect(() => {
+        const handleResize = () => {
+            if (chartRef.current) {
+                chartRef.current.resize(window.innerWidth * 0.5, window.innerHeight * 0.5);
+            }
+        };
+
+        window.addEventListener("resize", handleResize);
+
         if (container.current) {
             const chart = createChart(container.current, {
-                width: container.current.clientWidth,
-                height: container.current.clientHeight,
+                width: window.innerWidth * 0.5,
+                height: window.innerHeight * 0.5,
                 layout: {
-                    background: { color: "#222" },
+                    background: { color: "#27272A" },
                     textColor: "#DDD",
                 },
                 grid: {
@@ -30,6 +39,7 @@ const Chart: React.FC<ChartProps> = ({ selectedCoin }) => {
                     rightOffset: 1,
                 },
             });
+            chartRef.current = chart;
             const candlestickSeries = chart.addCandlestickSeries({
                 upColor: "#26a651",
                 downColor: "#ef5350",
@@ -41,20 +51,22 @@ const Chart: React.FC<ChartProps> = ({ selectedCoin }) => {
             chart.timeScale().fitContent();
 
             const fetchData = () => {
-                fetch(
-                    `https://api.binance.com/api/v3/klines?symbol=${selectedCoin}&interval=${interval}`
-                )
-                    .then((res) => res.json())
-                    .then((data) => {
-                        const cdata = data.map((d: any) => ({
-                            time: d[0] / 1000,
-                            open: parseFloat(d[1]),
-                            high: parseFloat(d[2]),
-                            low: parseFloat(d[3]),
-                            close: parseFloat(d[4]),
-                        }));
-                        candlestickSeries.setData(cdata);
-                    });
+                if (chartRef.current) {
+                    fetch(
+                        `https://api.binance.com/api/v3/klines?symbol=${selectedCoin}&interval=${interval}`
+                    )
+                        .then((res) => res.json())
+                        .then((data) => {
+                            const cdata = data.map((d: any) => ({
+                                time: d[0] / 1000,
+                                open: parseFloat(d[1]),
+                                high: parseFloat(d[2]),
+                                low: parseFloat(d[3]),
+                                close: parseFloat(d[4]),
+                            }));
+                            candlestickSeries.setData(cdata);
+                        });
+                }
             };
 
             fetchData();
@@ -63,6 +75,8 @@ const Chart: React.FC<ChartProps> = ({ selectedCoin }) => {
             return () => {
                 window.clearInterval(intervalId);
                 chart.remove();
+                chartRef.current = null;
+                window.removeEventListener("resize", handleResize);
             };
         }
     }, [container, interval, selectedCoin]);
