@@ -6,14 +6,13 @@ import Trading from "./components/Trading";
 import "./App.css";
 
 const App = () => {
-  const [selectedCoin, setSelectedCoin] = useState<string | null>(null);
+  const [selectedCoin, setSelectedCoin] = useState("BTCUSDT");
 
   return (
     <div className="bg-zinc-900 text-white min-h-screen flex">
-      <Sidebar onSelectCoin={(id: string) => setSelectedCoin(id)} />
+      <Sidebar onSelectCoin={setSelectedCoin} />
       <div className="flex flex-col items-center flex-grow">
-        <h1 className="text-3xl font-bold my-4">huhu</h1>
-        <Chart />
+        <Chart selectedCoin={selectedCoin} />
         {selectedCoin && <Trading selectedCoin={selectedCoin} />}
       </div>
       <News />

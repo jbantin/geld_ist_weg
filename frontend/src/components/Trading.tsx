@@ -4,7 +4,7 @@ interface TradingProps {
   selectedCoin: string;
 }
 
-const Trading = ({ selectedCoin }: TradingProps) => {
+const Trading: React.FC<TradingProps> = ({ selectedCoin }) => {
   const [amount, setAmount] = useState(0);
 
   const handleBuy = () => {
@@ -18,9 +18,10 @@ const Trading = ({ selectedCoin }: TradingProps) => {
   };
 
   return (
-    <div className="trading bg-gray-800 text-white p-4">
+    <div className="trading bg-zinc-800 text-white p-4">
       <h2 className="text-2xl font-bold mb-4">Trading</h2>
       <div className="mb-4">
+        <label className="block mb-2">Menge:</label>
         <input
           type="number"
           value={amount}
