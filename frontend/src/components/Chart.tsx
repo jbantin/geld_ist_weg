@@ -47,7 +47,7 @@ const Chart = () => {
       };
 
       fetchData();
-      const intervalId = window.setInterval(fetchData, 2000);
+      const intervalId = window.setInterval(fetchData, 200);
 
       return () => {
         window.clearInterval(intervalId);
