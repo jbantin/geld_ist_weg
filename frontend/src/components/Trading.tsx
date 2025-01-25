@@ -1,20 +1,19 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { DefaultContext } from "../context/DefaultContext";
 
-interface TradingProps {
-  selectedCoin: string;
-}
-
-const Trading: React.FC<TradingProps> = ({ selectedCoin }) => {
+const Trading = () => {
+  const { selectedCoin, coins = [] } = useContext(DefaultContext);
   const [amount, setAmount] = useState(0);
 
+  const coin = coins.find((coin) => coin.symbol === selectedCoin);
+  const price = coin ? parseFloat(coin.price) : 0;
+
   const handleBuy = () => {
-    // Kauf-Logik hier hinzufügen
-    alert(`Gekauft: ${amount} von ${selectedCoin}`);
+    alert(`Gekauft: ${amount} von ${selectedCoin} zu ${price}`);
   };
 
   const handleSell = () => {
-    // Verkaufs-Logik hier hinzufügen
-    alert(`Verkauft: ${amount} von ${selectedCoin}`);
+    alert(`Verkauft: ${amount} von ${selectedCoin} zu ${price}`);
   };
 
   return (
@@ -28,6 +27,9 @@ const Trading: React.FC<TradingProps> = ({ selectedCoin }) => {
           onChange={(e) => setAmount(Number(e.target.value))}
           className="p-2 text-zinc-200 w-full outline"
         />
+      </div>
+      <div className="mb-4">
+        <p>Aktueller Preis: ${price.toFixed(2)}</p>
       </div>
       <div>
         <button

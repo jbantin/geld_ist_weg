@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import { useEffect, useState, useContext } from "react";
+import { DefaultContext } from "../context/DefaultContext";
 import Button from "./Button";
+import { useLocation } from "react-router";
 
 interface NewsItem {
   id: string;
@@ -22,12 +23,8 @@ interface NewsItem {
   };
 }
 
-interface NewsProps {
-  onToggleNews?: () => void;
-  showToggleButton?: boolean;
-}
-
-const News: React.FC<NewsProps> = ({ onToggleNews, showToggleButton = false }) => {
+const News = () => {
+  const { showNews, setShowNews } = useContext(DefaultContext);
   const [news, setNews] = useState<NewsItem[]>([]);
   const location = useLocation();
 
@@ -44,15 +41,16 @@ const News: React.FC<NewsProps> = ({ onToggleNews, showToggleButton = false }) =
     return () => clearInterval(intervalId);
   }, []);
 
-  const isNewsPage = location.pathname === "/news";
+  const isMarketPage = location.pathname === "/market";
 
   return (
-    <div className={`news-feed ${isNewsPage ? 'w-full' : 'w-1/5'} max-h-[94vh] overflow-y-scroll `}>
-      {showToggleButton && onToggleNews && (
-        <Button onClick={onToggleNews} className="mb-4">
-          Toggle News
+    <div className={`news-feed ${isMarketPage ? 'w-1/5' : 'w-full'} max-h-[90vh] overflow-y-scroll p-4`}>
+      {isMarketPage && (
+        <Button onClick={() => setShowNews(!showNews)} className="mb-4">
+          {showNews ? "Hide News" : "Show News"}
         </Button>
       )}
+      <h2 className="text-2xl font-bold mb-4">Nachrichten</h2>
       <ul>
         {news.map((item) => (
           <li key={item.id} className="mb-4 p-4 bg-zinc-800 rounded-lg">

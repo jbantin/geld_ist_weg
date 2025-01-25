@@ -1,41 +1,67 @@
-import { createContext, useState } from "react";
-
-// Ich baue einen Context der in der Gesamten App benutzt werden kann.
-// den buttonContext benutzen wir später in useContext
-// const contextData = useContext(ButtonContext)
-export const DefaultContext = createContext<{
-  count: number;
-  setCount: React.Dispatch<React.SetStateAction<number>>;
-  message: string;
-}>({
-  count: 0,
-  setCount: () => {},
-  message: "Hallo Welt aus Context",
-});
-
-// Ich baue einn Context-Provider der allen Kind-Komponenten Zugriff auf die Daten ermöglicht.
-
+import { createContext, useState, useEffect } from "react";
 import { ReactNode } from "react";
 
-interface ButtonContextProviderProps {
+interface Coin {
+  symbol: string;
+  price: string;
+}
+
+interface DefaultContextProps {
+  selectedCoin: string;
+  setSelectedCoin: React.Dispatch<React.SetStateAction<string>>;
+  showNews: boolean;
+  setShowNews: React.Dispatch<React.SetStateAction<boolean>>;
+  showTradeInfo: boolean;
+  setShowTradeInfo: React.Dispatch<React.SetStateAction<boolean>>;
+  coins: Coin[];
+}
+
+export const DefaultContext = createContext<DefaultContextProps>({
+  selectedCoin: "BTCUSDT",
+  setSelectedCoin: () => {},
+  showNews: true,
+  setShowNews: () => {},
+  showTradeInfo: false,
+  setShowTradeInfo: () => {},
+  coins: [],
+});
+
+interface DefaultContextProviderProps {
   children: ReactNode;
 }
 
-export function ButtonContextProvider({
-  children,
-}: ButtonContextProviderProps) {
-  const [count, setCount] = useState(0);
-  // Das data Objekt enthält alle Werte und Funktionen, die wir über den Context verfügbar machen wollen.
-  // count: Der aktuelle Zählerstand
-  // setCount: Die Funktion zum aktualisieren des Zählers.
-  const data = {
-    count,
-    setCount,
-    message: "Hallo Welt aus Context",
+export function DefaultContextProvider({ children }: DefaultContextProviderProps) {
+  const [selectedCoin, setSelectedCoin] = useState("BTCUSDT");
+  const [showNews, setShowNews] = useState(true);
+  const [showTradeInfo, setShowTradeInfo] = useState(false);
+  const [coins, setCoins] = useState<Coin[]>([]);
+
+  const fetchPrices = () => {
+    fetch("https://api.binance.com/api/v3/ticker/price")
+      .then((res) => res.json())
+      .then((data) => {
+        setCoins(data);
+      });
   };
+
+  useEffect(() => {
+    fetchPrices();
+    const intervalId = setInterval(fetchPrices, 5000); // Aktualisiere alle 5 Sekunden
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const data = {
+    selectedCoin,
+    setSelectedCoin,
+    showNews,
+    setShowNews,
+    showTradeInfo,
+    setShowTradeInfo,
+    coins,
+  };
+
   return (
-    // Der Provider umschließt alle Kind-Komponenten und macht ihnen
-    // das data Objekt zugänglich.
     <DefaultContext.Provider value={data}>{children}</DefaultContext.Provider>
   );
 }

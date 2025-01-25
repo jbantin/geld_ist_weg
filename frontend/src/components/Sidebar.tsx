@@ -1,15 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { DefaultContext } from "../context/DefaultContext";
 
 interface Coin {
   symbol: string;
   price: string;
 }
 
-interface SidebarProps {
-  onSelectCoin: (symbol: string) => void;
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ onSelectCoin }) => {
+const Sidebar = () => {
+  const { setSelectedCoin } = useContext(DefaultContext);
   const [coins, setCoins] = useState<Coin[]>([]);
   const selectedCoins = ["BTCUSDT", "ETHUSDT", "XRPUSDT", "SOLUSDT", "DOGEUSDT", "ADAUSDT", "LINKUSDT"];
 
@@ -37,7 +35,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectCoin }) => {
           <li key={coin.symbol} className="mb-2 flex justify-between bg-zinc-700 p-2 rounded-lg">
             <button
               className="text-zinc-400 hover:underline"
-              onClick={() => onSelectCoin(coin.symbol)}
+              onClick={() => setSelectedCoin(coin.symbol)}
             >
               {coin.symbol.slice(0, -4)}
             </button>
