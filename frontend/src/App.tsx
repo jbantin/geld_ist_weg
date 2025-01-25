@@ -8,12 +8,17 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
 import "./App.css";
+import { motion } from "framer-motion";
 
 const App = () => {
   return (
     <DefaultContextProvider>
       <Router>
-        <div className="bg-zinc-900 text-white min-h-screen flex flex-col w-screen">
+        <motion.div
+          className="flex flex-col h-screen bg-zinc-900 text-white"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: .5 }}>
           <Nav />
           <Routes>
             <Route
@@ -31,7 +36,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>
-        </div>
+        </motion.div>
       </Router>
     </DefaultContextProvider>
   );

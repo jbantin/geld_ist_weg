@@ -12,7 +12,7 @@ const Chart = () => {
     useContext(DefaultContext);
   const container = useRef<HTMLDivElement>(null);
   const chartRef = useRef<any>(null);
-  const [interval, setInterval] = useState("1d");
+  const [interval, setInterval] = useState("1m");
 
   const initializeChart = () => {
     if (container.current) {
@@ -22,7 +22,7 @@ const Chart = () => {
       }
       const chart = createChart(container.current, {
         width: window.innerWidth * 0.6,
-        height: window.innerHeight * 0.5,
+        height: window.innerHeight * 0.6,
         layout: {
           background: { color: "#27272A" },
           textColor: "#DDD",
@@ -56,14 +56,14 @@ const Chart = () => {
           )
             .then((res) => res.json())
             .then((data) => {
-              const cdata = data.map((data: any) => ({
+              const candleData = data.map((data: any) => ({
                 time: data[0] / 1000,
                 open: parseFloat(data[1]),
                 high: parseFloat(data[2]),
                 low: parseFloat(data[3]),
                 close: parseFloat(data[4]),
               }));
-              candlestickSeries.setData(cdata);
+              candlestickSeries.setData(candleData);
             });
         }
       };
@@ -85,8 +85,8 @@ const Chart = () => {
     const handleResize = () => {
       if (chartRef.current) {
         chartRef.current.resize(
-          window.innerWidth * 0.5,
-          window.innerHeight * 0.5
+          window.innerWidth * 0.6,
+          window.innerHeight * 0.6
         );
       }
     };
@@ -112,40 +112,45 @@ const Chart = () => {
 
   return (
     <motion.div
-      className="flex flex-grow flex-col items-center content-center p-4"
+      className="flex flex-grow w-full flex-col items-center content-center p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="mb-4 flex space-x-2">
-        <Button className="bg-zinc-700 hover:underline" onClick={() => setInterval("1m")}>Minute</Button>
-        <Button className="bg-zinc-700 hover:underline" onClick={() => setInterval("5m")}>5 Minuten</Button>
-        <Button className="bg-zinc-700 hover:underline" onClick={() => setInterval("15m")}>15 Minuten</Button>
-        <Button className="bg-zinc-700 hover:underline" onClick={() => setInterval("1h")}>Stunde</Button>
-        <Button className="bg-zinc-700 hover:underline" onClick={() => setInterval("4h")}>4 Stunden</Button>
-        <Button className="bg-zinc-700 hover:underline" onClick={() => setInterval("1d")}>Tag</Button>
-        <Button className="bg-zinc-700 hover:underline" onClick={() => setInterval("1w")}>Woche</Button>
-        <Button className="bg-zinc-700 hover:underline" onClick={() => setInterval("1M")}>Monat</Button>
+      <div className="mb-4 flex justify-between w-full space-x-2">
+        <div>
+        <Button className="bg-zinc-700 hover:underline mr-1" onClick={() => setInterval("1m")}>Minute</Button>
+        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("5m")}>5 Minuten</Button>
+        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("15m")}>15 Minuten</Button>
+        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("1h")}>Stunde</Button>
+        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("4h")}>4 Stunden</Button>
+        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("1d")}>Tag</Button>
+        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("1w")}>Woche</Button>
+        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("1M")}>Monat</Button>
+        </div>
         <Button className="bg-zinc-700 hover:underline" onClick={() => setShowTradeInfo(!showTradeInfo)}>
-          {showTradeInfo ? "Show Chart & OrderBook" : "Show 24h Stats & Trades"}
+          {showTradeInfo ? "Show Chart" : "Show 24h Stats & Trades"}
         </Button>
       </div>
-      <div
-        className="flex flex-col w-full items-center content-center"
+      <motion.div
+        className="flex flex-col w-full h-full items-center content-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
       >
         {showTradeInfo ? (
           <TradeInfo symbol={selectedCoin} />
         ) : (
           <>
-            <div className="flex rounded-lg overflow-hidden">
+            <div className="flex h-full rounded-lg w-full overflow-hidden">
               <OrderBook symbol={selectedCoin} />
-              <div className="container_chart p-4 bg-zinc-800" ref={container}></div>
+              <div className="flex justify-center p-4 bg-zinc-800 h-full w-full" ref={container}></div>
             </div>
 
             <Trading />
           </>
         )}
-      </div>
+      </motion.div>
     </motion.div>
   );
 };
