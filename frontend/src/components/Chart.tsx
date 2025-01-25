@@ -5,6 +5,7 @@ import OrderBook from "./OrderBook";
 import TradeInfo from "./TradeInfo";
 import Trading from "./Trading";
 import { DefaultContext } from "../context/DefaultContext";
+import { motion } from "framer-motion";
 
 const Chart = () => {
   const { selectedCoin, showTradeInfo, setShowTradeInfo } =
@@ -110,7 +111,12 @@ const Chart = () => {
   }, [showTradeInfo, interval]);
 
   return (
-    <div className="flex flex-grow flex-col items-center content-center p-4">
+    <motion.div
+      className="flex flex-grow flex-col items-center content-center p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="mb-4 flex space-x-2">
         <Button className="bg-zinc-700 hover:underline" onClick={() => setInterval("1m")}>Minute</Button>
         <Button className="bg-zinc-700 hover:underline" onClick={() => setInterval("5m")}>5 Minuten</Button>
@@ -140,7 +146,7 @@ const Chart = () => {
           </>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

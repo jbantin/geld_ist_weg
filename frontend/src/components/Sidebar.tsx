@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { DefaultContext } from "../context/DefaultContext";
 import Button from "./Button";
+import { motion } from "framer-motion";
 
 interface Coin {
   symbol: string;
@@ -29,7 +30,12 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div className="sidebar bg-zinc-800 text-white p-4 pt-25 min-w-[220px]">
+    <motion.div
+      className="sidebar bg-zinc-800 text-white p-4 pt-25 min-w-[220px]"
+      initial={{ x: -250 }}
+      animate={{ x: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <h2 className="text-2xl font-bold mb-4">Top Coins</h2>
       <ul>
         {coins.map((coin) => (
@@ -44,7 +50,7 @@ const Sidebar = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </motion.div>
   );
 };
 
