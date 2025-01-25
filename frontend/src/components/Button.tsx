@@ -9,7 +9,7 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({ onClick, children, className }) => {
   return (
     <button
-      className={` hover:bg-green-800 hover:rounded-lg font-bold py-2 px-4 rounded duration-500  ${className}`}
+      className={` hover:bg-green-800 hover:rounded font-bold py-2 px-4 rounded duration-500  ${className}`}
       onClick={onClick}
     >
       {children}

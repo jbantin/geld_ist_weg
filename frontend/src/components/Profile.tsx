@@ -7,7 +7,7 @@ const Profile = () => {
 
   return (
     <div className="flex justify-center items-center bg-zinc-900 text-white">
-      <div className="bg-zinc-800 p-6 rounded-lg">
+      <div className="bg-zinc-800 p-6 rounded">
         <h2 className="text-2xl font-bold mb-4">Profile</h2>
         <p className="mb-2">Name: {user.name}</p>
         <p className="mb-2">Email: {user.email}</p>

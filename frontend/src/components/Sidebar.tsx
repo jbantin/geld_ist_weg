@@ -31,12 +31,12 @@ const Sidebar = () => {
 
   return (
     <motion.div
-      className="sidebar bg-zinc-800 text-white p-4 pt-20 min-w-[220px]"
+      className="sidebar bg-zinc-800 text-white p-4 min-w-[220px]"
       initial={{ x: -250 }}
       animate={{ x: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="text-2xl font-bold mb-4">Top Coins</h2>
+      <h2 className="text-2xl font-bold my-4">Top Coins</h2>
       <ul>
         {coins.map((coin) => (
           <li key={coin.symbol} className="mb-2 flex justify-between rounded-lg">

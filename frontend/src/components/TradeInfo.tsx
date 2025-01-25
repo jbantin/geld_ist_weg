@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { data } from "react-router";
 
 interface Trade {
   price: string;

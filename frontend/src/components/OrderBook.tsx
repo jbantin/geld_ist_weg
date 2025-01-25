@@ -47,7 +47,7 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
 
   return (
     <motion.div
-      className="order-book bg-zinc-800 text-white p-4 rounded-l-lg w-50 max-w-md"
+      className="order-book bg-zinc-800 text-white p-4 rounded-l-lg w-70 max-w-md"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -57,9 +57,9 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
         <div className="mb-4">
           <ul className="space-y-1 relative">
             {bids.map((bid, index) => (
-              <li key={index} className="flex justify-between relative text-sm">
+              <li key={index} className="flex justify-between relative text-sm px-1">
                 <div
-                  className="absolute left-0 top-0 h-full bg-green-500 opacity-50"
+                  className="absolute left-0 top-0 h-full bg-green-500 opacity-50 rounded-r-sm"
                   style={{ width: `${(parseFloat(bid.quantity) / maxQuantity) * 100}%` }}
                 ></div>
                 <span className="relative z-10 ">{Number(bid.price).toFixed(2)} $</span>
@@ -71,7 +71,7 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
         <div>
           <ul className="space-y-1 relative">
             {asks.map((ask, index) => (
-              <li key={index} className="flex justify-between relative text-sm">
+              <li key={index} className="flex justify-between relative text-sm px-1">
                 <div
                   className="absolute left-0 top-0 h-full bg-red-500 opacity-50 "
                   style={{ width: `${(parseFloat(ask.quantity) / maxQuantity) * 100}%` }}

@@ -32,14 +32,14 @@ const News: React.FC = () => {
       transition={{ duration: 0.5 }}
     >
       {isMarketPage && (
-        <Button onClick={() => setShowNews(!showNews)} className="mb-4 bg-zinc-700 hover:underline min-h-12">
+        <Button onClick={() => setShowNews(!showNews)} className="mb-4 mr-4 bg-zinc-700 hover:underline min-h-12">
           {showNews ? "Hide News" : "Show News"}
         </Button>
       )}
       {showNews && (
         <div className={`grid ${isNewsPage ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1' : ''} overflow-y-scroll custom-scrollbar pr-2`}>
           {news.filter(item => item.data.content).map((item) => (
-            <div key={item.id} className={`${isNewsPage ? `m-4` : "mb-4"} p-4 bg-zinc-800 rounded-lg inline-flex flex-col min-w-[200px] max-w-[400px]`}>
+            <div key={item.id} className={`${isNewsPage ? `m-4` : "mb-4"} p-4 bg-zinc-800 rounded inline-flex flex-col min-w-[200px] max-w-[400px]`}>
               <div className="flex items-center mb-2">
                 <img src={item.thumb} alt={item.name} className=" mr-4" />
                 <div>

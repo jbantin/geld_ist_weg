@@ -22,7 +22,7 @@ const Chart = () => {
       }
       const chart = createChart(container.current, {
         width: window.innerWidth * 0.6,
-        height: window.innerHeight * 0.6,
+        height: window.innerHeight * 0.65,
         layout: {
           background: { color: "#27272A" },
           textColor: "#DDD",
@@ -51,8 +51,9 @@ const Chart = () => {
 
       const fetchData = () => {
         if (chartRef.current) {
+          const limit = interval === "1m" ? 400 : 600; // Begrenze die Anzahl der Kerzen für das 1-Minuten-Intervall
           fetch(
-            `https://api.binance.com/api/v3/klines?symbol=${selectedCoin}&interval=${interval}`
+            `https://api.binance.com/api/v3/klines?symbol=${selectedCoin}&interval=${interval}&limit=${limit}`
           )
             .then((res) => res.json())
             .then((data) => {
@@ -119,6 +120,7 @@ const Chart = () => {
     >
       <div className="mb-4 flex justify-between w-full space-x-2">
         <div>
+        <span className="font-bold text-xl p-4 text-green-700 mr-4 bg-zinc-800 rounded"> {selectedCoin.slice(0,-4)} in {selectedCoin.slice(-4)}</span>
         <Button className="bg-zinc-700 hover:underline mr-1" onClick={() => setInterval("1m")}>Minute</Button>
         <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("5m")}>5 Minuten</Button>
         <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("15m")}>15 Minuten</Button>
@@ -142,7 +144,7 @@ const Chart = () => {
           <TradeInfo symbol={selectedCoin} />
         ) : (
           <>
-            <div className="flex h-full rounded-lg w-full overflow-hidden">
+            <div className="flex h-full rounded w-full overflow-hidden">
               <OrderBook symbol={selectedCoin} />
               <div className="flex justify-center p-4 bg-zinc-800 h-full w-full" ref={container}></div>
             </div>
