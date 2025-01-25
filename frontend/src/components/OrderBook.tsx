@@ -52,13 +52,13 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
           <h3 className="text-xl font-bold mb-2">Bids</h3>
           <ul className="space-y-1 relative">
             {bids.map((bid, index) => (
-              <li key={index} className="flex justify-between relative">
+              <li key={index} className="flex justify-between relative p-1">
                 <div
                   className="absolute left-0 top-0 h-full bg-green-500 opacity-25"
                   style={{ width: `${(parseFloat(bid.quantity) / maxQuantity) * 100}%` }}
                 ></div>
-                <span className="relative z-10">{Number(bid.price).toFixed(2)}</span>
-                <span className="relative z-10">{Number(bid.quantity).toFixed(5)}</span>
+                <span className="relative z-10 font-bold">{Number(bid.price).toFixed()} $</span>
+                <span className="relative z-10">{Number(bid.quantity).toFixed(4)} {symbol.slice(0,3)}</span>
               </li>
             ))}
           </ul>
@@ -67,13 +67,13 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
           <h3 className="text-xl font-bold mb-2">Asks</h3>
           <ul className="space-y-1 relative">
             {asks.map((ask, index) => (
-              <li key={index} className="flex justify-between relative">
+              <li key={index} className="flex justify-between relative p-1">
                 <div
-                  className="absolute left-0 top-0 h-full bg-red-500 opacity-25"
+                  className="absolute left-0 top-0 h-full bg-red-500 opacity-25 "
                   style={{ width: `${(parseFloat(ask.quantity) / maxQuantity) * 100}%` }}
                 ></div>
-                <span className="relative z-10">{Number(ask.price).toFixed(2)}</span>
-                <span className="relative z-10">{Number(ask.quantity).toFixed(5)}</span>
+                <span className="relative z-10 font-bold">{Number(ask.price).toFixed()} $</span>
+                <span className="relative z-10">{Number(ask.quantity).toFixed(4)} {symbol.slice(0,3)}</span>
               </li>
             ))}
           </ul>

@@ -1,31 +1,10 @@
-import { useEffect, useState, useContext } from "react";
-import { DefaultContext } from "../context/DefaultContext";
-import Button from "./Button";
-import { useLocation } from "react-router";
+import React, { useState, useEffect } from 'react';
+import Button from './Button'; // Importieren Sie Ihre Button-Komponente
+import { useLocation } from 'react-router';
 
-interface NewsItem {
-  id: string;
-  name: string;
-  symbol: string;
-  market_cap_rank: number;
-  thumb: string;
-  data: {
-    price: number;
-    price_change_percentage_24h: {
-      usd: number;
-    };
-    market_cap: string;
-    total_volume: string;
-    content: {
-      title: string;
-      description: string;
-    };
-  };
-}
-
-const News = () => {
-  const { showNews, setShowNews } = useContext(DefaultContext);
-  const [news, setNews] = useState<NewsItem[]>([]);
+const News: React.FC = () => {
+  const [news, setNews] = useState<any[]>([]);
+  const [showNews, setShowNews] = useState<boolean>(true);
   const location = useLocation();
 
   const fetchNews = () => {
@@ -42,39 +21,35 @@ const News = () => {
   }, []);
 
   const isMarketPage = location.pathname === "/market";
+  const isNewsPage = location.pathname === "/news";
 
   return (
-    <div className={`news-feed ${isMarketPage ? 'w-1/5' : 'w-full'} max-h-[90vh] overflow-y-scroll p-4`}>
+    <div className={`news-feed ${isMarketPage ? 'w-1/5' : 'w-full'} max-h-[90vh] overflow-y-scroll p-4 ${isNewsPage ? 'mx-auto' : ''} custom-scrollbar`}>
       {isMarketPage && (
         <Button onClick={() => setShowNews(!showNews)} className="mb-4">
           {showNews ? "Hide News" : "Show News"}
         </Button>
       )}
-      <h2 className="text-2xl font-bold mb-4">Nachrichten</h2>
-      <ul>
-        {news.map((item) => (
-          <li key={item.id} className="mb-4 p-4 bg-zinc-800 rounded-lg">
-            <div className="flex items-center mb-2">
-              <img src={item.thumb} alt={item.name} className="w-10 h-10 mr-4" />
-              <div>
-                <h3 className="text-xl font-bold">{item.name} ({item.symbol})</h3>
-                <p className="text-sm text-gray-400">Rank: {item.market_cap_rank}</p>
+      {showNews && (
+        <div className={`grid ${isNewsPage ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1' : ''}`}>
+          {news.filter(item => item.data.content).map((item) => (
+            <div key={item.id} className={`${isNewsPage ? `m-4` : "mb-2"} p-4 bg-zinc-800 rounded-lg inline-flex flex-col min-w-[200px] max-w-[400px]`}>
+              <div className="flex items-center mb-2">
+                <img src={item.thumb} alt={item.name} className="w-10 h-10 mr-4" />
+                <div>
+                  <h3 className="text-xl font-bold">{item.name} ({item.symbol})</h3>
+                  <p className="text-sm text-gray-400">Rank: {item.market_cap_rank}</p>
+                </div>
               </div>
+              <p className="text-gray-300">{item.data.content.description}</p>
+              <p className="text-gray-400 mt-2">Preis: ${item.data.price.toFixed(2)}</p>
+              <p className={`mt-1 ${item.data.price_change_percentage_24h.usd >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                24h Änderung: {item.data.price_change_percentage_24h.usd.toFixed(2)}%
+              </p>
             </div>
-            {item.data.content && (
-              <>
-                <p className="text-gray-300">{item.data.content.description}</p>
-                <p className="text-gray-400 mt-2">Preis: ${item.data.price.toFixed(2)}</p>
-                <p className={`mt-1 ${item.data.price_change_percentage_24h.usd >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                  24h Änderung: {item.data.price_change_percentage_24h.usd.toFixed(2)}%
-                </p>
-                <p className="text-gray-400 mt-2">Marktkapitalisierung: {item.data.market_cap}</p>
-                <p className="text-gray-400">Volumen: {item.data.total_volume}</p>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

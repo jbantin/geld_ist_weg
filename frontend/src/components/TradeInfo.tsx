@@ -47,13 +47,13 @@ const TradeInfo: React.FC<TradeInfoProps> = ({ symbol }) => {
   }, [symbol]);
 
   return (
-    <div className="trade-info bg-zinc-800 text-white p-4 rounded-lg w-full max-w-md">
+    <div className="trade-info bg-zinc-800 text-white p-4 rounded-lg w-[90vw] max-w-md">
       <h2 className="text-2xl font-bold mb-4">24h Stats & Letzte Trades</h2>
       {stats && (
         <div className="mb-4">
-          <h3 className="text-xl font-bold mb-2">24h Stats</h3>
+          <h3 className="text-xl font-bold mb-2">Stats 24h</h3>
           <p>Letzter Preis: {Number(stats.lastPrice).toFixed(2)}</p>
-          <p>Preisänderung: {stats.priceChangePercent}%</p>
+          <p>Preisänderung: <span className={`${stats.priceChangePercent.includes("-")? "text-red-500":""}`}>{stats.priceChangePercent}%</span></p>
           <p>Höchster Preis: {Number(stats.highPrice).toFixed(2)}</p>
           <p>Niedrigster Preis: {Number(stats.lowPrice).toFixed(2)}</p>
           <p>Volumen: {Number(stats.volume).toFixed(2)}</p>
@@ -63,7 +63,12 @@ const TradeInfo: React.FC<TradeInfoProps> = ({ symbol }) => {
         <h3 className="text-xl font-bold mb-2">Letzte Trades</h3>
         <ul className="space-y-1">
           {trades.map((trade, index) => (
-            <li key={index} className="flex justify-between">
+            <li
+              key={index}
+              className={`flex justify-between p-2 rounded ${
+                trade.isBuyerMaker ? "bg-red-500" : "bg-green-500"
+              }`}
+            >
               <span>{new Date(trade.time).toLocaleTimeString()}</span>
               <span>{Number(trade.price).toFixed(2)}</span>
               <span>{Number(trade.qty).toFixed(5)}</span>

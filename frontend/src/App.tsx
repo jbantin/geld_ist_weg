@@ -13,20 +13,19 @@ const App = () => {
   return (
     <DefaultContextProvider>
       <Router>
-        <div className="bg-zinc-900 text-white min-h-screen flex flex-col">
+        <div className="bg-zinc-900 text-white min-h-screen flex flex-col w-screen">
           <Nav />
           <Routes>
-            <Route path="/market" element={
-              <div className="flex flex-grow relative">
-                <Sidebar />
-                <div className="flex flex-col items-center flex-grow">
-                  <div className="flex flex-row items-start w-full">
-                    <Chart />
-                    <News />
-                  </div>
-                </div>              
-              </div>
-            } />
+            <Route
+              path="/market"
+              element={
+                <div className="flex flex-grow ">
+                  <Sidebar />
+                  <Chart />
+                  <News />
+                </div>
+              }
+            />
             <Route path="/news" element={<News />} />
             <Route path="/user" element={<Profile />} />
             <Route path="/login" element={<Login />} />

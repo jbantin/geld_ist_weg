@@ -3,7 +3,7 @@ import { DefaultContext } from "../context/DefaultContext";
 
 const Trading = () => {
   const { selectedCoin, coins = [] } = useContext(DefaultContext);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState<string>("0");
 
   const coin = coins.find((coin) => coin.symbol === selectedCoin);
   const price = coin ? parseFloat(coin.price) : 0;
@@ -17,35 +17,34 @@ const Trading = () => {
   };
 
   return (
-    <div className="trading bg-zinc-800 text-white p-4 m-auto">
-      <h2 className="text-2xl font-bold mb-4">Trading</h2>
-      <div className="mb-4">
-        <label className="block mb-2">Menge:</label>
+    <div className="trading flex items-center justify-center  bg-zinc-800 text-white p-4 m-auto w-full rounded mt-4">
+      
         <input
           type="text"
           value={amount}
-          onChange={(e) => setAmount(Number(e.target.value))}
-          className="p-2 text-zinc-200 w-full outline"
+          onChange={(e) => setAmount(e.target.value)}
+          className="p-2 text-zinc-200 w-full outline max-w-[200px] rounded"
         />
+      
+            <p className="ml-2">Preis: {price.toFixed(2)}$</p>
+      
+        <div className="ml-2">
+          <button
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
+            onClick={handleBuy}
+          >
+            Kaufen
+          </button>
+          <button
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            onClick={handleSell}
+          >
+            Verkaufen
+          </button>
+          <span> Gesamt: {(price * parseFloat(amount)).toFixed(2)} $</span>
+        </div>
       </div>
-      <div className="mb-4">
-        <p>Aktueller Preis: ${price.toFixed(2)}</p>
-      </div>
-      <div>
-        <button
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
-          onClick={handleBuy}
-        >
-          Kaufen
-        </button>
-        <button
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-          onClick={handleSell}
-        >
-          Verkaufen
-        </button>
-      </div>
-    </div>
+ 
   );
 };
 
