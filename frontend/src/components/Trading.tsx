@@ -23,10 +23,10 @@ const Trading: React.FC<TradingProps> = ({ selectedCoin }) => {
       <div className="mb-4">
         <label className="block mb-2">Menge:</label>
         <input
-          type="number"
+          type="text"
           value={amount}
           onChange={(e) => setAmount(Number(e.target.value))}
-          className="p-2 text-black"
+          className="p-2 text-zinc-200 w-full outline"
         />
       </div>
       <div>

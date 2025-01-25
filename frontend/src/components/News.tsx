@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
+import Button from "./Button";
 
 interface NewsItem {
   id: string;
@@ -20,8 +22,14 @@ interface NewsItem {
   };
 }
 
-const News = () => {
+interface NewsProps {
+  onToggleNews?: () => void;
+  showToggleButton?: boolean;
+}
+
+const News: React.FC<NewsProps> = ({ onToggleNews, showToggleButton = false }) => {
   const [news, setNews] = useState<NewsItem[]>([]);
+  const location = useLocation();
 
   const fetchNews = () => {
     fetch("https://api.coingecko.com/api/v3/search/trending")
@@ -36,9 +44,15 @@ const News = () => {
     return () => clearInterval(intervalId);
   }, []);
 
+  const isNewsPage = location.pathname === "/news";
+
   return (
-    <div className="news-feed w-1/5 max-h-screen overflow-y-scroll p-4">
-      <h2 className="text-2xl font-bold mb-4">Nachrichten</h2>
+    <div className={`news-feed ${isNewsPage ? 'w-full' : 'w-1/5'} max-h-[94vh] overflow-y-scroll `}>
+      {showToggleButton && onToggleNews && (
+        <Button onClick={onToggleNews} className="mb-4">
+          Toggle News
+        </Button>
+      )}
       <ul>
         {news.map((item) => (
           <li key={item.id} className="mb-4 p-4 bg-zinc-800 rounded-lg">

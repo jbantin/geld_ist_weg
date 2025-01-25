@@ -8,10 +8,12 @@ import Nav from "./components/Nav";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
+import Button from "./components/Button";
 import "./App.css";
 
 const App = () => {
   const [selectedCoin, setSelectedCoin] = useState("BTCUSDT");
+  const [showNews, setShowNews] = useState(true);
 
   return (
     <Router>
@@ -19,13 +21,20 @@ const App = () => {
         <Nav />
         <Routes>
           <Route path="/market" element={
-            <div className="flex flex-grow">
+            <div className="flex flex-grow relative">
               <Sidebar onSelectCoin={setSelectedCoin} />
               <div className="flex flex-col items-center flex-grow">
-                <Chart selectedCoin={selectedCoin} />
+                <div className="flex flex-row items-start w-full">
+                  <Chart selectedCoin={selectedCoin} />
+                </div>
                 {selectedCoin && <Trading selectedCoin={selectedCoin} />}
               </div>
-              <News />
+              {showNews && <News onToggleNews={() => setShowNews(!showNews)} showToggleButton />}
+              {!showNews && (
+                <Button onClick={() => setShowNews(true)} className="absolute top-20 right-4">
+                  Show News
+                </Button>
+              )}
             </div>
           } />
           <Route path="/news" element={<News />} />

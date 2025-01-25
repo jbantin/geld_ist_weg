@@ -1,6 +1,7 @@
 import { createChart } from "lightweight-charts";
 import { useRef, useEffect, useState } from "react";
 import Button from "./Button";
+import OrderBook from "./OrderBook";
 
 interface ChartProps {
     selectedCoin: string;
@@ -14,7 +15,7 @@ const Chart: React.FC<ChartProps> = ({ selectedCoin }) => {
     useEffect(() => {
         const handleResize = () => {
             if (chartRef.current) {
-                chartRef.current.resize(window.innerWidth * 0.5, window.innerHeight * 0.5);
+                chartRef.current.resize(window.innerWidth * 0.7, window.innerHeight * 0.5);
             }
         };
 
@@ -22,7 +23,7 @@ const Chart: React.FC<ChartProps> = ({ selectedCoin }) => {
 
         if (container.current) {
             const chart = createChart(container.current, {
-                width: window.innerWidth * 0.5,
+                width: window.innerWidth * 0.6,
                 height: window.innerHeight * 0.5,
                 layout: {
                     background: { color: "#27272A" },
@@ -82,7 +83,7 @@ const Chart: React.FC<ChartProps> = ({ selectedCoin }) => {
     }, [container, interval, selectedCoin]);
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center content-center p-4">
             <div className="mb-4">
                 <Button onClick={() => setInterval("1m")}>Minute</Button>
                 <Button onClick={() => setInterval("5m")}>5 Minuten</Button>
@@ -93,11 +94,11 @@ const Chart: React.FC<ChartProps> = ({ selectedCoin }) => {
                 <Button onClick={() => setInterval("1w")}>Woche</Button>
                 <Button onClick={() => setInterval("1M")}>Monat</Button>
             </div>
-            <div className="rounded-lg overflow-hidden" style={{ width: "50vw", height: "50vh" }}>
+            <div className="rounded-r-lg overflow-hidden flex" style={{ width: "100%", height: "50vh" }}>
+                <OrderBook symbol={selectedCoin} />
                 <div
-                    className="container_chart"
+                    className="container_chart "
                     ref={container}
-                    style={{ width: "100%", height: "100%" }}
                 ></div>
             </div>
         </div>
