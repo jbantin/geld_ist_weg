@@ -50,7 +50,7 @@ const Sidebar = () => {
               onClick={() => setSelectedCoin(coin.symbol)}
             >
               <span>{coin.symbol.slice(0, -4)}</span>
-              <span className="text-zinc-300 px-2">{parseFloat(coin.price).toFixed(2)} $</span>
+              <span className="text-zinc-300 px-2">{coin.price.toFixed(2)} $</span>
             </Button>
           </li>
         ))}

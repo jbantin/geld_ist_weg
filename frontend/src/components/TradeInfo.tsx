@@ -24,29 +24,35 @@ const TradeInfo: React.FC<TradeInfoProps> = ({ symbol }) => {
   const [trades, setTrades] = useState<Trade[]>([]);
   const [stats, setStats] = useState<Stats | null>(null);
 
-  const fetchRecentTrades = () => {
-    fetch(`https://api.binance.com/api/v3/trades?symbol=${symbol}&limit=5`)
-      .then((response) => response.json())
-      .then((data) => data.sort((a: Trade, b: Trade) => b.time - a.time))
-      .then((data) => setTrades(data.map((trade: any) => ({
+  const fetchRecentTrades = async () => {
+    try {
+      const response = await fetch(`https://api.binance.com/api/v3/trades?symbol=${symbol}&limit=5`);
+      const data = await response.json();
+      const sortedData = data.sort((a: Trade, b: Trade) => b.time - a.time);
+      setTrades(sortedData.map((trade: any) => ({
         ...trade,
         price: parseFloat(trade.price),
         qty: parseFloat(trade.qty),
-      }))))
-      .catch((error) => console.error('Fehler beim Abrufen der letzten Trades:', error));
+      })));
+    } catch (error) {
+      console.error('Fehler beim Abrufen der letzten Trades:', error);
+    }
   };
 
-  const fetch24HourStats = () => {
-    fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)
-      .then((response) => response.json())
-      .then((data) => setStats({
+  const fetch24HourStats = async () => {
+    try {
+      const response = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`);
+      const data = await response.json();
+      setStats({
         lastPrice: parseFloat(data.lastPrice),
         priceChangePercent: parseFloat(data.priceChangePercent),
         highPrice: parseFloat(data.highPrice),
         lowPrice: parseFloat(data.lowPrice),
         volume: parseFloat(data.volume),
-      }))
-      .catch((error) => console.error('Fehler beim Abrufen der 24-Stunden Statistiken:', error));
+      });
+    } catch (error) {
+      console.error('Fehler beim Abrufen der 24-Stunden Statistiken:', error);
+    }
   };
 
   useEffect(() => {

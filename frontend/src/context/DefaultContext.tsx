@@ -30,29 +30,33 @@ interface DefaultContextProviderProps {
   children: ReactNode;
 }
 
-export function DefaultContextProvider({ children }: DefaultContextProviderProps) {
+export function DefaultContextProvider({
+  children,
+}: DefaultContextProviderProps) {
   const [selectedCoin, setSelectedCoin] = useState("BTCUSDT");
   const [showNews, setShowNews] = useState(true);
   const [showTradeInfo, setShowTradeInfo] = useState(false);
   const [coins, setCoins] = useState<Coin[]>([]);
 
-  const fetchPrices = () => {
-    fetch("https://api.binance.com/api/v3/ticker/price")
-      .then((res) => res.json())
-      .then((data) => {
-        const formattedData = data.map((coin: any) => ({
-          symbol: coin.symbol,
-          price: parseFloat(coin.price),
-        }));
-        setCoins(formattedData);
-      });
+  const fetchPrices = async () => {
+    try {
+      const res = await fetch("https://api.binance.com/api/v3/ticker/price");
+      const data = await res.json();
+      const formattedData = data.map((coin: any) => ({
+        symbol: coin.symbol,
+        price: parseFloat(coin.price),
+      }));
+      setCoins(formattedData);
+    } catch (error) {
+      console.error('Fehler beim Abrufen der Preise:', error);
+    }
   };
 
   useEffect(() => {
-    fetchPrices();
-    const intervalId = setInterval(fetchPrices, 5000); // Aktualisiere alle 5 Sekunden
-
-    return () => clearInterval(intervalId);
+    setInterval(() => {
+      fetchPrices();
+      console.log("Prices updated");
+    }, 5000);
   }, []);
 
   const data = {

@@ -14,23 +14,24 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
   const [bids, setBids] = useState<Order[]>([]);
   const [asks, setAsks] = useState<Order[]>([]);
 
-  const fetchOrderBook = () => {
-    fetch(`https://api.binance.com/api/v3/depth?symbol=${symbol}&limit=100`)
-      .then((response) => response.json())
-      .then((data) => {
-        const sortedBids = data.bids
-          .map((bid: string[]) => ({ price: parseFloat(bid[0]), quantity: parseFloat(bid[1]) }))
-          .sort((a: Order, b: Order) => b.quantity - a.quantity)
-          .slice(0, 12);
-        const sortedAsks = data.asks
-          .map((ask: string[]) => ({ price: parseFloat(ask[0]), quantity: parseFloat(ask[1]) }))
-          .sort((a: Order, b: Order) => b.quantity - a.quantity)
-          .slice(0, 12)
-          .reverse();
-        setBids(sortedBids);
-        setAsks(sortedAsks);
-      })
-      .catch((error) => console.error('Fehler beim Abrufen des Orderbuchs:', error));
+  const fetchOrderBook = async () => {
+    try {
+      const response = await fetch(`https://api.binance.com/api/v3/depth?symbol=${symbol}&limit=100`);
+      const data = await response.json();
+      const sortedBids = data.bids
+        .map((bid: string[]) => ({ price: parseFloat(bid[0]), quantity: parseFloat(bid[1]) }))
+        .sort((a: Order, b: Order) => b.quantity - a.quantity)
+        .slice(0, 12);
+      const sortedAsks = data.asks
+        .map((ask: string[]) => ({ price: parseFloat(ask[0]), quantity: parseFloat(ask[1]) }))
+        .sort((a: Order, b: Order) => b.quantity - a.quantity)
+        .slice(0, 12)
+        .reverse();
+      setBids(sortedBids);
+      setAsks(sortedAsks);
+    } catch (error) {
+      console.error('Fehler beim Abrufen des Orderbuchs:', error);
+    }
   };
 
   useEffect(() => {

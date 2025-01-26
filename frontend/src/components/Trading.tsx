@@ -6,7 +6,7 @@ const Trading = () => {
   const [amount, setAmount] = useState<string>("0");
 
   const coin = coins.find((coin) => coin.symbol === selectedCoin);
-  const price = coin ? parseFloat(coin.price) : 0;
+  const price = coin ? coin.price : 0;
 
   const handleBuy = () => {
     alert(`Gekauft: ${amount} von ${selectedCoin} zu ${price}`);

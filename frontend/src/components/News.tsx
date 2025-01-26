@@ -8,10 +8,14 @@ const News: React.FC = () => {
   const [showNews, setShowNews] = useState<boolean>(true);
   const location = useLocation();
 
-  const fetchNews = () => {
-    fetch("https://api.coingecko.com/api/v3/search/trending")
-      .then((res) => res.json())
-      .then((data) => setNews(data.coins.map((coin: any) => coin.item)));
+  const fetchNews = async () => {
+    try {
+      const res = await fetch("https://api.coingecko.com/api/v3/search/trending");
+      const data = await res.json();
+      setNews(data.coins.map((coin: any) => coin.item));
+    } catch (error) {
+      console.error('Fehler beim Abrufen der Nachrichten:', error);
+    }
   };
 
   useEffect(() => {
@@ -39,7 +43,7 @@ const News: React.FC = () => {
       {showNews && (
         <div className={`grid ${isNewsPage ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1' : ''} overflow-y-scroll custom-scrollbar pr-2`}>
           {news.filter(item => item.data.content).map((item) => (
-            <div key={item.id} className={`${isNewsPage ? `m-4` : "mb-4"} p-4 bg-zinc-800 rounded inline-flex flex-col min-w-[200px] max-w-[400px]`}>
+            <div key={item.id} className={`${isNewsPage ? `m-4 ` : "mb-4 max-w-[400px]"} p-4 bg-zinc-800 rounded inline-flex flex-col min-w-[200px] `}>
               <div className="flex items-center mb-2">
                 <img src={item.thumb} alt={item.name} className=" mr-4" />
                 <div>

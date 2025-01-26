@@ -49,23 +49,23 @@ const Chart = () => {
 
       chart.timeScale().fitContent();
 
-      const fetchData = () => {
+      const fetchData = async () => {
         if (chartRef.current) {
-          const limit = interval === "1m" ? 400 : 600; // Begrenze die Anzahl der Kerzen für das 1-Minuten-Intervall
-          fetch(
-            `https://api.binance.com/api/v3/klines?symbol=${selectedCoin}&interval=${interval}&limit=${limit}`
-          )
-            .then((res) => res.json())
-            .then((data) => {
-              const candleData = data.map((data: any) => ({
-                time: data[0] / 1000,
-                open: parseFloat(data[1]),
-                high: parseFloat(data[2]),
-                low: parseFloat(data[3]),
-                close: parseFloat(data[4]),
-              }));
-              candlestickSeries.setData(candleData);
-            });
+          const limit = interval === "1m" ? 400 : 600;
+          try {
+            const res = await fetch(`https://api.binance.com/api/v3/klines?symbol=${selectedCoin}&interval=${interval}&limit=${limit}`);
+            const data = await res.json();
+            const candleData = data.map((data: any) => ({
+              time: data[0] / 1000,
+              open: parseFloat(data[1]),
+              high: parseFloat(data[2]),
+              low: parseFloat(data[3]),
+              close: parseFloat(data[4]),
+            }));
+            candlestickSeries.setData(candleData);
+          } catch (error) {
+            console.error('Fehler beim Abrufen der Kerzendaten:', error);
+          }
         }
       };
 
@@ -103,7 +103,7 @@ const Chart = () => {
         chartRef.current = null;
       }
     };
-  }, [container, interval, selectedCoin]);
+  }, [container, interval, selectedCoin, showTradeInfo]);
 
   useEffect(() => {
     if (!showTradeInfo) {
@@ -119,9 +119,9 @@ const Chart = () => {
       transition={{ duration: 1.5 }}
     >
       <div className="mb-4 flex justify-between w-full space-x-2">
-        <div>
+        <div className="flex items-end re">
         <span className="font-bold text-xl p-4 text-green-700 mr-4 bg-zinc-800 rounded"> {selectedCoin.slice(0,-4)} in {selectedCoin.slice(-4)}</span>
-        <Button className="bg-zinc-700 hover:underline mr-1" onClick={() => setInterval("1m")}>Minute</Button>
+        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("1m")}>Minute</Button>
         <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("5m")}>5 Minuten</Button>
         <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("15m")}>15 Minuten</Button>
         <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("1h")}>Stunde</Button>
@@ -130,7 +130,7 @@ const Chart = () => {
         <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("1w")}>Woche</Button>
         <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("1M")}>Monat</Button>
         </div>
-        <Button className="bg-zinc-700 hover:underline" onClick={() => setShowTradeInfo(!showTradeInfo)}>
+        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setShowTradeInfo(!showTradeInfo)}>
           {showTradeInfo ? "Show Chart" : "Show 24h Stats & Trades"}
         </Button>
       </div>
