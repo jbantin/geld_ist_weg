@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface Order {
-  price: string;
-  quantity: string;
+  price: number;
+  quantity: number;
 }
 
 interface OrderBookProps {
@@ -19,12 +19,12 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
       .then((response) => response.json())
       .then((data) => {
         const sortedBids = data.bids
-          .map((bid: string[]) => ({ price: bid[0], quantity: bid[1] }))
-          .sort((a: Order, b: Order) => parseFloat(b.quantity) - parseFloat(a.quantity))
+          .map((bid: string[]) => ({ price: parseFloat(bid[0]), quantity: parseFloat(bid[1]) }))
+          .sort((a: Order, b: Order) => b.quantity - a.quantity)
           .slice(0, 12);
         const sortedAsks = data.asks
-          .map((ask: string[]) => ({ price: ask[0], quantity: ask[1] }))
-          .sort((a: Order, b: Order) => parseFloat(b.quantity) - parseFloat(a.quantity))
+          .map((ask: string[]) => ({ price: parseFloat(ask[0]), quantity: parseFloat(ask[1]) }))
+          .sort((a: Order, b: Order) => b.quantity - a.quantity)
           .slice(0, 12)
           .reverse();
         setBids(sortedBids);
@@ -35,14 +35,14 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
 
   useEffect(() => {
     fetchOrderBook();
-    const intervalId = setInterval(fetchOrderBook, 500); // Aktualisiere alle 5 Sekunden
+    const intervalId = setInterval(fetchOrderBook, 1000); 
 
     return () => clearInterval(intervalId);
   }, [symbol]);
 
   const maxQuantity = Math.max(
-    ...bids.map((bid) => parseFloat(bid.quantity)),
-    ...asks.map((ask) => parseFloat(ask.quantity))
+    ...bids.map((bid) => bid.quantity),
+    ...asks.map((ask) => ask.quantity)
   );
 
   return (
@@ -60,10 +60,10 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
               <li key={index} className="flex justify-between relative text-sm px-1">
                 <div
                   className="absolute left-0 top-0 h-full bg-green-500 opacity-50 rounded-r-sm"
-                  style={{ width: `${(parseFloat(bid.quantity) / maxQuantity) * 100}%` }}
+                  style={{ width: `${(bid.quantity / maxQuantity) * 100}%` }}
                 ></div>
-                <span className="relative z-10 ">{Number(bid.price).toFixed(2)} $</span>
-                <span className="relative z-10">{Number(bid.quantity).toFixed(4)} {symbol.slice(0,3)}</span>
+                <span className="relative z-10 ">{bid.price.toFixed(2)} $</span>
+                <span className="relative z-10">{bid.quantity.toFixed(4)} {symbol.slice(0,3)}</span>
               </li>
             ))}
           </ul>
@@ -74,10 +74,10 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
               <li key={index} className="flex justify-between relative text-sm px-1">
                 <div
                   className="absolute left-0 top-0 h-full bg-red-500 opacity-50 "
-                  style={{ width: `${(parseFloat(ask.quantity) / maxQuantity) * 100}%` }}
+                  style={{ width: `${(ask.quantity / maxQuantity) * 100}%` }}
                 ></div>
-                <span className="relative z-10 ">{Number(ask.price).toFixed(2)} $</span>
-                <span className="relative z-10">{Number(ask.quantity).toFixed(4)} {symbol.slice(0,3)}</span>
+                <span className="relative z-10 ">{ask.price.toFixed(2)} $</span>
+                <span className="relative z-10">{ask.quantity.toFixed(4)} {symbol.slice(0,3)}</span>
               </li>
             ))}
           </ul>

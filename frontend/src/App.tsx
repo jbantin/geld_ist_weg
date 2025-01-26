@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router";
 import { DefaultContextProvider } from "./context/DefaultContext";
 import Chart from "./components/Chart";
 import News from "./components/News";
@@ -21,6 +21,10 @@ const App = () => {
           transition={{ duration: .5 }}>
           <Nav />
           <Routes>
+          
+            <Route path="/" element={<Navigate to="/market" replace />} />
+            
+           
             <Route
               path="/market"
               element={

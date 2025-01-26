@@ -25,10 +25,10 @@ const News: React.FC = () => {
   const isNewsPage = location.pathname === "/news";
 
   return (
-    <motion.div
-      className={`news-feed ${isNewsPage ? 'mx-auto' : ''} ${isMarketPage ? 'w-1/5' : 'w-full'} flex flex-col max-h-[91vh] pt-4 `}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+    <motion.section
+      className={`news-feed ${isNewsPage ? 'mx-auto w-full' : 'w-1/5'} flex flex-col max-h-[91vh] pt-4 `}
+      initial={{ x: isMarketPage ? 250 : 0 }}
+      animate={{ x: 0 }}      
       transition={{ duration: 0.5 }}
     >
       {isMarketPage && (
@@ -57,7 +57,7 @@ const News: React.FC = () => {
           ))}
         </div>
       )}
-    </motion.div>
+    </motion.section>
   );
 };
 

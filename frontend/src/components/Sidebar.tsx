@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 interface Coin {
   symbol: string;
-  price: string;
+  price: number;
 }
 
 const Sidebar = () => {
@@ -17,7 +17,12 @@ const Sidebar = () => {
     fetch("https://api.binance.com/api/v3/ticker/price")
       .then((res) => res.json())
       .then((data) => {
-        const filteredCoins = data.filter((coin: Coin) => selectedCoins.includes(coin.symbol));
+        const filteredCoins = data
+          .filter((coin: any) => selectedCoins.includes(coin.symbol))
+          .map((coin: any) => ({
+            symbol: coin.symbol,
+            price: parseFloat(coin.price),
+          }));
         setCoins(filteredCoins);
       });
   };

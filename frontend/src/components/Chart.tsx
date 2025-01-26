@@ -112,11 +112,11 @@ const Chart = () => {
   }, [showTradeInfo, interval]);
 
   return (
-    <motion.div
+    <motion.section
       className="flex flex-grow w-full flex-col items-center content-center p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 1.5 }}
     >
       <div className="mb-4 flex justify-between w-full space-x-2">
         <div>
@@ -153,7 +153,7 @@ const Chart = () => {
           </>
         )}
       </motion.div>
-    </motion.div>
+    </motion.section>
   );
 };
 

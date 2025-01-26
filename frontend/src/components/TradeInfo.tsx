@@ -2,18 +2,18 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 interface Trade {
-  price: string;
-  qty: string;
+  price: number;
+  qty: number;
   time: number;
   isBuyerMaker: boolean;
 }
 
 interface Stats {
-  lastPrice: string;
-  priceChangePercent: string;
-  highPrice: string;
-  lowPrice: string;
-  volume: string;
+  lastPrice: number;
+  priceChangePercent: number;
+  highPrice: number;
+  lowPrice: number;
+  volume: number;
 }
 
 interface TradeInfoProps {
@@ -28,14 +28,24 @@ const TradeInfo: React.FC<TradeInfoProps> = ({ symbol }) => {
     fetch(`https://api.binance.com/api/v3/trades?symbol=${symbol}&limit=5`)
       .then((response) => response.json())
       .then((data) => data.sort((a: Trade, b: Trade) => b.time - a.time))
-      .then((data) => setTrades(data))
+      .then((data) => setTrades(data.map((trade: any) => ({
+        ...trade,
+        price: parseFloat(trade.price),
+        qty: parseFloat(trade.qty),
+      }))))
       .catch((error) => console.error('Fehler beim Abrufen der letzten Trades:', error));
   };
 
   const fetch24HourStats = () => {
     fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)
       .then((response) => response.json())
-      .then((data) => setStats(data))
+      .then((data) => setStats({
+        lastPrice: parseFloat(data.lastPrice),
+        priceChangePercent: parseFloat(data.priceChangePercent),
+        highPrice: parseFloat(data.highPrice),
+        lowPrice: parseFloat(data.lowPrice),
+        volume: parseFloat(data.volume),
+      }))
       .catch((error) => console.error('Fehler beim Abrufen der 24-Stunden Statistiken:', error));
   };
 
@@ -44,7 +54,7 @@ const TradeInfo: React.FC<TradeInfoProps> = ({ symbol }) => {
     fetch24HourStats();
     const intervalId = setInterval(() => {
       fetchRecentTrades();
-    }, 1000); // Aktualisiere die letzten Trades jede Sekunde
+    }, 1000); 
     return () => clearInterval(intervalId);
   }, [symbol]);
 
@@ -59,11 +69,11 @@ const TradeInfo: React.FC<TradeInfoProps> = ({ symbol }) => {
       {stats && (
         <div className="mb-4 w-1/3 flex flex-col self-start">
           <h3 className="text-xl font-bold mb-2 ">Stats 24h</h3>
-          <p className="text-l my-1"><strong>Letzter Preis: </strong>{Number(stats.lastPrice).toFixed(2)} $</p>
-          <p className="text-l my-1"><strong>Preisänderung: </strong><span className={`${stats.priceChangePercent.includes("-")? "text-red-500":""}`}>{stats.priceChangePercent} %</span></p>
-          <p className="text-l my-1"><strong>Höchster Preis: </strong>{Number(stats.highPrice).toFixed(2)} $</p>
-          <p className="text-l my-1"><strong>Niedrigster Preis: </strong>{Number(stats.lowPrice).toFixed(2)} $</p>
-          <p className="text-l my-1"><strong>Volumen: </strong>{Number(stats.volume).toFixed(2)}</p>
+          <p className="text-l my-1"><strong>Letzter Preis: </strong>{stats.lastPrice.toFixed(2)} $</p>
+          <p className="text-l my-1"><strong>Preisänderung: </strong><span className={`${stats.priceChangePercent < 0 ? "text-red-500":""}`}>{stats.priceChangePercent} %</span></p>
+          <p className="text-l my-1"><strong>Höchster Preis: </strong>{stats.highPrice.toFixed(2)} $</p>
+          <p className="text-l my-1"><strong>Niedrigster Preis: </strong>{stats.lowPrice.toFixed(2)} $</p>
+          <p className="text-l my-1"><strong>Volumen: </strong>{stats.volume.toFixed(2)}</p>
         </div>
       )}
       <div className="w-1/3">   
@@ -77,8 +87,8 @@ const TradeInfo: React.FC<TradeInfoProps> = ({ symbol }) => {
               }`}
             >
               <span>{new Date(trade.time).toLocaleTimeString()}</span>
-              <span>{Number(trade.price).toFixed(2)}</span>
-              <span>{Number(trade.qty).toFixed(5)}</span>
+              <span>{trade.price.toFixed(2)}</span>
+              <span>{trade.qty.toFixed(5)}</span>
               <span>{trade.isBuyerMaker ? "Sell" : "Buy"}</span>
             </li>
           ))}

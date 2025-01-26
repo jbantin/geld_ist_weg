@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 interface Coin {
   symbol: string;
-  price: string;
+  price: number;
 }
 
 interface DefaultContextProps {
@@ -40,7 +40,11 @@ export function DefaultContextProvider({ children }: DefaultContextProviderProps
     fetch("https://api.binance.com/api/v3/ticker/price")
       .then((res) => res.json())
       .then((data) => {
-        setCoins(data);
+        const formattedData = data.map((coin: any) => ({
+          symbol: coin.symbol,
+          price: parseFloat(coin.price),
+        }));
+        setCoins(formattedData);
       });
   };
 
