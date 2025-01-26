@@ -2,22 +2,24 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
-  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"tsc && node --env-file=.env app.js"
+    "dev": "rm -rf dist && tsc && node --env-file=.env dist/app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@prisma/client": "^6.2.1",
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "prisma": "^6.2.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.0"
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.10"
   }
 }
