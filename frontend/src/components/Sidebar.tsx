@@ -36,17 +36,17 @@ const Sidebar = () => {
 
   return (
     <motion.div
-      className="sidebar bg-zinc-800 text-white p-4 min-w-[220px]"
+      className="sidebar bg-dark text-light p-4 min-w-[220px]"
       initial={{ x: -250 }}
       animate={{ x: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="text-2xl font-bold my-4">Top Coins</h2>
+      <h2 className="text-2xl text-dark font-bold my-4">Top Coins</h2>
       <ul>
         {coins.map((coin) => (
           <li key={coin.symbol} className="mb-2 flex justify-between rounded-lg">
             <Button
-              className="flex justify-between w-full text-green-600 bg-zinc-700 hover:underline"
+              className="flex justify-between w-full text-green-600 bg-secondary hover:underline"
               onClick={() => setSelectedCoin(coin.symbol)}
             >
               <span>{coin.symbol.slice(0, -4)}</span>

@@ -17,7 +17,7 @@ const Trading = () => {
   };
 
   return (
-    <div className="trading flex items-center justify-center  bg-zinc-800 text-white p-4 m-auto w-full rounded mt-4">
+    <div className="trading flex items-center justify-center  bg-dark text-light p-4 m-auto w-full rounded mt-4">
       
         <input
           type="text"
@@ -30,13 +30,13 @@ const Trading = () => {
       
         <div className="ml-2">
           <button
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
+            className="bg-green-500 hover:bg-green-700 text-light font-bold py-2 px-4 rounded mr-2"
             onClick={handleBuy}
           >
             Kaufen
           </button>
           <button
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-red-500 hover:bg-red-700 text-light font-bold py-2 px-4 rounded"
             onClick={handleSell}
           >
             Verkaufen

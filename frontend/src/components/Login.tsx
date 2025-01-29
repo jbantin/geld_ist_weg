@@ -11,8 +11,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center bg-zinc-900 text-white">
-      <form onSubmit={handleSubmit} className="bg-zinc-800 p-6 rounded">
+    <div className="flex justify-center items-center bg-dark text-light">
+      <form onSubmit={handleSubmit} className="bg-dark p-6 rounded">
         <h2 className="text-2xl font-bold mb-4">Login</h2>
         <div className="mb-4">
           <label className="block mb-2">Email:</label>
@@ -20,7 +20,7 @@ const Login = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="p-2 text-black w-full"
+            className="p-2 text-dark w-full"
           />
         </div>
         <div className="mb-4">
@@ -29,12 +29,12 @@ const Login = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="p-2 text-black w-full"
+            className="p-2 text-dark w-full"
           />
         </div>
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-light font-bold py-2 px-4 rounded"
         >
           Login
         </button>

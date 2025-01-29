@@ -9,24 +9,37 @@ import Register from "./components/Register";
 import Profile from "./components/Profile";
 import "./App.css";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const App = () => {
+  const [theme, setTheme] = useState("dark");
+
+  useEffect(() => {
+    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    setTheme(systemTheme);
+    document.documentElement.setAttribute("data-theme", systemTheme);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
   return (
     <DefaultContextProvider>
       <Router>
         <motion.div
-          className="flex flex-col h-screen bg-zinc-900 text-white"
+          className="flex flex-col h-screen"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <Nav />
+          <Nav theme={theme} setTheme={setTheme} />
           <Routes>
             <Route path="/" element={<Navigate to="/market" replace />} />
             <Route
               path="/market"
               element={
-                <div className="flex flex-grow ">
+                <div className="flex flex-grow">
                   <Sidebar />
                   <Chart />
                   <News />

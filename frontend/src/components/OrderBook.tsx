@@ -48,12 +48,12 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
 
   return (
     <motion.div
-      className="order-book bg-zinc-800 text-white p-4 rounded-l-lg w-70 max-w-md"
+      className="order-book bg-dark text-text p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="text-2xl font-bold mb-4">Orderbuch</h2>
+      <h2 className="text-sm w-70 font-bold mb-4">Order Book</h2>
       <div className="flex flex-col">
         <div className="mb-4">
           <ul className="space-y-1 relative">

@@ -14,18 +14,35 @@ const Chart = () => {
   const chartRef = useRef<any>(null);
   const [interval, setInterval] = useState("1m");
 
+  const intervals = [
+    { label: "Minute", value: "1m" },
+    { label: "5 Minuten", value: "5m" },
+    { label: "15 Minuten", value: "15m" },
+    { label: "Stunde", value: "1h" },
+    { label: "4 Stunden", value: "4h" },
+    { label: "Tag", value: "1d" },
+    { label: "Woche", value: "1w" },
+    { label: "Monat", value: "1M" },
+  ];
+
   const initializeChart = () => {
     if (container.current) {
       if (chartRef.current) {
         chartRef.current.remove();
         chartRef.current = null;
       }
+      const chartBgColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color').trim();
+      const chartTextColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-text-color').trim();
+      if (!chartBgColor || !chartTextColor) {
+        console.error("Invalid chart colors");
+        return;
+      }
       const chart = createChart(container.current, {
         width: window.innerWidth * 0.6,
         height: window.innerHeight * 0.65,
         layout: {
-          background: { color: "#27272A" },
-          textColor: "#DDD",
+          background: { color: chartBgColor },
+          textColor: chartTextColor,
         },
         grid: {
           vertLines: { color: "#444" },
@@ -111,70 +128,35 @@ const Chart = () => {
     }
   }, [showTradeInfo, interval]);
 
+  useEffect(() => {
+    initializeChart();
+  }, [document.documentElement.getAttribute('data-theme')]);
+
   return (
     <motion.section
-      className="flex flex-grow w-full flex-col items-center content-center p-4"
+      className="flex bg-dark flex-grow w-full flex-col items-center content-center p-4 "
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5 }}
     >
       <div className="mb-4 flex justify-between w-full space-x-2">
         <div className="flex items-end re">
-          <span className="font-bold text-xl p-4 text-green-700 mr-4 bg-zinc-800 rounded">
+          <span className="font-bold text-xl p-4 text-green-700 mr-4 bg-light rounded">
             {" "}
             {selectedCoin.slice(0, -4)} in {selectedCoin.slice(-4)}
           </span>
-          <Button
-            className="bg-zinc-700 hover:underline m-1"
-            onClick={() => setInterval("1m")}
-          >
-            Minute
-          </Button>
-          <Button
-            className="bg-zinc-700 hover:underline m-1"
-            onClick={() => setInterval("5m")}
-          >
-            5 Minuten
-          </Button>
-          <Button
-            className="bg-zinc-700 hover:underline m-1"
-            onClick={() => setInterval("15m")}
-          >
-            15 Minuten
-          </Button>
-          <Button
-            className="bg-zinc-700 hover:underline m-1"
-            onClick={() => setInterval("1h")}
-          >
-            Stunde
-          </Button>
-          <Button
-            className="bg-zinc-700 hover:underline m-1"
-            onClick={() => setInterval("4h")}
-          >
-            4 Stunden
-          </Button>
-          <Button
-            className="bg-zinc-700 hover:underline m-1"
-            onClick={() => setInterval("1d")}
-          >
-            Tag
-          </Button>
-          <Button
-            className="bg-zinc-700 hover:underline m-1"
-            onClick={() => setInterval("1w")}
-          >
-            Woche
-          </Button>
-          <Button
-            className="bg-zinc-700 hover:underline m-1"
-            onClick={() => setInterval("1M")}
-          >
-            Monat
-          </Button>
+          {intervals.map((int) => (
+            <Button
+              key={int.value}
+              className="bg-secondary text-light hover:underline m-1"
+              onClick={() => setInterval(int.value)}
+            >
+              {int.label}
+            </Button>
+          ))}
         </div>
         <Button
-          className="bg-zinc-700 hover:underline m-1"
+          className="bg-secondary text-light hover:underline m-1"
           onClick={() => setShowTradeInfo(!showTradeInfo)}
         >
           {showTradeInfo ? "Show Chart" : "Show 24h Stats & Trades"}
@@ -193,7 +175,7 @@ const Chart = () => {
             <div className="flex h-full rounded w-full overflow-hidden">
               <OrderBook symbol={selectedCoin} />
               <div
-                className="flex justify-center p-4 bg-zinc-800 h-full w-full"
+                className="flex justify-center p-4 bg-dark h-full w-full"
                 ref={container}
               ></div>
             </div>

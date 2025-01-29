@@ -65,9 +65,9 @@ const TradeInfo: React.FC<TradeInfoProps> = ({ symbol }) => {
   }, [symbol]);
 
   return (<>
-    <h2 className="text-2xl font-bold mb-4 bg-zinc-800 w-full text-center rounded-lg p-4">Trade Info</h2>
+    <h2 className="text-2xl font-bold mb-4 bg-dark w-full text-center rounded-lg p-4">Trade Info</h2>
       <motion.div
-      className="trade-info flex justify-center items-center bg-zinc-800 text-white p-4 rounded-lg w-full "
+      className="trade-info flex justify-center items-center bg-dark text-light p-4 rounded-lg w-full "
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
