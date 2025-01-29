@@ -53,7 +53,7 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="text-sm w-70 font-bold mb-4">Order Book</h2>
+      <h2 className="text-sm max-w-70 min-w-50 font-bold mb-4">Order Book</h2>
       <div className="flex flex-col">
         <div className="mb-4">
           <ul className="space-y-1 relative">

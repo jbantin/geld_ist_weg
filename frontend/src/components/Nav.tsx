@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import Button from "./Button";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 interface NavProps {
   theme: string;
@@ -8,6 +9,12 @@ interface NavProps {
 }
 
 const Nav: React.FC<NavProps> = ({ theme, setTheme }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
@@ -21,19 +28,46 @@ const Nav: React.FC<NavProps> = ({ theme, setTheme }) => {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="flex space-x-4">
-        <Button className="hover:underline bg-secondary" onClick={() => {}}>
-          <Link to="/market">Market</Link>
-        </Button>
-        <Button className="hover:underline bg-secondary" onClick={() => {}}>
-          <Link to="/news">News</Link>
+      <div className="md:hidden">
+        <Button className="hover:scale-105 p-4" onClick={toggleMenu}>
+          ☰
         </Button>
       </div>
-      <div className="flex space-x-4">
-        <Button className="hover:underline bg-secondary" onClick={() => {}}>
+      {isOpen && (
+        <div className="absolute top-16 left-0 p-4 w-full bg-dark flex flex-col items-center md:hidden">
+          <Button className="hover:scale-105  w-full p-2" onClick={() => {}}>
+            <Link to="/market">Market</Link>
+          </Button>
+          <Button className="hover:scale-105 w-full p-2" onClick={() => {}}>
+            <Link to="/news">News</Link>
+          </Button>
+          <Button className="hover:scale-105 w-full p-2" onClick={() => {}}>
+            <Link to="/trade">Trade</Link>
+          </Button>
+          <Button className="hover:scale-105 w-full p-2" onClick={() => {}}>
+            <Link to="/user">User</Link>
+          </Button>
+          <Button className="hover:scale-105 w-full p-2" onClick={toggleTheme}>
+            {theme === "dark" ? "Light Mode" : "Dark Mode"}
+          </Button>
+        </div>
+      )}
+      <div className="hidden md:flex space-x-4">
+        <Button className="hover:scale-105 bg-secondary p-2" onClick={() => {}}>
+          <Link to="/market">Market</Link>
+        </Button>
+        <Button className="hover:scale-105 bg-secondary p-2" onClick={() => {}}>
+          <Link to="/news">News</Link>
+        </Button>
+        <Button className="hover:scale-105 bg-secondary p-2" onClick={() => {}}>
+          <Link to="/trade">Trade</Link>
+        </Button>
+      </div>
+      <div className="hidden md:flex space-x-4">
+        <Button className="hover:scale-105 p-2 bg-secondary" onClick={() => {}}>
           <Link to="/user">User</Link>
         </Button>
-        <Button className="hover:underline bg-secondary" onClick={toggleTheme}>
+        <Button className="hover:scale-105 p-2 bg-secondary" onClick={toggleTheme}>
           {theme === "dark" ? "Light Mode" : "Dark Mode"}
         </Button>
       </div>
