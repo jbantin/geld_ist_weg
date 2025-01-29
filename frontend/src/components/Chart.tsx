@@ -53,7 +53,9 @@ const Chart = () => {
         if (chartRef.current) {
           const limit = interval === "1m" ? 400 : 600;
           try {
-            const res = await fetch(`https://api.binance.com/api/v3/klines?symbol=${selectedCoin}&interval=${interval}&limit=${limit}`);
+            const res = await fetch(
+              `https://api.binance.com/api/v3/klines?symbol=${selectedCoin}&interval=${interval}&limit=${limit}`
+            );
             const data = await res.json();
             const candleData = data.map((data: any) => ({
               time: data[0] / 1000,
@@ -64,16 +66,14 @@ const Chart = () => {
             }));
             candlestickSeries.setData(candleData);
           } catch (error) {
-            console.error('Fehler beim Abrufen der Kerzendaten:', error);
+            console.error("Fehler beim Abrufen der Kerzendaten:", error);
           }
         }
       };
 
       fetchData();
-      const intervalId = window.setInterval(fetchData, 500);
 
       return () => {
-        window.clearInterval(intervalId);
         if (chartRef.current) {
           chartRef.current.remove();
           chartRef.current = null;
@@ -103,7 +103,7 @@ const Chart = () => {
         chartRef.current = null;
       }
     };
-  }, [container, interval, selectedCoin, showTradeInfo]);
+  }, [window.innerHeight, window.innerWidth]);
 
   useEffect(() => {
     if (!showTradeInfo) {
@@ -120,17 +120,63 @@ const Chart = () => {
     >
       <div className="mb-4 flex justify-between w-full space-x-2">
         <div className="flex items-end re">
-        <span className="font-bold text-xl p-4 text-green-700 mr-4 bg-zinc-800 rounded"> {selectedCoin.slice(0,-4)} in {selectedCoin.slice(-4)}</span>
-        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("1m")}>Minute</Button>
-        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("5m")}>5 Minuten</Button>
-        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("15m")}>15 Minuten</Button>
-        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("1h")}>Stunde</Button>
-        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("4h")}>4 Stunden</Button>
-        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("1d")}>Tag</Button>
-        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("1w")}>Woche</Button>
-        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setInterval("1M")}>Monat</Button>
+          <span className="font-bold text-xl p-4 text-green-700 mr-4 bg-zinc-800 rounded">
+            {" "}
+            {selectedCoin.slice(0, -4)} in {selectedCoin.slice(-4)}
+          </span>
+          <Button
+            className="bg-zinc-700 hover:underline m-1"
+            onClick={() => setInterval("1m")}
+          >
+            Minute
+          </Button>
+          <Button
+            className="bg-zinc-700 hover:underline m-1"
+            onClick={() => setInterval("5m")}
+          >
+            5 Minuten
+          </Button>
+          <Button
+            className="bg-zinc-700 hover:underline m-1"
+            onClick={() => setInterval("15m")}
+          >
+            15 Minuten
+          </Button>
+          <Button
+            className="bg-zinc-700 hover:underline m-1"
+            onClick={() => setInterval("1h")}
+          >
+            Stunde
+          </Button>
+          <Button
+            className="bg-zinc-700 hover:underline m-1"
+            onClick={() => setInterval("4h")}
+          >
+            4 Stunden
+          </Button>
+          <Button
+            className="bg-zinc-700 hover:underline m-1"
+            onClick={() => setInterval("1d")}
+          >
+            Tag
+          </Button>
+          <Button
+            className="bg-zinc-700 hover:underline m-1"
+            onClick={() => setInterval("1w")}
+          >
+            Woche
+          </Button>
+          <Button
+            className="bg-zinc-700 hover:underline m-1"
+            onClick={() => setInterval("1M")}
+          >
+            Monat
+          </Button>
         </div>
-        <Button className="bg-zinc-700 hover:underline m-1" onClick={() => setShowTradeInfo(!showTradeInfo)}>
+        <Button
+          className="bg-zinc-700 hover:underline m-1"
+          onClick={() => setShowTradeInfo(!showTradeInfo)}
+        >
           {showTradeInfo ? "Show Chart" : "Show 24h Stats & Trades"}
         </Button>
       </div>
@@ -146,7 +192,10 @@ const Chart = () => {
           <>
             <div className="flex h-full rounded w-full overflow-hidden">
               <OrderBook symbol={selectedCoin} />
-              <div className="flex justify-center p-4 bg-zinc-800 h-full w-full" ref={container}></div>
+              <div
+                className="flex justify-center p-4 bg-zinc-800 h-full w-full"
+                ref={container}
+              ></div>
             </div>
 
             <Trading />
