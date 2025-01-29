@@ -169,7 +169,7 @@ const Chart = () => {
               ☰
             </Button>
             {isIntervalMenuOpen && (
-              <div className="absolute top-16 left-0 p-4 w-full bg-dark flex flex-col items-center md:hidden">
+              <div className="absolute top-50 left-0 p-4 w-full bg-dark flex items-center z-100 md:hidden">
                 {intervals.map((int) => (
                   <Button
                     key={int.value}
@@ -220,7 +220,7 @@ const Chart = () => {
           <div className="flex flex-col md:flex-row h-full rounded-2xl w-full overflow-hidden ">
             {showOrderBook && <OrderBook symbol={selectedCoin} />}
             <div
-              className={`flex justify-center p-4 bg-dark h-full ${showOrderBook ? "w-2/3" : "w-full"} ${showNews ? "w-2/3" : "w-full"} min-h-[400px]`}
+              className={`flex justify-center p-4 bg-dark h-full w-full min-h-[400px]`}
               ref={container}
             ></div>
             {showNews && <News />}

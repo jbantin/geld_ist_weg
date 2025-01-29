@@ -67,13 +67,13 @@ const TradeInfo: React.FC<TradeInfoProps> = ({ symbol }) => {
   return (<>
     <h2 className="text-2xl text-text font-bold mb-4 bg-dark w-full text-center rounded-lg p-4">Trade Info</h2>
       <motion.div
-      className="trade-info flex justify-center items-center bg-dark text-light p-4 rounded-lg w-full "
+      className="trade-info flex flex-col md:flex-row justify-center items-center bg-dark text-light p-4 rounded-lg w-full "
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
       >
       {stats && (
-        <div className="mb-4 w-1/3 flex flex-col self-start">
+        <div className="mb-4 w-full md:w-1/3 flex flex-col self-start">
           <h3 className="text-text text-xl font-bold mb-2 ">Stats 24h</h3>
           <p className="text-text text-l my-1"><strong>Letzter Preis: </strong>{stats.lastPrice.toFixed(2)} $</p>
           <p className="text-text text-l my-1"><strong>Preisänderung: </strong><span className={`${stats.priceChangePercent < 0 ? "text-red-500":""}`}>{stats.priceChangePercent} %</span></p>
@@ -82,7 +82,7 @@ const TradeInfo: React.FC<TradeInfoProps> = ({ symbol }) => {
           <p className="text-text text-l my-1"><strong>Volumen: </strong>{stats.volume.toFixed(2)}</p>
         </div>
       )}
-      <div className="w-1/3">   
+      <div className="w-full md:w-1/3">   
         <h3 className="text-text text-xl font-bold mb-2">Letzte Trades</h3>
         <ul className="space-y-1">
           {trades.map((trade, index) => (

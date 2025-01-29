@@ -17,13 +17,13 @@ const Trading = () => {
   };
 
   return (
-    <div className="trading flex items-center justify-center  bg-dark text-light p-4 m-auto w-full rounded mt-4">
+    <div className="trading flex items-center justify-center  bg-dark text-text p-4 m-auto w-full rounded mt-4">
       
         <input
           type="text"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="p-2 text-zinc-200 w-full outline max-w-[200px] rounded"
+          className="p-2 text-text w-full outline max-w-[200px] rounded"
         />
       
             <p className="ml-2">Preis: {price.toFixed(2)}$</p>
