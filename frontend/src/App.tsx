@@ -7,6 +7,7 @@ import Nav from "./components/Nav";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
+import Market from "./components/Market";
 import "./App.css";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -15,7 +16,10 @@ const App = () => {
   const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
-    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+      .matches
+      ? "dark"
+      : "light";
     setTheme(systemTheme);
     document.documentElement.setAttribute("data-theme", systemTheme);
   }, []);
@@ -37,12 +41,11 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Navigate to="/market" replace />} />
             <Route
-              path="/market"
+              path="/trade"
               element={
-                <div className="flex flex-grow">
-                  <Sidebar />
+                <div className="flex flex-col lg:flex-row flex-grow bg-light">
+                  {window.innerWidth >= 1200 && <Sidebar />}
                   <Chart />
-                  <News />
                 </div>
               }
             />
@@ -50,6 +53,7 @@ const App = () => {
             <Route path="/user" element={<Profile />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/market" element={<Market />} />
           </Routes>
         </motion.div>
       </Router>
