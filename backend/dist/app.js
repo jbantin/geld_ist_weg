@@ -8,10 +8,12 @@ const route_js_1 = require("./user/route.js");
 const route_js_2 = require("./data/route.js");
 const cors_1 = __importDefault(require("cors"));
 const prisma_js_1 = require("./prisma.js");
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const PORT = 9001;
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
+app.use((0, cookie_parser_1.default)());
 app.use("/user", route_js_1.userRoute);
 app.use("/data", route_js_2.dataRoute);
 app.use("*", (req, res, next) => {

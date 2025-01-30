@@ -5,6 +5,7 @@ const express_1 = require("express");
 const prisma_1 = require("../prisma"); // Pfad zur Prisma-Client-Instanz
 const crypto_1 = require("../lib/crypto");
 const jwt_1 = require("../lib/jwt");
+const checkToken_1 = require("../lib/middleware/checkToken");
 exports.userRoute = (0, express_1.Router)();
 // User erstellen
 exports.userRoute.post("/register", async (req, res) => {
@@ -46,7 +47,9 @@ exports.userRoute.post("/login", async (req, res) => {
     }
 });
 // Alle User abrufen
-exports.userRoute.get("/", async (req, res) => {
+exports.userRoute.get("/", (req, res, next) => {
+    (0, checkToken_1.checkToken)(req, res, next);
+}, async (req, res) => {
     const users = await prisma_1.prisma.user.findMany();
     res.json(users);
 });
