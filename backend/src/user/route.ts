@@ -2,6 +2,7 @@ import { Router } from "express";
 import { prisma } from "../prisma"; // Pfad zur Prisma-Client-Instanz
 import { comparePassword, hashPassword } from "../lib/crypto";
 import { createJwt } from "../lib/jwt";
+import { checkToken } from "../lib/middleware/checkToken";
 
 export const userRoute = Router();
 
@@ -46,10 +47,17 @@ userRoute.post("/login", async (req, res) => {
 });
 
 // Alle User abrufen
-userRoute.get("/", async (req, res) => {
-  const users = await prisma.user.findMany();
-  res.json(users);
-});
+userRoute.get(
+  "/",
+  (req, res, next) => {
+    checkToken(req, res, next);
+  },
+  async (req, res) => {
+    const users = await prisma.user.findMany();
+
+    res.json(users);
+  }
+);
 userRoute.post("/logout", async (req, res) => {
   res
     .clearCookie("jwt", {
