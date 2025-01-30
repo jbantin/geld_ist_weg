@@ -12,7 +12,9 @@ app.use(express.json());
 
 app.use("/user", userRoute);
 app.use("/data", dataRoute);
-
+app.use("*", (req, res, next) => {
+  res.send("page not found !");
+});
 prisma
   .$connect()
   .then(() => console.log("Datenbank verbunden!"))

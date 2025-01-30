@@ -14,6 +14,9 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use("/user", route_js_1.userRoute);
 app.use("/data", route_js_2.dataRoute);
+app.use("*", (req, res, next) => {
+    res.send("page not found !");
+});
 prisma_js_1.prisma
     .$connect()
     .then(() => console.log("Datenbank verbunden!"))
