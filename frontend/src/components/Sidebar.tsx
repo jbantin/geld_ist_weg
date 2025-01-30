@@ -12,7 +12,7 @@ const Sidebar = () => {
   const { setSelectedCoin } = useContext(DefaultContext);
   const [coins, setCoins] = useState<Coin[]>([]);
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-  const selectedCoins = ["BTCUSDT", "ETHUSDT", "XRPUSDT", "SOLUSDT", "DOGEUSDT", "ADAUSDT", "LINKUSDT"];
+  const selectedCoins = ["BTCUSDT", "ETHUSDT", "XRPUSDT", "SOLUSDT", "DOGEUSDT", "ADAUSDT", "LINKUSDT", "LTCUSDT", "BNBUSDT", "XLMUSDT", "POLUSDT", "UNIUSDT", "DOTUSDT", "ICPUSDT", "MATICUSDT", "VETUSDT", "FILUSDT", "TRXUSDT", "SHIBUSDT", "ETCUSDT"];
 
   const fetchPrices = () => {
     fetch("https://api.binance.com/api/v3/ticker/price")
@@ -50,12 +50,12 @@ const Sidebar = () => {
 
   return (
     <motion.div
-      className="sidebar bg-dark text-light p-4 w-[10vw] min-w-[220px]"
+      className="sidebar bg-dark text-light p-4 w-[10vw] mt-15 min-w-[220px] md:max-h-[85vh] custom-scrollbar overflow-auto"
       initial={{ x: -250 }}
       animate={{ x: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="text-lg text-text font-bold my-4 p-3">Top Coins</h2>
+      <h2 className="text-lg text-text font-bold  p-3">Top Coins</h2>
       <ul>
         {coins.map((coin) => (
           <li key={coin.symbol} className="mb-2 flex justify-between rounded-lg">

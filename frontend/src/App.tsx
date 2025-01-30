@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router";
+import { BrowserRouter as Router, Routes, Route } from "react-router";
 import { DefaultContextProvider } from "./context/DefaultContext";
 import Chart from "./components/Chart";
 import News from "./components/News";

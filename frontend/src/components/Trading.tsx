@@ -17,7 +17,7 @@ const Trading = () => {
   };
 
   return (
-    <div className="trading flex items-center justify-center  bg-dark text-text m-auto w-full rounded mt-4">
+    <div className="trading flex items-center justify-center  bg-dark text-text m-auto w-full rounded ">
       
         <input
           type="text"

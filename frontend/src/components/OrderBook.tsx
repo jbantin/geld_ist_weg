@@ -18,14 +18,15 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
     try {
       const response = await fetch(`https://api.binance.com/api/v3/depth?symbol=${symbol}&limit=100`);
       const data = await response.json();
+      const limit = window.innerWidth < 768 ? 5 : 12; // 5 für mobile Ansicht, 12 für Desktop
       const sortedBids = data.bids
         .map((bid: string[]) => ({ price: parseFloat(bid[0]), quantity: parseFloat(bid[1]) }))
         .sort((a: Order, b: Order) => b.quantity - a.quantity)
-        .slice(0, 12);
+        .slice(0, limit);
       const sortedAsks = data.asks
         .map((ask: string[]) => ({ price: parseFloat(ask[0]), quantity: parseFloat(ask[1]) }))
         .sort((a: Order, b: Order) => b.quantity - a.quantity)
-        .slice(0, 12)
+        .slice(0, limit)
         .reverse();
       setBids(sortedBids);
       setAsks(sortedAsks);
@@ -48,7 +49,7 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
 
   return (
     <motion.div
-      className="order-book bg-dark text-text p-4"
+      className="order-book bg-dark text-text p-4 "
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

@@ -142,7 +142,7 @@ const Chart = () => {
 
   return (
     <motion.section
-      className="flex flex-col md:flex-col bg-dark flex-grow w-1/3 items-center content-center "
+      className="flex flex-col md:flex-col bg-dark flex-grow  items-center content-center "
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5 }}
@@ -217,16 +217,18 @@ const Chart = () => {
         {showTradeInfo ? (
           <TradeInfo symbol={selectedCoin} />
         ) : (
-          <div className="flex flex-col md:flex-row h-full rounded-2xl w-full overflow-hidden ">
+          <div className="flex flex-col md:flex-row h-[80vh] rounded-2xl w-full overflow-hidden ">
             {showOrderBook && <OrderBook symbol={selectedCoin} />}
             <div
               className={`flex justify-center p-4 bg-dark h-full w-full min-h-[400px] max-h-[90vh]`}
               ref={container}
-            ></div>
+            >
+            </div>
             {showNews && <News />}
           </div>
         )}
-        <Trading />
+        <Trading  />
+       
       </motion.div>
     </motion.section>
   );
