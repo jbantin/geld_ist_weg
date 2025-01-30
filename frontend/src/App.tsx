@@ -32,7 +32,7 @@ const App = () => {
     <DefaultContextProvider>
       <Router>
         <motion.div
-          className="flex flex-col h-screen"
+          className="flex flex-col h-screen max-w-screen"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
