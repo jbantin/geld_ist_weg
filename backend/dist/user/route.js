@@ -4,6 +4,7 @@ exports.userRoute = void 0;
 const express_1 = require("express");
 const prisma_1 = require("../prisma"); // Pfad zur Prisma-Client-Instanz
 const crypto_1 = require("../lib/crypto");
+const jwt_1 = require("../lib/jwt");
 exports.userRoute = (0, express_1.Router)();
 // User erstellen
 exports.userRoute.post("/register", async (req, res) => {
@@ -30,8 +31,13 @@ exports.userRoute.post("/login", async (req, res) => {
         if (!(await (0, crypto_1.comparePassword)(req.body.password, user.password))) {
             throw new Error("wrong password");
         }
-        //  todo
-        //   jwt zurueck geben
+        const jwt = (0, jwt_1.createJwt)(user);
+        res.cookie("jwt", jwt, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "lax",
+            maxAge: 3600000,
+        });
         res.send(user);
     }
     catch (error) {
@@ -43,4 +49,13 @@ exports.userRoute.post("/login", async (req, res) => {
 exports.userRoute.get("/", async (req, res) => {
     const users = await prisma_1.prisma.user.findMany();
     res.json(users);
+});
+exports.userRoute.post("/logout", async (req, res) => {
+    res
+        .clearCookie("jwt", {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+    })
+        .send("User logged out");
 });

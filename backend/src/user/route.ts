@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { prisma } from "../prisma"; // Pfad zur Prisma-Client-Instanz
 import { comparePassword, hashPassword } from "../lib/crypto";
+import { createJwt } from "../lib/jwt";
 
 export const userRoute = Router();
 
@@ -29,8 +30,14 @@ userRoute.post("/login", async (req, res) => {
     if (!(await comparePassword(req.body.password, user.password))) {
       throw new Error("wrong password");
     }
-    //  todo
-    //   jwt zurueck geben
+
+    const jwt = createJwt(user);
+    res.cookie("jwt", jwt, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      maxAge: 3600000,
+    });
     res.send(user);
   } catch (error) {
     console.error("Fehlerdetails:", error); // 👈 Fehler ausgeben
@@ -42,4 +49,13 @@ userRoute.post("/login", async (req, res) => {
 userRoute.get("/", async (req, res) => {
   const users = await prisma.user.findMany();
   res.json(users);
+});
+userRoute.post("/logout", async (req, res) => {
+  res
+    .clearCookie("jwt", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+    })
+    .send("User logged out");
 });

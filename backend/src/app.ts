@@ -2,7 +2,7 @@ import express from "express";
 import { userRoute } from "./user/route.js";
 import { dataRoute } from "./data/route.js";
 import cors from "cors";
-import { prisma } from "./prisma.js"; // 1. Prisma-Client importieren
+import { prisma } from "./prisma.js";
 
 const PORT = 9001;
 const app = express();

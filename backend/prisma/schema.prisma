@@ -20,4 +20,5 @@ model User {
   password String
   cash Float?
   portfolio Json?
+  verified Boolean @default(false)
 }
