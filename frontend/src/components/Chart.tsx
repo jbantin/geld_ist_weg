@@ -142,7 +142,7 @@ const Chart = () => {
 
   return (
     <motion.section
-      className="flex flex-col md:flex-col bg-dark flex-grow w-full items-center content-center "
+      className="flex flex-col md:flex-col bg-dark flex-grow w-1/3 items-center content-center "
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5 }}
@@ -153,7 +153,7 @@ const Chart = () => {
             {" "}
             {selectedCoin.slice(0, -4)} in {selectedCoin.slice(-4)}
           </span>
-          <div className="hidden md:flex">
+          <div className="hidden md:flex self-center">
             {intervals.map((int) => (
               <Button
                 key={int.value}
@@ -169,7 +169,7 @@ const Chart = () => {
               ☰
             </Button>
             {isIntervalMenuOpen && (
-              <div className="absolute top-50 left-0 p-4 w-full bg-dark flex items-center z-100 md:hidden">
+              <div className="absolute top-40 left-0 mt-3 p-4 w-full bg-dark flex items-center z-100 md:hidden">
                 {intervals.map((int) => (
                   <Button
                     key={int.value}
@@ -220,7 +220,7 @@ const Chart = () => {
           <div className="flex flex-col md:flex-row h-full rounded-2xl w-full overflow-hidden ">
             {showOrderBook && <OrderBook symbol={selectedCoin} />}
             <div
-              className={`flex justify-center p-4 bg-dark h-full w-full min-h-[400px]`}
+              className={`flex justify-center p-4 bg-dark h-full w-full min-h-[400px] max-h-[90vh]`}
               ref={container}
             ></div>
             {showNews && <News />}

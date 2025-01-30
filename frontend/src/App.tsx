@@ -32,18 +32,18 @@ const App = () => {
     <DefaultContextProvider>
       <Router>
         <motion.div
-          className="flex flex-col h-screen bg-light"
+          className="flex flex-col h-screen bg-light w-full max-w-screen"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
           <Nav theme={theme} setTheme={setTheme} />
           <Routes>
-            <Route path="/" element={<Navigate to="/market" replace />} />
+            <Route path="/" element={<Market/>} />
             <Route
               path="/trade"
               element={
-                <div className="flex flex-col lg:flex-row flex-grow bg-light">
+                <div className="flex flex-col lg:flex-row flex-grow bg-light max-w-screen">
                   {window.innerWidth >= 1200 && <Sidebar />}
                   <Chart />
                 </div>

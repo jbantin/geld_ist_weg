@@ -31,7 +31,7 @@ const News: React.FC = () => {
 
   return (
     <motion.section
-      className={`news-feed ${isNewsPage ? 'mx-auto w-full' : 'w-full md:w-1/5'} flex flex-col max-h-[70vh] pt-4 bg-dark text-text`}
+      className={`news-feed ${isNewsPage ? 'mx-auto w-full' : 'w-full md:w-1/4 min-w-0'} flex flex-col max-h-[80vh] pt-4 bg-dark text-text`}
       initial={{ x: isMarketPage ? 250 : 0 }}
       animate={{ x: 0 }}      
       transition={{ duration: 0.5 }}

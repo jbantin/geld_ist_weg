@@ -50,7 +50,7 @@ const Sidebar = () => {
 
   return (
     <motion.div
-      className="sidebar bg-dark text-light p-4 min-w-[220px]"
+      className="sidebar bg-dark text-light p-4 w-[10vw] min-w-[220px]"
       initial={{ x: -250 }}
       animate={{ x: 0 }}
       transition={{ duration: 0.5 }}

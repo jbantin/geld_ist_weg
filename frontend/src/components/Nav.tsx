@@ -46,7 +46,7 @@ const Nav: React.FC<NavProps> = ({ theme, setTheme }) => {
       transition={{ duration: 0.5 }}
     >
       <div className="flex justify-between w-full md:hidden">
-        <Button className="hover:scale-105 p-4 text-text burger-menu" onClick={toggleMenu}>
+        <Button className="hover:scale-105 p-4 text-text burger-menu bg-secondary" onClick={toggleMenu}>
           ☰
         </Button>
         <Button className="hover:scale-105 p-4 text-text" onClick={toggleTheme}>
