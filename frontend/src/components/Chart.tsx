@@ -164,7 +164,7 @@ const Chart = () => {
               </Button>
             ))}
           </div>
-          <div className="md:hidden"> {/* mobile */}
+          <div className="md:hidden self-center"> {/* mobile */}
             <Button className="bg-secondary text-light hover:underline m-1 p-2" onClick={() => setIsIntervalMenuOpen(!isIntervalMenuOpen)}>
               ☰
             </Button>

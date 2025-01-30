@@ -55,9 +55,9 @@ const Nav: React.FC<NavProps> = ({ theme, setTheme }) => {
       </div>
       {isOpen && (
         <motion.div
-          className="absolute top-16 left-0 p-4 w-full bg-dark flex flex-col items-center md:hidden burger-menu"
-          initial={{ y: -50 }}
-          animate={{ y: 0 }}
+          className="absolute top-18 left-0 p-4 z-1000 w-full bg-dark flex flex-col items-center md:hidden burger-menu"
+          initial={{ opacity:0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
           <Button className="hover:scale-105 w-full p-2 text-text" onClick={closeMenu}>
