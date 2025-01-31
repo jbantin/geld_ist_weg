@@ -18,7 +18,7 @@ model User {
   name  String
   email String  @unique
   password String
-  cash Float?
+  cash Float @default(10000)
   portfolio Json?
   verified Boolean @default(false)
 }
