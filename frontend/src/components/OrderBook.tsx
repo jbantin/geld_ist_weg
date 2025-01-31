@@ -10,6 +10,10 @@ interface OrderBookProps {
   symbol: string;
 }
 
+const formatNumber = (num: number) => {
+  return num.toLocaleString('de-DE');
+};
+
 const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
   const [bids, setBids] = useState<Order[]>([]);
   const [asks, setAsks] = useState<Order[]>([]);
@@ -18,7 +22,7 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
     try {
       const response = await fetch(`https://api.binance.com/api/v3/depth?symbol=${symbol}&limit=100`);
       const data = await response.json();
-      const limit = window.innerWidth < 768 ? 5 : 12; // 5 für mobile Ansicht, 12 für Desktop
+      const limit = window.innerWidth < 768 ? 5 : 15 // 5 für mobile Ansicht, 12 für Desktop
       const sortedBids = data.bids
         .map((bid: string[]) => ({ price: parseFloat(bid[0]), quantity: parseFloat(bid[1]) }))
         .sort((a: Order, b: Order) => b.quantity - a.quantity)
@@ -49,7 +53,7 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
 
   return (
     <motion.div
-      className="order-book bg-dark text-text p-4 "
+      className="order-book bg-dark text-text p-4 flex flex-col justify-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -64,8 +68,8 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
                   className="absolute left-0 top-0 h-full bg-green-500 opacity-50 rounded-r-sm"
                   style={{ width: `${(bid.quantity / maxQuantity) * 100}%` }}
                 ></div>
-                <span className="relative z-10 ">{bid.price.toFixed(2)} $</span>
-                <span className="relative z-10">{bid.quantity.toFixed(4)} {symbol.slice(0,3)}</span>
+                <span className="relative z-10 ">{formatNumber(bid.price)} $</span>
+                <span className="relative z-10">{formatNumber(bid.quantity)} {symbol.slice(0,3)}</span>
               </li>
             ))}
           </ul>
@@ -78,8 +82,8 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
                   className="absolute left-0 top-0 h-full bg-red-500 opacity-50 "
                   style={{ width: `${(ask.quantity / maxQuantity) * 100}%` }}
                 ></div>
-                <span className="relative z-10 ">{ask.price.toFixed(2)} $</span>
-                <span className="relative z-10">{ask.quantity.toFixed(4)} {symbol.slice(0,3)}</span>
+                <span className="relative z-10 ">{formatNumber(ask.price)} $</span>
+                <span className="relative z-10">{formatNumber(ask.quantity)} {symbol.slice(0,3)}</span>
               </li>
             ))}
           </ul>

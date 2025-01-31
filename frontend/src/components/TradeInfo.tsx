@@ -20,6 +20,10 @@ interface TradeInfoProps {
   symbol: string;
 }
 
+const formatNumber = (num: number) => {
+  return num.toLocaleString('de-DE');
+};
+
 const TradeInfo: React.FC<TradeInfoProps> = ({ symbol }) => {
   const [trades, setTrades] = useState<Trade[]>([]);
   const [stats, setStats] = useState<Stats | null>(null);
@@ -73,13 +77,13 @@ const TradeInfo: React.FC<TradeInfoProps> = ({ symbol }) => {
       transition={{ duration: 0.5 }}
       >
       {stats && (
-        <div className="mb-4 w-full md:w-1/3 flex flex-col self-start">
+        <div className="mb-4 w-full md:w-1/3 flex flex-col self-start bg-secondary p-4 rounded-lg shadow-lg">
           <h3 className="text-text text-xl font-bold mb-2 ">Stats 24h</h3>
-          <p className="text-text text-l my-1"><strong>Letzter Preis: </strong>{stats.lastPrice.toFixed(2)} $</p>
+          <p className="text-text text-l my-1"><strong>Letzter Preis: </strong>{formatNumber(stats.lastPrice)} $</p>
           <p className="text-text text-l my-1"><strong>Preisänderung: </strong><span className={`${stats.priceChangePercent < 0 ? "text-red-500":""}`}>{stats.priceChangePercent} %</span></p>
-          <p className="text-text text-l my-1"><strong>Höchster Preis: </strong>{stats.highPrice.toFixed(2)} $</p>
-          <p className="text-text text-l my-1"><strong>Niedrigster Preis: </strong>{stats.lowPrice.toFixed(2)} $</p>
-          <p className="text-text text-l my-1"><strong>Volumen: </strong>{stats.volume.toFixed(2)}</p>
+          <p className="text-text text-l my-1"><strong>Höchster Preis: </strong>{formatNumber(stats.highPrice)} $</p>
+          <p className="text-text text-l my-1"><strong>Niedrigster Preis: </strong>{formatNumber(stats.lowPrice)} $</p>
+          <p className="text-text text-l my-1"><strong>Volumen: </strong>{formatNumber(stats.volume)}</p>
         </div>
       )}
       <div className="w-full md:w-1/3">   
@@ -93,8 +97,8 @@ const TradeInfo: React.FC<TradeInfoProps> = ({ symbol }) => {
               }`}
             >
               <span>{new Date(trade.time).toLocaleTimeString()}</span>
-              <span>{trade.price.toFixed(2)}</span>
-              <span>{trade.qty.toFixed(5)}</span>
+              <span>{formatNumber(trade.price)}</span>
+              <span>{formatNumber(trade.qty)}</span>
               <span>{trade.isBuyerMaker ? "Sell" : "Buy"}</span>
             </li>
           ))}

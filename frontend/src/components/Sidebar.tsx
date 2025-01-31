@@ -8,6 +8,10 @@ interface Coin {
   price: number;
 }
 
+const formatNumber = (num: number) => {
+  return num.toLocaleString('de-DE');
+};
+
 const Sidebar = () => {
   const { setSelectedCoin } = useContext(DefaultContext);
   const [coins, setCoins] = useState<Coin[]>([]);
@@ -51,6 +55,7 @@ const Sidebar = () => {
   return (
     <motion.div
       className="sidebar bg-dark text-light p-4 w-[10vw] mt-15 min-w-[220px] md:max-h-[85vh] custom-scrollbar overflow-auto"
+      style={{ boxShadow: 'inset 0 10px 10px -10px var(--bg-color), inset 0 -10px 10px -10px var(--bg-color)' }}
       initial={{ x: -250 }}
       animate={{ x: 0 }}
       transition={{ duration: 0.5 }}
@@ -64,7 +69,7 @@ const Sidebar = () => {
               onClick={() => setSelectedCoin(coin.symbol)}
             >
               <span>{coin.symbol.slice(0, -4)}</span>
-              <span className="text-zinc-300 px-2">{coin.price.toFixed(2)} $</span>
+              <span className="text-zinc-300 px-2">{formatNumber(coin.price)} $</span>
             </Button>
           </li>
         ))}

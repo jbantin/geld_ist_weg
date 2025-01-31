@@ -14,6 +14,13 @@ interface DefaultContextProps {
   showTradeInfo: boolean;
   setShowTradeInfo: React.Dispatch<React.SetStateAction<boolean>>;
   coins: Coin[];
+  updatePrices: () => void;
+  interval: string;
+  setInterval: React.Dispatch<React.SetStateAction<string>>;
+  isIntervalMenuOpen: boolean;
+  setIsIntervalMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  showOrderBook: boolean;
+  setShowOrderBook: (show: boolean) => void;
 }
 
 export const DefaultContext = createContext<DefaultContextProps>({
@@ -24,6 +31,13 @@ export const DefaultContext = createContext<DefaultContextProps>({
   showTradeInfo: false,
   setShowTradeInfo: () => {},
   coins: [],
+  updatePrices: () => {},
+  interval: "1m",
+  setInterval: () => {},
+  isIntervalMenuOpen: false,
+  setIsIntervalMenuOpen: () => {},
+  showOrderBook: false,
+  setShowOrderBook: () => {},
 });
 
 interface DefaultContextProviderProps {
@@ -37,6 +51,9 @@ export function DefaultContextProvider({
   const [showNews, setShowNews] = useState(true);
   const [showTradeInfo, setShowTradeInfo] = useState(false);
   const [coins, setCoins] = useState<Coin[]>([]);
+  const [interval, setIntervalState] = useState("1m");
+  const [showOrderBook, setShowOrderBook] = useState(false);
+  const [isIntervalMenuOpen, setIsIntervalMenuOpen] = useState(false);
 
   const fetchPrices = async () => {
     try {
@@ -53,10 +70,11 @@ export function DefaultContextProvider({
   };
 
   useEffect(() => {
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       fetchPrices();
-      console.log("Prices updated");
-    }, 5000);
+    }, 2000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   const data = {
@@ -67,6 +85,13 @@ export function DefaultContextProvider({
     showTradeInfo,
     setShowTradeInfo,
     coins,
+    updatePrices: fetchPrices,
+    interval,
+    setInterval: setIntervalState,
+    isIntervalMenuOpen,
+    setIsIntervalMenuOpen,
+    showOrderBook,
+    setShowOrderBook,
   };
 
   return (
