@@ -1,13 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import { DefaultContextProvider } from "./context/DefaultContext";
-import Chart from "./components/Chart";
-import News from "./components/News";
-import Sidebar from "./components/Sidebar";
+import Trading from "./pages/Trading";
+import News from "./pages/News";
 import Nav from "./components/Nav";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Profile from "./components/Profile";
-import Market from "./components/Market";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Profile from "./pages/Profile";
+import Market from "./pages/Market";
 import "./App.css";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -42,12 +41,7 @@ const App = () => {
             <Route path="/" element={<Market/>} />
             <Route
               path="/trade"
-              element={
-                <div className="flex flex-col lg:flex-row flex-grow bg-light max-w-screen">
-                  {window.innerWidth >= 1200 && <Sidebar />}
-                  <Chart />
-                </div>
-              }
+              element={<Trading />}
             />
             <Route path="/news" element={<News />} />
             <Route path="/user" element={<Profile />} />

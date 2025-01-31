@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
-import Button from "./Button";
+import Button from "../components/Button";
 import { DefaultContext } from "../context/DefaultContext";
 
 interface Coin {

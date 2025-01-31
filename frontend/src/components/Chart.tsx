@@ -3,10 +3,10 @@ import { useRef, useEffect, useState, useContext } from "react";
 import Button from "./Button";
 import OrderBook from "./OrderBook";
 import TradeInfo from "./TradeInfo";
-import Trading from "./Trading";
+import Trading from "./Trading_inputs";
 import { DefaultContext } from "../context/DefaultContext";
 import { motion } from "framer-motion";
-import News from "./News";
+import News from "../pages/News";
 
 const Chart = () => {
   const { selectedCoin, showTradeInfo, setShowTradeInfo } =

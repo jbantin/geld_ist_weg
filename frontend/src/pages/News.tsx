@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Button from './Button'; // Importieren Sie Ihre Button-Komponente
+import Button from '../components/Button'; // Importieren Sie Ihre Button-Komponente
 import { useLocation } from 'react-router';
 import { motion } from 'framer-motion';
-import NewsCard from './NewsCard';
+import NewsCard from '../components/NewsCard';
 
 const News: React.FC = () => {
   const [news, setNews] = useState<any[]>([]);
