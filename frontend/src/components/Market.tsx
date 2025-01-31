@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
 import Button from "./Button";
 import { DefaultContext } from "../context/DefaultContext";
-import { q } from "framer-motion/client";
 
 interface Coin {
   symbol: string;
