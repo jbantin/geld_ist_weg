@@ -99,7 +99,7 @@ const Chart = () => {
       });
       chart.priceScale('vol').applyOptions({
         scaleMargins: {
-          top: 0.95,
+          top: 0.90,
           bottom: 0,
         },
       });

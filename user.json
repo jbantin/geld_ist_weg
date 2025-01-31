@@ -1,0 +1,25 @@
+{
+    "id": "id",
+    "name": "String",
+    "email": "String",
+    "password": "hash",
+    "cash": "Float?",
+    "portfolio": {
+        "assets": [{
+            "name": "String",
+            "symbol": "String",
+            "amount": "Float",
+            "total": "Float"
+        }]
+    },
+    "transactions": [{
+        "id": "String",
+        "name": "String",
+        "symbol": "String",
+        "amount": "Float",
+        "price": "Float",
+        "total": "Float",
+        "date": "DateTime"
+    }],
+    "verified": "Boolean"
+}
