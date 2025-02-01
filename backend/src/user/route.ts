@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Request } from "express";
 import { prisma } from "../prisma"; // Pfad zur Prisma-Client-Instanz
 import { comparePassword, hashPassword } from "../lib/crypto";
 import { createJwt } from "../lib/jwt";
@@ -27,9 +27,9 @@ userRoute.post(
   (req, res, next) => {
     checkToken(req, res, next);
   },
-  async (req, res) => {
+  async (req: Request & { user?: any }, res) => {
     const updateUser = await prisma.user.update({
-      where: { email: req.body.email },
+      where: { email: req.user.email },
       data: { verified: true },
     });
 
@@ -42,6 +42,9 @@ userRoute.post("/login", async (req, res) => {
     const user = await prisma.user.findUnique({
       where: { email: req.body.email },
     });
+    if (!user?.verified) {
+      throw new Error("user not verified");
+    }
     if (!user) {
       throw new Error("user not found");
     }
@@ -59,7 +62,7 @@ userRoute.post("/login", async (req, res) => {
     res.send(user);
   } catch (error) {
     console.error("Fehlerdetails:", error); // 👈 Fehler ausgeben
-    res.status(500).json({ error: "Fehler beim Login" });
+    res.status(500).json({ error });
   }
 });
 

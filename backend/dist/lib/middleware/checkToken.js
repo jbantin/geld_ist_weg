@@ -7,7 +7,7 @@ exports.checkToken = void 0;
 const prisma_1 = require("../../prisma");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const checkToken = async (req, res, next) => {
-    const token = req.cookies.jwt;
+    const token = req.cookies.jwt || req.body.token;
     // Handle missing token
     if (!token) {
         return res.status(401).json({ error: "No token provided" }); // Send response and stop execution

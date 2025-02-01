@@ -16,18 +16,30 @@ exports.userRoute.post("/register", async (req, res) => {
         const user = await prisma_1.prisma.user.create({ data: req.body });
         const token = (0, jwt_1.createJwt)(user);
         (0, sendEmail_1.sendEmail)(user, token);
-        res.json("verify your email" + user);
+        res.json("verify your email");
     }
     catch (error) {
         console.error("Fehlerdetails:", error); // 👈 Fehler ausgeben
         res.status(500).json({ error: "Fehler beim Erstellen des Users" });
     }
 });
+exports.userRoute.post("/verify_email", (req, res, next) => {
+    (0, checkToken_1.checkToken)(req, res, next);
+}, async (req, res) => {
+    const updateUser = await prisma_1.prisma.user.update({
+        where: { email: req.user.email },
+        data: { verified: true },
+    });
+    res.json("verified");
+});
 exports.userRoute.post("/login", async (req, res) => {
     try {
         const user = await prisma_1.prisma.user.findUnique({
             where: { email: req.body.email },
         });
+        if (!user?.verified) {
+            throw new Error("user not verified");
+        }
         if (!user) {
             throw new Error("user not found");
         }
@@ -45,7 +57,7 @@ exports.userRoute.post("/login", async (req, res) => {
     }
     catch (error) {
         console.error("Fehlerdetails:", error); // 👈 Fehler ausgeben
-        res.status(500).json({ error: "Fehler beim Login" });
+        res.status(500).json({ error });
     }
 });
 // Alle User abrufen

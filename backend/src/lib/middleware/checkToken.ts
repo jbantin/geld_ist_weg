@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../../prisma";
 import jwt from "jsonwebtoken";
+import { User } from "@prisma/client";
 
 // Extend the Request type to include the `user` property
 declare module "express" {
   interface Request {
-    user?: any; // Replace `any` with the actual type of your user object
+    user?: User; // Replace `any` with the actual type of your user object
   }
 }
 
@@ -14,7 +15,7 @@ export const checkToken = async (
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.cookies.jwt;
+  const token = req.cookies.jwt || req.body.token;
 
   // Handle missing token
   if (!token) {
