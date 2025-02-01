@@ -6,6 +6,7 @@ const prisma_1 = require("../prisma"); // Pfad zur Prisma-Client-Instanz
 const crypto_1 = require("../lib/crypto");
 const jwt_1 = require("../lib/jwt");
 const checkToken_1 = require("../lib/middleware/checkToken");
+const sendEmail_1 = require("../lib/sendEmail");
 exports.userRoute = (0, express_1.Router)();
 // User erstellen
 exports.userRoute.post("/register", async (req, res) => {
@@ -14,7 +15,9 @@ exports.userRoute.post("/register", async (req, res) => {
         console.log(plainPassword);
         req.body.password = await (0, crypto_1.hashPassword)(plainPassword);
         const user = await prisma_1.prisma.user.create({ data: req.body });
-        res.json(user);
+        console.log("huhu");
+        (0, sendEmail_1.sendEmail)(user);
+        res.json("verify your email" + user);
     }
     catch (error) {
         console.error("Fehlerdetails:", error); // 👈 Fehler ausgeben
