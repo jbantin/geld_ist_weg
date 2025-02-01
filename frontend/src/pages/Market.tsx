@@ -120,11 +120,14 @@ const Market: React.FC = () => {
   const topChangeCoins = [...coins]
     .sort((a, b) => b.priceChangePercent - a.priceChangePercent)
     .slice(0, 3);
-  const topMarketCapCoins = [...coins]
-    .sort((a, b) => b.quoteVolume - a.quoteVolume)
+  const topVolumeCoins = [...coins]
+    .sort((a, b) => b.volume - a.volume)
     .slice(0, 3);
 
   const formatNumber = useFormatNumber();
+
+  // Aggregierte Kennzahlen für den gesamten Markt berechnen
+  const marketAvgChange =
     coins.length > 0
       ? coins.reduce((sum, coin) => sum + coin.priceChangePercent, 0) /
         coins.length
@@ -220,7 +223,7 @@ const Market: React.FC = () => {
             {topVolumeCoins.map((coin) => (
               <div key={coin.symbol}>
                 <Button
-                  className="w-full text-left p-4 btn-bg rounded-lg text-sm md:text-lg md:font-bold"
+                  className="w-full text-left p-4 btn-bg rounded-lg text-s md:text-lg md:font-bold"
                   onClick={() => handleCoinClick(coin.symbol)}
                 >
                   <div className="flex items-center">
@@ -261,9 +264,9 @@ const Market: React.FC = () => {
         </Button>
         <Button
           className="text-swich p-2 btn-bg text-s md:text-lg md:font-bold"
-          onClick={() => handleSort("volume")}
+          onClick={() => handleSort("marketCap")}
         >
-          Sort by Volume
+          Sort by Marketcap
         </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
