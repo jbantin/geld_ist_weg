@@ -12,11 +12,10 @@ exports.userRoute = (0, express_1.Router)();
 exports.userRoute.post("/register", async (req, res) => {
     try {
         const plainPassword = req.body.password;
-        console.log(plainPassword);
         req.body.password = await (0, crypto_1.hashPassword)(plainPassword);
         const user = await prisma_1.prisma.user.create({ data: req.body });
-        console.log("huhu");
-        (0, sendEmail_1.sendEmail)(user);
+        const token = (0, jwt_1.createJwt)(user);
+        (0, sendEmail_1.sendEmail)(user, token);
         res.json("verify your email" + user);
     }
     catch (error) {

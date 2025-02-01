@@ -11,17 +11,31 @@ export const userRoute = Router();
 userRoute.post("/register", async (req, res) => {
   try {
     const plainPassword = req.body.password;
-    console.log(plainPassword);
     req.body.password = await hashPassword(plainPassword);
     const user = await prisma.user.create({ data: req.body });
-    console.log("huhu");
-    sendEmail(user);
-    res.json("verify your email" + user);
+    const token = createJwt(user);
+    sendEmail(user, token);
+    res.json("verify your email");
   } catch (error) {
     console.error("Fehlerdetails:", error); // 👈 Fehler ausgeben
     res.status(500).json({ error: "Fehler beim Erstellen des Users" });
   }
 });
+
+userRoute.post(
+  "/verify_email",
+  (req, res, next) => {
+    checkToken(req, res, next);
+  },
+  async (req, res) => {
+    const updateUser = await prisma.user.update({
+      where: { email: req.body.email },
+      data: { verified: true },
+    });
+
+    res.json("verified");
+  }
+);
 
 userRoute.post("/login", async (req, res) => {
   try {
