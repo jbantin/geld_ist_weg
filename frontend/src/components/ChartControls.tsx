@@ -30,7 +30,7 @@ const ChartControls = () => {
   return (
     <div className="mb-4 flex justify-between w-full space-x-2">
       <div className="flex items-end ">
-        <span className="font-bold text-xl p-4 text-green-700 mr-4 bg-light rounded">
+        <span className="font-bold text-xl p-4 text-accent mr-4 bg-light rounded">
           {" "}
           {selectedCoin.slice(0, -4)} in {selectedCoin.slice(-4)}
         </span>
@@ -38,23 +38,23 @@ const ChartControls = () => {
           {intervals.map((int) => (
             <Button
               key={int.value}
-              className="bg-secondary text-light hover:scale-105 m-1 p-1 px-2 "
+              className="btn-bg text-swich hover:scale-105 m-1 p-1 px-2 "
               onClick={() => setInterval(int.value)}
             >
               {int.label}
             </Button>
           ))}
         </div>
-        <div className="md:hidden self-center"> {/* mobile */}
-          <Button className="bg-secondary text-light hover:underline m-1 p-2" onClick={() => setIsIntervalMenuOpen(!isIntervalMenuOpen)}>
+        <div className="md:hidden self-center "> {/* mobile */}
+          <Button className="btn-bg text-swich hover:underline m-1 p-2" onClick={() => setIsIntervalMenuOpen(!isIntervalMenuOpen)}>
             ☰
           </Button>
           {isIntervalMenuOpen && (
-            <div className="absolute top-40 left-0 mt-3 p-4 w-full bg-dark flex items-center z-100 md:hidden">
+            <div className="absolute  top-40 left-0 mt-3 p-2 w-full bg-dark flex items-center justify-between md:justify-start z-100 md:hidden">
               {intervals.map((int) => (
                 <Button
                   key={int.value}
-                  className="bg-secondary text-light hover:underline w-full"
+                  className="btn-bg text-swich hover:underline w-12"
                   onClick={() => {
                     setInterval(int.value);
                     setIsIntervalMenuOpen(false);
@@ -69,19 +69,19 @@ const ChartControls = () => {
       </div>
       <div className="flex justify-between">
         <Button
-          className={`m-1 p-2 text-text`}
+          className={`m-1 p-2 text-swich`}
           onClick={() => setShowTradeInfo(!showTradeInfo)}
         >
           {showTradeInfo ? "Show Chart" : "Show Stats"}
         </Button>
         <Button
-          className={`m-1 p-2 ${showOrderBook ? "bg-accent" : "bg-secondary"} text-light hover:underline`}
+          className={`m-1 p-2 ${showOrderBook ? "bg-accent" : "btn-bg"} text-swich hover:underline`}
           onClick={() => setShowOrderBook(!showOrderBook)}
         >
           Order Book
         </Button>
         <Button
-          className={`m-1 mr-4 px-4 ${showNews ? "bg-accent" : "bg-secondary"} text-light hover:underline`}
+          className={`m-1 mr-4 px-4 ${showNews ? "bg-accent" : "btn-bg"} text-swich hover:underline`}
           onClick={() => setShowNews(!showNews)}
         >
           News

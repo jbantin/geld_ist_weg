@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { DefaultContext } from "../context/DefaultContext";
 import Button from "./Button";
 import { motion } from "framer-motion";
+import "../App.css"
 
 interface Coin {
   symbol: string;
@@ -9,14 +10,14 @@ interface Coin {
 }
 
 const formatNumber = (num: number) => {
-  return num.toLocaleString('de-DE');
+  return num.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 };
 
 const Sidebar = () => {
   const { setSelectedCoin } = useContext(DefaultContext);
   const [coins, setCoins] = useState<Coin[]>([]);
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-  const selectedCoins = ["BTCUSDT", "ETHUSDT", "XRPUSDT", "SOLUSDT", "DOGEUSDT", "ADAUSDT", "LINKUSDT", "LTCUSDT", "BNBUSDT", "XLMUSDT", "POLUSDT", "UNIUSDT", "DOTUSDT", "ICPUSDT", "MATICUSDT", "VETUSDT", "FILUSDT", "TRXUSDT", "SHIBUSDT", "ETCUSDT"];
+  const selectedCoins = ["BTCUSDT", "ETHUSDT", "XRPUSDT", "SOLUSDT", "DOGEUSDT", "ADAUSDT", "LINKUSDT", "LTCUSDT", "BNBUSDT", "XLMUSDT", "POLUSDT", "UNIUSDT", "DOTUSDT", "ICPUSDT", "MATICUSDT", "VETUSDT", "FILUSDT", "TRXUSDT", "ETCUSDT"];
 
   const fetchPrices = () => {
     fetch("https://api.binance.com/api/v3/ticker/price")
@@ -54,22 +55,21 @@ const Sidebar = () => {
 
   return (
     <motion.div
-      className="sidebar bg-dark text-light p-4 w-[10vw] mt-15 min-w-[220px] md:max-h-[85vh] custom-scrollbar overflow-auto"
-      style={{ boxShadow: 'inset 0 10px 10px -10px var(--bg-color), inset 0 -10px 10px -10px var(--bg-color)' }}
+      className="sidebar bg-dark text-swich w-[10vw]  min-w-[220px] "      
       initial={{ x: -250 }}
       animate={{ x: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 1 }}
     >
-      <h2 className="text-lg text-text font-bold  p-3">Top Coins</h2>
-      <ul>
+      <h2 className="text-xl text-swich font-bold mb-4 p-4">Top Coins</h2>
+      <ul className="md:max-h-[80vh] custom-scrollbar overflow-auto px-4" >
         {coins.map((coin) => (
-          <li key={coin.symbol} className="mb-2 flex justify-between rounded-lg">
+          <li key={coin.symbol} className="mb-2 flex justify-between rounded-lg relative z-0">
             <Button
-              className="flex justify-between w-full text-green-600 bg-secondary hover:underline p-2"
+              className="flex justify-between w-full text-green-300 hover:text-zinc-800 btn-bg p-2"
               onClick={() => setSelectedCoin(coin.symbol)}
             >
-              <span>{coin.symbol.slice(0, -4)}</span>
-              <span className="text-zinc-300 px-2">{formatNumber(coin.price)} $</span>
+              <span className="">{coin.symbol.slice(0, -4)}</span>
+              <span className="text-swich px-2">{formatNumber(coin.price)} $</span>
             </Button>
           </li>
         ))}

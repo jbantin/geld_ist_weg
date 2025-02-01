@@ -7,6 +7,7 @@ import Trading from "./Trading_inputs";
 import { DefaultContext } from "../context/DefaultContext";
 import { motion } from "framer-motion";
 import News from "../pages/News";
+import useResize from "../hooks/useResize"; // neuen Hook importieren
 
 const Chart = () => {
   const {
@@ -21,12 +22,36 @@ const Chart = () => {
   const chartRef = useRef<any>(null);
   const candlestickSeriesRef = useRef<any>(null);
   const volumeSeriesRef = useRef<any>(null);
+  const { width, height } = useResize(); // Statt window.innerWidth / innerHeight
+
+  // Neues Farben-Objekt zur zentralen Verwaltung
+  const chartColors = {
+    background:
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--chart-bg-color")
+        .trim() || "#27272A",
+    text:
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--chart-text-color")
+        .trim() || "#DDD",
+    grid: "#444",
+    upColor: "#2EBD85",
+    downColor: "#F6465D",
+    volumeUpColor: "#26a651",
+    volumeDownColor: "#ef5350",
+  };
 
   const updateChart = async () => {
-    if (chartRef.current && candlestickSeriesRef.current && volumeSeriesRef.current) {
+    if (
+      chartRef.current &&
+      candlestickSeriesRef.current &&
+      volumeSeriesRef.current
+    ) {
       const limit = interval === "1m" ? 400 : 600;
       try {
-        const res = await fetch(`https://api.binance.com/api/v3/klines?symbol=${selectedCoin}&interval=${interval}&limit=${limit}`);
+        const res = await fetch(
+          `https://api.binance.com/api/v3/klines?symbol=${selectedCoin}&interval=${interval}&limit=${limit}`
+        );
         if (!res.ok) throw new Error("Network response was not ok");
         const data = await res.json();
         const candleData = data.map((data: any) => ({
@@ -39,7 +64,10 @@ const Chart = () => {
         const volumeData = data.map((data: any) => ({
           time: data[0] / 1000,
           value: parseFloat(data[5]),
-          color: parseFloat(data[4]) > parseFloat(data[1]) ? '#26a651' : '#ef5350',
+          color:
+            parseFloat(data[4]) > parseFloat(data[1])
+              ? chartColors.upColor
+              : chartColors.downColor,
         }));
         candlestickSeriesRef.current.setData(candleData);
         volumeSeriesRef.current.setData(volumeData);
@@ -49,57 +77,92 @@ const Chart = () => {
     }
   };
 
+  const applyTheme = () => {
+    if (chartRef.current) {
+      chartColors.background =
+        getComputedStyle(document.documentElement)
+          .getPropertyValue("--chart-bg-color")
+          .trim() || "#27272A";
+      chartColors.text =
+        getComputedStyle(document.documentElement)
+          .getPropertyValue("--chart-text-color")
+          .trim() || "#DDD";
+      chartRef.current.applyOptions({
+        layout: {
+          background: { color: chartColors.background },
+          textColor: chartColors.text,
+        },
+        grid: {
+          vertLines: { color: chartColors.grid },
+          horzLines: { color: chartColors.grid },
+        },
+        timeScale: {
+          borderColor: chartColors.grid,
+        },
+      });
+    }
+  };
+
   useEffect(() => {
     const resizeHandler = () => {
       if (chartRef.current && container.current) {
-        const chartHeight = Math.max(container.current.clientHeight , 400); // Ensure height is at least 400px
+        const chartHeight = Math.max(container.current.clientHeight, 400); // Ensure height is at least 400px
         chartRef.current.resize(
           container.current.clientWidth - 20, // Adjust width to ensure the entire value is visible
-          chartHeight,
+          chartHeight
         );
       }
     };
 
     window.addEventListener("resize", resizeHandler);
 
+    // Wenn showTradeInfo aktiv ist (Chart ausgeblendet), entferne den Chart
+    if (showTradeInfo) {
+      if (chartRef.current) {
+        chartRef.current.remove();
+        chartRef.current = null;
+      }
+      window.removeEventListener("resize", resizeHandler);
+      return;
+    }
+
+    // Chart initialisieren, falls noch nicht vorhanden
     if (!chartRef.current && container.current) {
-      const chartBgColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color').trim() || '#27272A';
-      const chartTextColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-text-color').trim() || '#DDD';
       const chartHeight = Math.max(container.current.clientHeight - 40, 400); // Ensure height is at least 400px
       const chart = createChart(container.current, {
         width: container.current.clientWidth - 20, // Adjust width to ensure the entire value is visible
         height: chartHeight,
         layout: {
-          background: { color: chartBgColor },
-          textColor: chartTextColor,
+          background: { color: chartColors.background },
+          textColor: chartColors.text,
         },
         grid: {
-          vertLines: { color: "#444" },
-          horzLines: { color: "#444" },
+          vertLines: { color: chartColors.grid },
+          horzLines: { color: chartColors.grid },
         },
         timeScale: {
           timeVisible: true,
           secondsVisible: false,
-          borderColor: "#444",
+          borderColor: chartColors.grid,
           rightOffset: 1,
         },
       });
       chartRef.current = chart;
       candlestickSeriesRef.current = chart.addCandlestickSeries({
-        upColor: "#26a651",
-        downColor: "#ef5350",
+        upColor: chartColors.upColor,
+        downColor: chartColors.downColor,
         borderVisible: false,
-        wickUpColor: "#26a651",
-        wickDownColor: "#ef5350",
+        wickUpColor: chartColors.upColor,
+        wickDownColor: chartColors.downColor,
       });
       volumeSeriesRef.current = chart.addHistogramSeries({
-        color: '#26a651',
-        priceFormat: { type: 'volume' },
-        priceScaleId: 'vol', // optional ein Custom-ID
+        color: chartColors.volumeUpColor,
+        priceFormat: { type: "volume" },
+        priceScaleId: "vol", // optional ein Custom-ID
       });
-      chart.priceScale('vol').applyOptions({
+      chart.priceScale("vol").applyOptions({
         scaleMargins: {
-          top: 0.90,
+          top: 0.9,
           bottom: 0,
         },
       });
@@ -107,6 +170,7 @@ const Chart = () => {
     }
 
     updateChart();
+    applyTheme();
 
     return () => {
       window.removeEventListener("resize", resizeHandler);
@@ -115,7 +179,7 @@ const Chart = () => {
         chartRef.current = null;
       }
     };
-  }, [window.innerHeight, window.innerWidth, showOrderBook]);
+  }, [width, height, showOrderBook, showTradeInfo]); // statt window.innerWidth/innerHeight
 
   useEffect(() => {
     if (!showTradeInfo) {
@@ -124,8 +188,9 @@ const Chart = () => {
   }, [showTradeInfo, interval, selectedCoin]);
 
   useEffect(() => {
+    applyTheme();
     updateChart();
-  }, [document.documentElement.getAttribute('data-theme')]);
+  }, [document.documentElement.getAttribute("data-theme")]);
 
   useEffect(() => {
     updateChart();

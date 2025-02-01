@@ -1,4 +1,6 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, } from "react";
+
+import useInterval from "../hooks/useInterval";
 import { ReactNode } from "react";
 
 interface Coin {
@@ -69,13 +71,8 @@ export function DefaultContextProvider({
     }
   };
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      fetchPrices();
-    }, 2000);
-
-    return () => clearInterval(intervalId);
-  }, []);
+  
+  useInterval(fetchPrices, 2000);
 
   const data = {
     selectedCoin,

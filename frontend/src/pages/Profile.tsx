@@ -6,7 +6,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="flex justify-center items-center bg-dark text-light">
+    <div className="flex justify-center items-center bg-dark text-swich">
       <div className="bg-dark p-6 rounded">
         <h2 className="text-2xl font-bold mb-4">Profile</h2>
         <p className="mb-2">Name: {user.name}</p>

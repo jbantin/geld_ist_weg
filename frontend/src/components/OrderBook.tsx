@@ -53,7 +53,7 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
 
   return (
     <motion.div
-      className="order-book bg-dark text-text p-4 flex flex-col justify-center"
+      className="order-book bg-dark text-swich p-4 flex flex-col justify-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

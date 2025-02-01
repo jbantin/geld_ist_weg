@@ -7,8 +7,8 @@ interface NewsCardProps {
 
 const NewsCard: React.FC<NewsCardProps> = ({ item, isNewsPage }) => {
   return (
-    <div className={`${isNewsPage ? `m-4 ` : "mb-4 max-w-[400px]"} p-4 bg-dark rounded inline-flex flex-col min-w-[200px] text-text`}>
-      <div className="flex items-center mb-2">
+    <div className={`${isNewsPage ? ` ` : "mb-4 md:max-w-[400px]"} ml-4 p-4 btn-bg rounded inline-flex flex-col min-w-[200px] text-swich`}>
+      <div className="flex items-center mb-2 ">
         <img src={item.thumb} alt={item.name} className=" mr-4" />
         <div>
           <h3 className="text-xl font-bold">{item.name} ({item.symbol})</h3>
@@ -17,8 +17,8 @@ const NewsCard: React.FC<NewsCardProps> = ({ item, isNewsPage }) => {
         </div>
       </div>
       <p>{item.data.content.description}</p>
-      <p className="text-gray-400 mt-2">Preis: ${item.data.price.toFixed(2)}</p>
-      <p className={`mt-1 ${item.data.price_change_percentage_24h.usd >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+      <p className="text-swich mt-2 font-bold">Preis: ${item.data.price.toFixed(2)}</p>
+      <p className={`mt-1 font-bold ${item.data.price_change_percentage_24h.usd >= 0 ? 'text-green-500' : 'text-red-600'}`}>
         24h: {item.data.price_change_percentage_24h.usd.toFixed(2)}%
       </p>
     </div>

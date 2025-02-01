@@ -17,26 +17,26 @@ const Trading = () => {
   };
 
   return (
-    <div className="trading flex items-center justify-center  bg-dark text-text  w-full rounded m-2">
+    <div className="trading flex items-center justify-center  bg-dark text-swich  w-full rounded m-2">
       
         <input
           type="text"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="p-2 text-text w-full outline max-w-[200px] rounded"
+          className="p-2 text-swich w-full outline max-w-[200px] rounded"
         />
       
             <p className="ml-2">Preis: {price.toFixed(2)}$</p>
       
         <div className="ml-2">
           <button
-            className="bg-green-500 hover:bg-green-700 text-light font-bold py-2 px-4 rounded mr-2"
+            className="bg-accent hover:bg-green-700 text-swich font-bold py-2 px-4 rounded mr-2 cursor-pointer"
             onClick={handleBuy}
           >
             Kaufen
           </button>
           <button
-            className="bg-red-500 hover:bg-red-700 text-light font-bold py-2 px-4 rounded"
+            className="bg-red-500 hover:bg-red-700 text-swich font-bold py-2 px-4 rounded cursor-pointer"
             onClick={handleSell}
           >
             Verkaufen

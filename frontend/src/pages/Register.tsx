@@ -16,7 +16,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center items-center bg-dark text-light">
+    <div className="flex justify-center items-center bg-dark text-swich">
       <form onSubmit={handleSubmit} className="bg-dark p-6 rounded-lg">
         <h2 className="text-2xl font-bold mb-4">Register</h2>
         <div className="mb-4">
@@ -25,7 +25,7 @@ const Register = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="p-2 text-dark w-full"
+            className="p-2 text-swich w-full"
           />
         </div>
         <div className="mb-4">
@@ -34,7 +34,7 @@ const Register = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="p-2 text-dark w-full"
+            className="p-2 text-swich w-full"
           />
         </div>
         <div className="mb-4">
@@ -43,12 +43,12 @@ const Register = () => {
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="p-2 text-dark w-full"
+            className="p-2 text-swich w-full"
           />
         </div>
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-light font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-swich font-bold py-2 px-4 rounded"
         >
           Register
         </button>
