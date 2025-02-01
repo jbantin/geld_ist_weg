@@ -10,6 +10,7 @@ import Market from "./pages/Market";
 import "./App.css";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import VerifyEmail from "./pages/VerifyEmail";
 
 const App = () => {
   const [theme, setTheme] = useState("dark");
@@ -38,11 +39,9 @@ const App = () => {
         >
           <Nav theme={theme} setTheme={setTheme} />
           <Routes>
-            <Route path="/" element={<Market/>} />
-            <Route
-              path="/trade"
-              element={<Trading />}
-            />
+            <Route path="/" element={<Market />} />
+            <Route path="/trade" element={<Trading />} />
+            <Route path="/verify_email/:token" element={<VerifyEmail />} />
             <Route path="/news" element={<News />} />
             <Route path="/user" element={<Profile />} />
             <Route path="/login" element={<Login />} />

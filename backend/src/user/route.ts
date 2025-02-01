@@ -3,6 +3,7 @@ import { prisma } from "../prisma"; // Pfad zur Prisma-Client-Instanz
 import { comparePassword, hashPassword } from "../lib/crypto";
 import { createJwt } from "../lib/jwt";
 import { checkToken } from "../lib/middleware/checkToken";
+import { sendEmail } from "../lib/sendEmail";
 
 export const userRoute = Router();
 
@@ -13,7 +14,9 @@ userRoute.post("/register", async (req, res) => {
     console.log(plainPassword);
     req.body.password = await hashPassword(plainPassword);
     const user = await prisma.user.create({ data: req.body });
-    res.json(user);
+    console.log("huhu");
+    sendEmail(user);
+    res.json("verify your email" + user);
   } catch (error) {
     console.error("Fehlerdetails:", error); // 👈 Fehler ausgeben
     res.status(500).json({ error: "Fehler beim Erstellen des Users" });
