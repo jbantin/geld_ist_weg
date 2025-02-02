@@ -1,0 +1,14 @@
+{
+  "name": "ai",
+  "version": "1.0.0",
+  "main": "training.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "train": "node training.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

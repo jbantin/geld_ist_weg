@@ -7,7 +7,7 @@ interface NewsCardProps {
 
 const NewsCard: React.FC<NewsCardProps> = ({ item, isNewsPage }) => {
   return (
-    <div className={`${isNewsPage ? ` ` : "mb-4 md:max-w-[400px]"} ml-4 p-4 btn-bg rounded inline-flex flex-col min-w-[200px] text-swich`}>
+    <div className={`${isNewsPage ? ` mb-4` : "mb-4 md:max-w-[400px]"} ml-4 p-4 btn-bg rounded inline-flex flex-col min-w-[200px] text-swich`}>
       <div className="flex items-center mb-2 ">
         <img src={item.thumb} alt={item.name} className=" mr-4" />
         <div>

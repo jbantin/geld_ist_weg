@@ -3,15 +3,15 @@
 :root {
   --color-dark: #1a1c20;
   --color-light: #e4e4e4;
-  --color-accent: #2EBD85 /* #036630*/;
+  --color-accent:#008235 /* #2EBD85  #036630*/;
   --color-lightdark: #2a2b30;
-  --color-darklight: #dddddd;
+  --color-darklight: #cacaca;
   --color-text-dark: #2a2f38;
   --color-text-light: #DDD;
   --color-text-accent: #2EBD85;
   --color-scrollbar-track-dark: #27272A;
   --color-scrollbar-track-light: #c4c4c4;
-  --color-scrollbar-thumb: #2EBD85 ;
+  --color-scrollbar-thumb: #008235 ;
   --color-scrollbar-thumb-hover: #555;
   --color-chart-bg-dark: #1a1c20;
   --color-chart-bg-light: #e4e4e4;

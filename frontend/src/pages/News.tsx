@@ -37,7 +37,7 @@ const News: React.FC = () => {
     >
      
       {showNews && (
-        <div className={`grid ${isNewsPage ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1' : ''} overflow-y-scroll custom-scrollbar pr-2`}>
+        <div className={`grid ${isNewsPage ? 'grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1' : ''} overflow-y-scroll custom-scrollbar pr-2`}>
           {news.filter(item => item.data.content).map((item) => (
             <NewsCard key={item.id} item={item} isNewsPage={isNewsPage} />
           ))}

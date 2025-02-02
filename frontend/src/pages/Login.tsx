@@ -8,8 +8,8 @@ const Login = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Login-Logik hier hinzufügen
-    alert(`Eingeloggt als: ${email}`);
+    // Login logic here
+    alert(`Logged in as: ${email}`);
   };
 
   return (
@@ -121,7 +121,7 @@ const Login = () => {
           title="Sign In"
           type="button"
           className="sign-in_ggl"
-          onClick={() => alert("Sign In with goole")}
+          onClick={() => alert("Sign In with Google")}
         >
           <svg
             height="18"

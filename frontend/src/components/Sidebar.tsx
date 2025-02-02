@@ -65,7 +65,7 @@ const Sidebar = () => {
         {coins.map((coin) => (
           <li key={coin.symbol} className="mb-2 flex justify-between rounded-lg relative z-0">
             <Button
-              className="flex justify-between w-full text-green-300 hover:text-zinc-800 btn-bg p-2"
+              className="flex justify-between w-full text-green-700 hover:text-gray-800 btn-bg p-2"
               onClick={() => setSelectedCoin(coin.symbol)}
             >
               <span className="">{coin.symbol.slice(0, -4)}</span>

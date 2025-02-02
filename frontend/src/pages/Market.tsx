@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import Button from "../components/Button";
 import { DefaultContext } from "../context/DefaultContext";
 import useFormatNumber from "../hooks/useFormatNumber"; // Neuer Import
+import MarketSummary from "../components/MarketSummary";
 
 interface Coin {
   symbol: string;
@@ -13,6 +14,8 @@ interface Coin {
   lowPrice: number;
   volume: number;
   quoteVolume: number;
+  bidQty: number; // neu
+  askQty: number; // neu
 }
 
 const Market: React.FC = () => {
@@ -80,6 +83,8 @@ const Market: React.FC = () => {
           lowPrice: parseFloat(coin.lowPrice),
           volume: parseFloat(coin.volume),
           quoteVolume: parseFloat(coin.quoteVolume),
+          bidQty: parseFloat(coin.bidQty), // neu
+          askQty: parseFloat(coin.askQty), // neu
         }));
       setCoins(filteredCoins);
     } catch (error) {
@@ -134,6 +139,13 @@ const Market: React.FC = () => {
       : 0;
   const marketTotalVolume =
     coins.length > 0 ? coins.reduce((sum, coin) => sum + coin.volume, 0) : 0;
+  // Neu: Gesamt Marktkapitalisierung als Summe aller quoteVolume
+  const aggregatedMarketCap =
+    coins.length > 0 ? coins.reduce((sum, coin) => sum + coin.quoteVolume, 0) : 0;
+  // Neu: Aggregiertes bid/ask Verhältnis: Summe(bidQty) / Summe(askQty)
+  const totalBid = coins.reduce((sum, coin) => sum + coin.bidQty, 0);
+  const totalAsk = coins.reduce((sum, coin) => sum + coin.askQty, 0);
+  const aggregatedBidAskRatio = totalAsk !== 0 ? totalBid / totalAsk : 0;
 
   return (
     <motion.div
@@ -146,127 +158,30 @@ const Market: React.FC = () => {
         Market Overview
       </h2>
 
-      <section className="lg:flex justify-between">
-        <div className="">
-          <h3 className="md:text-lg font-bold mb-2 text-center text-swich">
-            Top 3{" "}
-          </h3>
-          <p className="text-center">24h Change</p>
-          <div className="grid grid-cols-3 w-full gap-4 mb-4">
-            {topChangeCoins.map((coin) => (
-              <div key={coin.symbol}>
-                <Button
-                  className="w-full text-left p-4 btn-bg rounded-lg text-s md:text-lg md:font-bold"
-                  onClick={() => handleCoinClick(coin.symbol)}
-                >
-                  <div className="flex items-center">
-                    {coinLogos[coin.symbol] && (
-                      <img
-                        src={coinLogos[coin.symbol]}
-                        alt={coin.symbol}
-                        className="w-8 h-8 mr-2"
-                      />
-                    )}
-                    <span className="font-bold text-lg">
-                      {coin.symbol.slice(0, -4)}
-                    </span>
-                    <br />
-                  </div>
-                  <span className="text-sm ml-auto">
-                    {formatNumber(coin.lastPrice)} $
-                  </span>
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="text-xs">
-                      24h:
-                      <span
-                        className={`text-xs ${
-                          coin.priceChangePercent < 0
-                            ? "text-red-600"
-                            : "text-green-500"
-                        }`}
-                      >
-                        <br />
-                        {formatNumber(coin.priceChangePercent)} %
-                      </span>
-                    </span>
-                  </div>
-                </Button>
-              </div>
-            ))}
-          </div>
-        </div>
-        {/* Neue Sektion für aggregierte Marktdaten */}
-        <div className="text-center">
-          <h3 className="text-lg font-bold mb-8 text-swich">Gesamter Markt</h3>
-          <div className="p-4 btn-bg rounded-lg max-w-fit m-auto">
-            <p className="text-base font-bold">
-              Durchschnitt 24h:{" "}
-              <span
-                className={
-                  marketAvgChange < 0 ? "text-red-600" : "text-green-500"
-                }
-              >
-                {useFormatNumber()(marketAvgChange)} %
-              </span>
-            </p>
-            <p className="text-base font-bold">
-              Gesamtvolumen: {useFormatNumber()(marketTotalVolume / 1e6)} B
-            </p>
-          </div>
-        </div>
-        <div className="">
-          <h3 className="text-lg font-bold mb-2 text-center text-swich">
-            Top 3{" "}
-          </h3>
-          <p className="text-center">Volumen</p>
-          <div className="grid grid-cols-3 w-full gap-4 mb-4">
-            {topVolumeCoins.map((coin) => (
-              <div key={coin.symbol}>
-                <Button
-                  className="w-full text-left p-4 btn-bg rounded-lg text-s md:text-lg md:font-bold"
-                  onClick={() => handleCoinClick(coin.symbol)}
-                >
-                  <div className="flex items-center">
-                    {coinLogos[coin.symbol] && (
-                      <img
-                        src={coinLogos[coin.symbol]}
-                        alt={coin.symbol}
-                        className="w-8 h-8 mr-2"
-                      />
-                    )}
-                    <span className="font-bold text-lg">
-                      {coin.symbol.slice(0, -4)}
-                    </span>
-                  </div>
-                  <span className="text-base ml-auto">
-                    {formatNumber(coin.lastPrice)} $
-                  </span>
-
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="text-xs">
-                      Volumen:
-                      <br /> {formatNumber(coin.volume / 1e6)} B
-                    </span>
-                  </div>
-                </Button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <MarketSummary
+        topChangeCoins={topChangeCoins}
+        topVolumeCoins={topVolumeCoins}
+        marketAvgChange={marketAvgChange}
+        marketTotalVolume={marketTotalVolume}
+        aggregatedMarketCap={aggregatedMarketCap}         // neu
+        aggregatedBidAskRatio={aggregatedBidAskRatio}         // neu
+        coinLogos={coinLogos}
+        formatNumber={formatNumber}
+        handleCoinClick={handleCoinClick}
+      />
 
       <div className="flex justify-between mb-4">
         <Button
-          className="mr-2 text-swich p-2 btn-bg text-s md:text-lg md:font-bold"
+          className="pl-4 text-swich p-2 btn-bg text-s md:text-lg md:font-bold"
           onClick={() => handleSort("priceChangePercent")}
         >
           Sort by 24h Change
         </Button>
         <Button
-          className="text-swich p-2 btn-bg text-s md:text-lg md:font-bold"
+          className="text-swich p-2 pr-4 btn-bg text-s md:text-lg md:font-bold"
           onClick={() => handleSort("marketCap")}
         >
-          Sort by Marketcap
+          Sort by Market Cap {/* geändert */}
         </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
@@ -304,7 +219,6 @@ const Market: React.FC = () => {
                           : "text-green-500"
                       }`}
                     >
-                      {" "}
                       <br />
                       {formatNumber(coin.priceChangePercent)} %
                     </span>
@@ -322,8 +236,7 @@ const Market: React.FC = () => {
                     <br /> {formatNumber(coin.volume / 1e6)} B
                   </span>
                   <span className="text-xs text-right ">
-                    Marketcap: <br />
-                    {formatNumber(coin.quoteVolume / 1e6)} B
+                    Market Cap: <br /> {formatNumber(coin.quoteVolume / 1e6)} B {/* geändert */}
                   </span>
                 </div>
               </div>

@@ -79,15 +79,28 @@ const TradeInfo: React.FC<TradeInfoProps> = ({ symbol }) => {
       {stats && (
         <div className="mb-4 h-full w-full md:w-1/3 flex flex-col justify-center self-start btn-bg p-4 rounded-lg shadow-lg">
           <h3 className="text-swich text-xl font-bold mb-2 ">Stats 24h</h3>
-          <p className="text-swich text-l my-1"><strong>Letzter Preis: </strong>{formatNumber(stats.lastPrice)} $</p>
-          <p className="text-swich text-l my-1"><strong>Preisänderung: </strong><span className={`${stats.priceChangePercent < 0 ? "text-red-600":""}`}>{stats.priceChangePercent} %</span></p>
-          <p className="text-swich text-l my-1"><strong>Höchster Preis: </strong>{formatNumber(stats.highPrice)} $</p>
-          <p className="text-swich text-l my-1"><strong>Niedrigster Preis: </strong>{formatNumber(stats.lowPrice)} $</p>
-          <p className="text-swich text-l my-1"><strong>Volumen: </strong>{formatNumber(stats.volume)}</p>
+          <p className="text-swich text-l my-1">
+            <strong>Last Price: </strong>{formatNumber(stats.lastPrice)} $ {/* geändert */}
+          </p>
+          <p className="text-swich text-l my-1">
+            <strong>Price Change: </strong>
+            <span className={`${stats.priceChangePercent < 0 ? "text-red-600":""}`}>
+              {stats.priceChangePercent} % {/* geändert */}
+            </span>
+          </p>
+          <p className="text-swich text-l my-1">
+            <strong>High Price: </strong>{formatNumber(stats.highPrice)} $ {/* geändert */}
+          </p>
+          <p className="text-swich text-l my-1">
+            <strong>Low Price: </strong>{formatNumber(stats.lowPrice)} $ {/* geändert */}
+          </p>
+          <p className="text-swich text-l my-1">
+            <strong>Volume: </strong>{formatNumber(stats.volume)} {/* geändert */}
+          </p>
         </div>
       )}
       <div className="mb-4 w-full h-full md:w-1/3 flex flex-col self-start btn-bg p-4 rounded-lg shadow-lg">   
-        <h3 className="text-swich text-xl font-bold mb-2">Letzte Trades</h3>
+        <h3 className="text-swich text-xl font-bold mb-2">Recent Trades</h3> {/* geändert */}
         <ul className="space-y-1">
           {trades.map((trade, index) => (
             <li
@@ -98,7 +111,7 @@ const TradeInfo: React.FC<TradeInfoProps> = ({ symbol }) => {
             >
               <span>{new Date(trade.time).toLocaleTimeString()}</span>
               <span>{formatNumber(trade.price)}</span>
-              <span>{(trade.qty)}</span>
+              <span>{trade.qty}</span>
               <span>{trade.isBuyerMaker ? "Sell" : "Buy"}</span>
             </li>
           ))}
