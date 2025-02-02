@@ -56,6 +56,7 @@ const MarketSummary: React.FC<MarketSummaryProps> = ({
                   )}
                   <span className="font-bold text-lg">{coin.symbol.slice(0, -4)}</span>
                 </div>
+                <hr className="m-1" />
                 <span className="text-sm ml-auto">{formatNumber(coin.lastPrice)} $</span>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-xs">
@@ -82,8 +83,8 @@ const MarketSummary: React.FC<MarketSummaryProps> = ({
             Overall 24h:{" "}
             <span className={marketAvgChange < 0 ? "text-red-600" : "text-green-500"}>
               {formatNumber(marketAvgChange)} %
-            </span>
-          </p>
+            </span>  
+          </p><hr className="m-1" />
           <p className="text-base font-bold">
             24h Volume: {formatNumber(marketTotalVolume / 1e6)} B
           </p>
@@ -115,7 +116,7 @@ const MarketSummary: React.FC<MarketSummaryProps> = ({
                     />
                   )}
                   <span className="font-bold text-lg">{coin.symbol.slice(0, -4)}</span>
-                </div>
+                </div>  <hr className="m-1" />
                 <span className="text-base ml-auto">{formatNumber(coin.lastPrice)} $</span>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-xs">

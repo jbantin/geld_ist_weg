@@ -181,7 +181,7 @@ const Market: React.FC = () => {
           className="text-swich p-2 pr-4 btn-bg text-s md:text-lg md:font-bold"
           onClick={() => handleSort("marketCap")}
         >
-          Sort by Market Cap {/* geändert */}
+          Sort by Market Cap 
         </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
@@ -200,17 +200,11 @@ const Market: React.FC = () => {
                 />
               )}
               <div className="w-full">
-                <div className="flex items-center">
-                  <span className="font-bold ml-4 text-lg place-self-center">
+                <div className="grid grid-cols-4 w-full">
+                  <span className="font-bold ml-4 text-lg ">
                     {coin.symbol.slice(0, -4)}
-                  </span>
-                  <span className="text-lg ml-auto md:font-bold">
-                    {formatNumber(coin.lastPrice)} $
-                  </span>
-                </div>
-                <hr className="m-2" />
-                <div className="flex justify-between items-center mt-2">
-                  <span className="text-xs text-center ">
+                  </span>      
+                  <span className="text-xs text-center m-auto">
                     24h:
                     <span
                       className={`text-xs ${
@@ -223,7 +217,15 @@ const Market: React.FC = () => {
                       {formatNumber(coin.priceChangePercent)} %
                     </span>
                   </span>
-                  <span className="text-xs text-center">
+                 <span></span>
+                  <span className="text-lg ml-auto md:font-bold">
+                    {formatNumber(coin.lastPrice)} $
+                  </span>
+                </div>
+                <hr className="m-2" />
+                <div className="grid grid-cols-4 w-full mt-2">
+          
+                  <span className="text-xs text-left ml-4">
                     High:
                     <br /> {formatNumber(coin.highPrice)} $
                   </span>

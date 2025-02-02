@@ -213,7 +213,7 @@ const Chart = () => {
         {showTradeInfo ? (
           <TradeInfo symbol={selectedCoin} />
         ) : (
-          <div className="flex flex-col md:flex-row h-full rounded-2xl w-full overflow-hidden ">
+          <div className="flex flex-col md:flex-row md:full rounded-2xl w-full overflow-hidden ">
             {showOrderBook && <OrderBook symbol={selectedCoin} />}
             <div
               className={`flex justify-center pt-4 bg-dark h-full w-full min-h-[400px] max-h-[90vh]`}

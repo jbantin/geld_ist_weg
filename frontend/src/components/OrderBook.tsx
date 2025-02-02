@@ -79,7 +79,7 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
             {asks.map((ask, index) => (
               <li key={index} className="flex justify-between relative text-sm px-1">
                 <div
-                  className="absolute left-0 top-0 h-full bg-red-500 opacity-50 "
+                  className="absolute left-0 top-0 h-full bg-red-500 opacity-50 rounded-r-sm"
                   style={{ width: `${(ask.quantity / maxQuantity) * 100}%` }}
                 ></div>
                 <span className="relative z-10 ">{formatNumber(ask.price)} $</span>
