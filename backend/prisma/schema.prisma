@@ -18,6 +18,7 @@ model User {
   name  String
   email String  @unique
   password String
+  date_of_birth DateTime
   cash Float @default(10000)
   portfolio Json?
   verified Boolean @default(false)
