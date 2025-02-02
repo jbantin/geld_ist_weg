@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router";
 import { DefaultContextProvider } from "./context/DefaultContext";
 import Trading from "./pages/Trading";
 import News from "./pages/News";
-import Nav from "./components/Nav";
+import Nav from "./components/ui/Nav";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";

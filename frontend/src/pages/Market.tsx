@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
-import Button from "../components/Button";
+import Button from "../components/ui/Button";
 import { DefaultContext } from "../context/DefaultContext";
 import useFormatNumber from "../hooks/useFormatNumber"; // Neuer Import
-import MarketSummary from "../components/MarketSummary";
+import MarketSummary from "../components/market/MarketSummary";
 
 interface Coin {
   symbol: string;

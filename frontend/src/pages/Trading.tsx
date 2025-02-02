@@ -1,5 +1,5 @@
-import Chart from "../components/Chart";
-import Sidebar from "../components/Sidebar";
+import Chart from "../components/chart/Chart";
+import Sidebar from "../components/ui/Sidebar";
 
 const ChartPage = () => {
   return (

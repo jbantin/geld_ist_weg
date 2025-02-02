@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { motion } from 'framer-motion';
-import NewsCard from '../components/NewsCard';
+import NewsCard from '../components/ui/NewsCard';
 
 const News: React.FC = () => {
   const [news, setNews] = useState<any[]>([]);
