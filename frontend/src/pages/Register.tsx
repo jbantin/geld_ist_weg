@@ -3,8 +3,6 @@ import { motion } from "framer-motion";
 
 const Register = () => {
   const [username, setUsername] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +18,7 @@ const Register = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!username || !firstName || !lastName || !birthDate || !email || !password || !confirmPassword) {
+    if (!username || !birthDate || !email || !password || !confirmPassword) {
       alert("Please fill in all fields");
       return;
     }
@@ -38,9 +36,9 @@ const Register = () => {
 
   return (
     <motion.div className="flex justify-center items-center h-screen bg-dark">
-      <form className="w-fit flex flex-col items-center gap-6 p-10 rounded-2xl bg-[var(--bg-lightdark)]" onSubmit={handleSubmit}>
+      <form className="w-fit flex flex-col items-center gap-6 p-10 rounded-2xl bg-[var(--bg-lightdark)]  min-w-150" onSubmit={handleSubmit}>
         {/* Logo */}
-        <div className="w-20 h-20 rounded-lg shadow-md overflow-hidden">
+        <div className="w-30 h-30 rounded-lg shadow-2xl overflow-hidden">
           <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Logo" className="w-full h-full object-cover p-4" />
         </div>
         {/* Titelbereich */}
@@ -62,30 +60,7 @@ const Register = () => {
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        {/* First Name Input */}
-        <div className="relative w-full">
-          <label htmlFor="firstName_field" className="block text-xs text-swich font-semibold mb-1">First Name</label>
-          <input
-            type="text"
-            id="firstName_field"
-            placeholder="Enter first name"
-            className="pl-3 pr-4 py-2 w-full rounded-md border bg-gray-100"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-        </div>
-        {/* Last Name Input */}
-        <div className="relative w-full">
-          <label htmlFor="lastName_field" className="block text-xs text-swich font-semibold mb-1">Last Name</label>
-          <input
-            type="text"
-            id="lastName_field"
-            placeholder="Enter last name"
-            className="pl-3 pr-4 py-2 w-full rounded-md border bg-gray-100"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </div>
+     
         {/* Email Input */}
         <div className="relative w-full">
           <label htmlFor="email_field" className="block text-xs text-swich font-semibold mb-1">Email</label>
