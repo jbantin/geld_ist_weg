@@ -36,7 +36,7 @@ const Register = () => {
 
   return (
     <motion.div className="flex justify-center items-center h-screen bg-dark">
-      <form className="w-fit flex flex-col items-center gap-6 p-10 rounded-2xl bg-[var(--bg-lightdark)]  min-w-150" onSubmit={handleSubmit}>
+      <form className="w-fit flex flex-col items-center gap-6 p-10 rounded-2xl bg-[var(--bg-lightdark)]  min-w-100" onSubmit={handleSubmit}>
         {/* Logo */}
         <div className="w-30 h-30 rounded-lg shadow-2xl overflow-hidden">
           <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Logo" className="w-full h-full object-cover p-4" />
@@ -112,6 +112,13 @@ const Register = () => {
         <button type="submit" className="w-full py-2 rounded-md bg-green-600 text-swich font-bold hover:bg-green-700 transition-colors">
           <span>Register</span>
         </button>
+        <div className="w-full flex items-center justify-center gap-4">
+          <hr className="w-full border-gray-200" />
+          <span className="text-xs text-swich">Or</span>
+          <hr className="w-full border-gray-200" />
+        </div>
+        {/* Login Link */}
+        <a href="/login" className="text-xs text-swich font-semibold hover:underline">Already have an account? Login</a>
       </form>
     </motion.div>
   );

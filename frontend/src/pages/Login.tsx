@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import "../App.css";
+import { useNavigate } from "react-router-dom"; // Neuer Import
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // useNavigate initialisieren
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -14,7 +16,7 @@ const Login = () => {
 
   return (
     <motion.div className="flex justify-center items-center h-screen bg-dark">
-      <form className="w-fit flex flex-col items-center gap-6 p-10 rounded-2xl min-w-150 bg-[var(--bg-lightdark)]" onSubmit={handleSubmit}>
+      <form className="w-fit flex flex-col items-center gap-6 p-10 rounded-2xl min-w-100 bg-[var(--bg-lightdark)]" onSubmit={handleSubmit}>
         {/* Logo */}
         <div className="w-30 h-30 rounded-lg shadow-2xl overflow-hidden">
           <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Logo" className="w-full h-full object-cover p-4" />
@@ -97,9 +99,10 @@ const Login = () => {
           <span className="text-xs text-swich">Or</span>
           <hr className="w-full border-gray-200" />
         </div>
-        <button type="button" className="w-full py-2 rounded-md bg-green-600 text-swich font-bold hover:bg-green-700 transition-colors">
-          <span>Register</span>
-        </button>
+       {/* Register link */}
+        <p className="text-xs text-swich underline cursor-pointer" onClick={() => navigate("/register")}>
+          Create an Account
+        </p>
         <p className="text-xs text-swich underline">Terms of use &amp; Conditions</p>
       </form>
     </motion.div>
