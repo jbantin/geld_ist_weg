@@ -2,8 +2,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 
 const Register = () => {
-  const [username, setUsername] = useState("");
-  const [birthDate, setBirthDate] = useState("");
+  const [name, setname] = useState("");
+  const [date_of_birth, setdate_of_birth] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -16,13 +16,13 @@ const Register = () => {
     return age > 18 || (age === 18 && m >= 0);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit =  async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!username || !birthDate || !email || !password || !confirmPassword) {
+    if (!name || !date_of_birth || !email || !password || !confirmPassword) {
       alert("Please fill in all fields");
       return;
     }
-    if (!isAdult(birthDate)) {
+    if (!isAdult(date_of_birth)) {
       alert("You must be at least 18 years old");
       return;
     }
@@ -30,10 +30,19 @@ const Register = () => {
       alert("Passwords do not match");
       return;
     }
-    // Registration logic here
-    alert(`Registered successfully as: ${username}`);
-  };
+    // Register logic here
+    const isoDate = new Date(date_of_birth).toISOString();
+    const response = await fetch("http://localhost:9001/user/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, date_of_birth: isoDate, email, password }),
+    });    
+    alert(response);
 
+  };
+    
   return (
     <motion.div className="flex justify-center items-center h-screen bg-dark">
       <form className="w-fit flex flex-col items-center gap-6 p-10 rounded-2xl bg-[var(--bg-lightdark)]  min-w-100" onSubmit={handleSubmit}>
@@ -48,16 +57,16 @@ const Register = () => {
             Create your account and start trading.
           </span>
         </div>
-        {/* Username Input */}
+        {/* name Input */}
         <div className="relative w-full">
-          <label htmlFor="username_field" className="block text-xs text-swich font-semibold mb-1">Username</label>
+          <label htmlFor="name_field" className="block text-xs text-swich font-semibold mb-1">name</label>
           <input
             type="text"
-            id="username_field"
-            placeholder="Enter username"
+            id="name_field"
+            placeholder="Enter name"
             className="pl-3 pr-4 py-2 w-full rounded-md border bg-gray-100"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={name}
+            onChange={(e) => setname(e.target.value)}
           />
         </div>
      
@@ -75,13 +84,13 @@ const Register = () => {
         </div>
         {/* Date of Birth Input */}
         <div className="relative w-full">
-          <label htmlFor="birthDate_field" className="block text-xs text-swich font-semibold mb-1">Date of Birth</label>
+          <label htmlFor="date_of_birth_field" className="block text-xs text-swich font-semibold mb-1">Date of Birth</label>
           <input
             type="date"
-            id="birthDate_field"
+            id="date_of_birth_field"
             className="pl-3 pr-4 py-2 w-full rounded-md border bg-gray-100"
-            value={birthDate}
-            onChange={(e) => setBirthDate(e.target.value)}
+            value={date_of_birth}
+            onChange={(e) => setdate_of_birth(e.target.value)}
           />
         </div>
         {/* Password Input */}
