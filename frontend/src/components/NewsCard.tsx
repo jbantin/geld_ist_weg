@@ -12,7 +12,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ item, isNewsPage }) => {
         <img src={item.thumb} alt={item.name} className=" mr-4" />
         <div>
           <h3 className="text-xl font-bold">{item.name} ({item.symbol})</h3>
-          <span className="text-sm text-gray-400">Rank: {item.market_cap_rank}</span>
+          <span className="text-sm text-swich">Rank: {item.market_cap_rank}</span>
           <span><img src={item.data.sparkline} alt="sparkline" className="mt-2 h-5 opacity-75" /></span>
         </div>
       </div>

@@ -163,8 +163,8 @@ const Market: React.FC = () => {
         topVolumeCoins={topVolumeCoins}
         marketAvgChange={marketAvgChange}
         marketTotalVolume={marketTotalVolume}
-        aggregatedMarketCap={aggregatedMarketCap}         // neu
-        aggregatedBidAskRatio={aggregatedBidAskRatio}         // neu
+        aggregatedMarketCap={aggregatedMarketCap}         
+        aggregatedBidAskRatio={aggregatedBidAskRatio}         
         coinLogos={coinLogos}
         formatNumber={formatNumber}
         handleCoinClick={handleCoinClick}
@@ -196,7 +196,7 @@ const Market: React.FC = () => {
                 <img
                   src={coinLogos[coin.symbol]}
                   alt={coin.symbol}
-                  className="w-12 h-12 m-auto mr-4"
+                  className="w-15 h-15 m-auto mr-4"
                 />
               )}
               <div className="w-full">

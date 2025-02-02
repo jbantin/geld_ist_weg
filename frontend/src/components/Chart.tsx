@@ -7,7 +7,7 @@ import Trading from "./Trading_inputs";
 import { DefaultContext } from "../context/DefaultContext";
 import { motion } from "framer-motion";
 import News from "../pages/News";
-import useResize from "../hooks/useResize"; // neuen Hook importieren
+import useResize from "../hooks/useResize"; 
 
 const Chart = () => {
   const {
@@ -216,7 +216,7 @@ const Chart = () => {
           <div className="flex flex-col md:flex-row h-full rounded-2xl w-full overflow-hidden ">
             {showOrderBook && <OrderBook symbol={selectedCoin} />}
             <div
-              className={`flex justify-center pt-4 bg-dark h-full w-full min-h-[300px] max-h-[90vh]`}
+              className={`flex justify-center pt-4 bg-dark h-full w-full min-h-[400px] max-h-[90vh]`}
               ref={container}
             ></div>
             {showNews && <News />}
