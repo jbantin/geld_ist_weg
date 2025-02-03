@@ -1,7 +1,6 @@
-import { createContext, useState, } from "react";
+import { createContext, useState, ReactNode } from "react";
 
 import useInterval from "../hooks/useInterval";
-import { ReactNode } from "react";
 
 interface Coin {
   symbol: string;
@@ -25,6 +24,8 @@ interface DefaultContextProps {
   setShowOrderBook: (show: boolean) => void;
   selectedCoins: string[];
   setSelectedCoins: React.Dispatch<React.SetStateAction<string[]>>;
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const DefaultContext = createContext<DefaultContextProps>({
@@ -44,6 +45,8 @@ export const DefaultContext = createContext<DefaultContextProps>({
   setShowOrderBook: () => {},
   selectedCoins: [],
   setSelectedCoins: () => {},
+  isLoggedIn: false,
+  setIsLoggedIn: () => {},
 });
 
 interface DefaultContextProviderProps {
@@ -60,6 +63,7 @@ export function DefaultContextProvider({
   const [interval, setIntervalState] = useState("1m");
   const [showOrderBook, setShowOrderBook] = useState(true);
   const [isIntervalMenuOpen, setIsIntervalMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedCoins, setSelectedCoins] = useState([
     "BTCUSDT",
     "ETHUSDT",
@@ -118,6 +122,8 @@ export function DefaultContextProvider({
     setShowOrderBook,
     selectedCoins,
     setSelectedCoins,
+    isLoggedIn,
+    setIsLoggedIn,
   };
 
   return (

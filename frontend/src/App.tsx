@@ -47,6 +47,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/market" element={<Market />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </motion.div>
       </Router>

@@ -108,7 +108,7 @@ const Chart = () => {
   useEffect(() => {
     const resizeHandler = () => {
       if (chartRef.current && container.current) {
-        const chartHeight = Math.max(container.current.clientHeight, 600); 
+        const chartHeight = Math.max(container.current.clientHeight, 400); 
         chartRef.current.resize(
           container.current.clientWidth - 20, // Adjust width to ensure the entire value is visible
           chartHeight
@@ -224,7 +224,7 @@ const Chart = () => {
           <div className="flex flex-col max-h-[74vh] md:flex-row md:full rounded-2xl w-full overflow-hidden ">
             {showOrderBook && <OrderBook symbol={selectedCoin} />}
             <div
-              className="relative flex justify-center p-4 bg-dark h-full w-full min-h-[400px] max-h-[400px] md:max-h-[72vh] md:max-w-[80vw]"
+              className="flex justify-center mt-2 bg-dark h-full w-full min-h-[400px] max-h-[400px] md:max-h-[72vh] md:max-w-[70vw]"
               ref={container}
             >
               {loading && (

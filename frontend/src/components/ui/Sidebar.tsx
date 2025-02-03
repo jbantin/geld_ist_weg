@@ -60,7 +60,7 @@ const Sidebar = () => {
       transition={{ duration: 1 }}
     >
       <h2 className="text-xl text-swich font-bold mb-4 p-4">Top Coins</h2>
-      <ul className="md:max-h-[74vh] custom-scrollbar overflow-auto px-4" >
+      <ul className="md:max-h-[74vh] custom-scrollbar overflow-auto pl-4 pr-1 mt-2" >
         {coins.map((coin) => (
           <li key={coin.symbol} className="mb-2 flex justify-between rounded-lg relative z-0">
             <Button

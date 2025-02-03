@@ -31,12 +31,12 @@ const ProfileConnected: React.FC = () => {
         {accounts.map((account) => (
           <li
             key={account.id}
-            className="mb-4 flex items-center justify-between"
+            className="mb-4 flex items-center"
           >
-            <span>{account.provider}</span>
+            <span className="w-20">{account.provider}</span>
             <button
               onClick={() => toggleConnection(account.id)}
-              className={`px-4 py-2 rounded text-white ${
+              className={`px-4 py-2 rounded text-white w-30 ${
                 account.connected ? "bg-red-600" : "bg-green-600"
               }`}
             >

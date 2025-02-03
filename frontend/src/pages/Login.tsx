@@ -1,17 +1,35 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { motion } from "framer-motion";
 import "../App.css";
 import { useNavigate } from "react-router-dom"; // Neuer Import
+import { DefaultContext } from "../context/DefaultContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate(); // useNavigate initialisieren
+  const { setIsLoggedIn } = useContext(DefaultContext);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Login logic here
-    alert(`Logged in as: ${email}`);
+    try {
+      const response = await fetch("http://localhost:9001/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      if (response.ok) {
+        setIsLoggedIn(true);
+        navigate("/profile");
+      } else {
+        alert("Login fehlgeschlagen");
+      }
+    } catch (error) {
+      console.error("Login-Fehler:", error);
+      alert("Ein Fehler ist aufgetreten");
+    }
   };
 
   return (
@@ -19,7 +37,11 @@ const Login = () => {
       <form className="w-fit flex flex-col items-center gap-6 p-10 rounded-2xl min-w-100 bg-[var(--bg-lightdark)]" onSubmit={handleSubmit}>
         {/* Logo */}
         <div className="w-30 h-30 rounded-lg shadow-2xl overflow-hidden">
-          <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Logo" className="w-full h-full object-cover p-4" />
+          <img 
+            src="./user.png" // lokales Bild statt einer externen URL
+            alt="user" 
+            className="w-full h-full object-cover p-4" 
+          />
         </div>
         {/* Titelbereich */}
         <div className="flex flex-col items-center gap-2">
@@ -70,7 +92,7 @@ const Login = () => {
           <hr className="w-full border-gray-200" />
         </div>
         <button type="button" className="w-full py-2 rounded-md bg-white flex items-center justify-center gap-2 border border-gray-300 hover:shadow-md transition-shadow">
-          <svg className="w-5 h-5" viewBox="0 0 32 32" xmlnsXlink="http://www.w3.org/2000/xlink" xmlns="http://www.w3.org/2000/svg">
+          <svg className="w-5 h-5" viewBox="0 0 32 32" xmlnsXlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <path d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z" id="A" />
             </defs>

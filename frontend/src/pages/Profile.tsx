@@ -10,6 +10,16 @@ import { Loader } from "../components/ui/Loading_spinner";
 import Button from "../components/ui/Button"; // neu
 
 const Profile = () => {
+  // const navigate = useNavigate();
+  // const { isLoggedIn } = useContext(DefaultContext);
+  
+  // useEffect(() => {
+  //   const hasToken = document.cookie.split(";").some(cookie => cookie.trim().startsWith("jwt="));
+  //   if (!hasToken || !isLoggedIn) {
+  //     navigate("/login");
+  //   }
+  // }, [navigate, isLoggedIn]);
+
   // Zustand für den aktuell ausgewählten Tab
   const [activeTab, setActiveTab] = useState<"overview" | "personal" | "security" | "notifications" | "connected" | "privacy">("overview");
   
@@ -41,6 +51,7 @@ const Profile = () => {
     const fetchPrices = async () => {
       try {
         const res = await fetch("https://api.binance.com/api/v3/ticker/price");
+        if (!res.ok) throw new Error("Preisabfrage fehlgeschlagen");
         const data = await res.json();
         const prices: { [key: string]: number } = {};
         for (const [label, symbol] of Object.entries(coinsMapping)) {
@@ -58,6 +69,7 @@ const Profile = () => {
     const fetchChanges = async () => {
       try {
         const res = await fetch("https://api.binance.com/api/v3/ticker/24hr");
+        if (!res.ok) throw new Error("Änderungsabfrage fehlgeschlagen");
         const data = await res.json();
         const changes: { [key: string]: string } = {};
         for (const [label, symbol] of Object.entries(coinsMapping)) {

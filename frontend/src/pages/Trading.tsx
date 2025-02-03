@@ -3,7 +3,7 @@ import Sidebar from "../components/ui/Sidebar";
 
 const ChartPage = () => {
   return (
-    <div className="flex flex-col lg:flex-row flex-grow bg-light max-w-screen">
+    <div className="flex flex-col lg:flex-row flex-grow bg-light w-full max-w-screen">
       {window.innerWidth >= 1200 && <Sidebar />}
       <Chart />
     </div>
