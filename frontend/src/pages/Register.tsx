@@ -48,7 +48,7 @@ const Register = () => {
       <form className="w-fit flex flex-col items-center gap-6 p-10 rounded-2xl bg-[var(--bg-lightdark)]  min-w-100" onSubmit={handleSubmit}>
         {/* Logo */}
         <div className="w-30 h-30 rounded-lg shadow-2xl overflow-hidden">
-          <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Logo" className="w-full h-full object-cover p-4" />
+          <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Logo" loading="lazy" className="w-full h-full object-cover p-4" />
         </div>
         {/* Titelbereich */}
         <div className="flex flex-col items-center gap-2">

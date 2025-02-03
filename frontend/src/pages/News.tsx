@@ -30,14 +30,14 @@ const News: React.FC = () => {
 
   return (
     <motion.section
-      className={`news-feed ${isNewsPage ? 'mx-auto w-full h-full max-h-[90vh]' : 'w-full md:w-1/4 min-w-0'} max-h-[80vh] flex flex-col pt-4 bg-dark text-swich`}
+      className={`news-feed ${isNewsPage ? 'mx-auto w-full h-full max-h-[90vh]' : 'w-full md:w-1/4 min-w-0'} max-h-[74vh] flex flex-col pt-4 bg-dark text-swich`}
       initial={{ x: isTradePage ? 250 : 0 }}
       animate={{ x: 0 }}      
       transition={{ duration: 1 }}
     >
      
       {showNews && (
-        <div className={`grid ${isNewsPage ? 'grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1' : ''} overflow-y-scroll custom-scrollbar pr-2`}>
+        <div className={`  ${isNewsPage ? 'md:columns-2 grid-cols-1  sm:grid-cols-2 lg:columns-3 gap-1' : ''} overflow-y-scroll custom-scrollbar pr-2`}>
           {news.filter(item => item.data.content).map((item) => (
             <NewsCard key={item.id} item={item} isNewsPage={isNewsPage} />
           ))}

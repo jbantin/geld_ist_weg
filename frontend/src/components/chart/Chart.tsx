@@ -9,6 +9,8 @@ import { motion } from "framer-motion";
 import News from "../../pages/News";
 import useResize from "../../hooks/useResize"; 
 
+
+
 const Chart = () => {
   const {
     selectedCoin,
@@ -47,7 +49,7 @@ const Chart = () => {
       candlestickSeriesRef.current &&
       volumeSeriesRef.current
     ) {
-      const limit = interval === "1m" ? 400 : 600;
+      const limit = interval === "1m" ? 800 : 1000;
       try {
         const res = await fetch(
           `https://api.binance.com/api/v3/klines?symbol=${selectedCoin}&interval=${interval}&limit=${limit}`
@@ -106,7 +108,7 @@ const Chart = () => {
   useEffect(() => {
     const resizeHandler = () => {
       if (chartRef.current && container.current) {
-        const chartHeight = Math.max(container.current.clientHeight, 250); // Ensure height is at least 400px
+        const chartHeight = Math.max(container.current.clientHeight, 600); 
         chartRef.current.resize(
           container.current.clientWidth - 20, // Adjust width to ensure the entire value is visible
           chartHeight
@@ -116,7 +118,6 @@ const Chart = () => {
 
     window.addEventListener("resize", resizeHandler);
 
-    // Wenn showTradeInfo aktiv ist (Chart ausgeblendet), entferne den Chart
     if (showTradeInfo) {
       if (chartRef.current) {
         chartRef.current.remove();
@@ -128,7 +129,7 @@ const Chart = () => {
 
     // Chart initialisieren, falls noch nicht vorhanden
     if (!chartRef.current && container.current) {
-      const chartHeight = Math.max(container.current.clientHeight - 40, 250); // Ensure height is at least 400px
+      const chartHeight = Math.max(container.current.clientHeight - 40, 400); 
       const chart = createChart(container.current, {
         width: container.current.clientWidth - 20, // Adjust width to ensure the entire value is visible
         height: chartHeight,
@@ -168,7 +169,8 @@ const Chart = () => {
       });
       chart.timeScale().fitContent();
     }
-
+    
+    resizeHandler(); 
     updateChart();
     applyTheme();
 
@@ -179,7 +181,7 @@ const Chart = () => {
         chartRef.current = null;
       }
     };
-  }, [width, height, showOrderBook, showTradeInfo]); // statt window.innerWidth/innerHeight
+  }, [width, height, showOrderBook, showTradeInfo, showNews]); // statt window.innerWidth/innerHeight
 
   useEffect(() => {
     if (!showTradeInfo) {
@@ -213,10 +215,10 @@ const Chart = () => {
         {showTradeInfo ? (
           <TradeInfo symbol={selectedCoin} />
         ) : (
-          <div className="flex flex-col md:flex-row md:full rounded-2xl w-full overflow-hidden ">
+          <div className="flex flex-col max-h-[74vh] md:flex-row md:full rounded-2xl w-full overflow-hidden ">
             {showOrderBook && <OrderBook symbol={selectedCoin} />}
             <div
-              className={`flex justify-center pt-4 bg-dark h-full w-full min-h-[400px] max-h-[90vh]`}
+              className="flex justify-center p-4 bg-dark h-full w-full min-h-[400px] max-h-[400px] md:max-h-[72vh] md:max-w-[80vw]"
               ref={container}
             ></div>
             {showNews && <News />}

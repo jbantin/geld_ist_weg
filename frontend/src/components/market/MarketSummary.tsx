@@ -28,8 +28,8 @@ const MarketSummary: React.FC<MarketSummaryProps> = ({
   topVolumeCoins,
   marketAvgChange,
   marketTotalVolume,
-  aggregatedMarketCap,    // neu
-  aggregatedBidAskRatio,    // neu
+  aggregatedMarketCap,    
+  aggregatedBidAskRatio,   
   coinLogos,
   formatNumber,
   handleCoinClick,
@@ -39,37 +39,39 @@ const MarketSummary: React.FC<MarketSummaryProps> = ({
       <div>
         <h3 className="md:text-lg font-bold mb-2 text-center text-swich">Top 3</h3>
         <p className="text-center">24h Change</p>
-        <div className="grid grid-cols-3 w-full gap-4 mb-4">
+        <div className="grid grid-cols-3 place-items-center w-full gap-4 mb-4">
           {topChangeCoins.map((coin) => (
             <div key={coin.symbol}>
               <Button
-                className="w-full text-left p-4 btn-bg rounded-lg text-s md:text-lg md:font-bold"
+                className="text-left p-4 btn-bg rounded-lg text-s md:text-lg md:font-bold max-w-fit"
                 onClick={() => handleCoinClick(coin.symbol)}
               >
-                <div className="flex items-center">
+                <div className="flex xs:justify-around items-center">
                   {coinLogos[coin.symbol] && (
                     <img
                       src={coinLogos[coin.symbol]}
                       alt={coin.symbol}
+                      loading="lazy" 
                       className="w-8 h-8 mr-2"
                     />
                   )}
                   <span className="font-bold text-lg">{coin.symbol.slice(0, -4)}</span>
                 </div>
                 <hr className="m-1" />
-                <span className="text-sm ml-auto">{formatNumber(coin.lastPrice)} $</span>
+
+                {/* Preis */}
+                <span className="text-xs md:text-sm ml-auto">{formatNumber(coin.lastPrice)} $</span>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-xs">
                     24h:
-                    <span
+                    
+                  </span><span
                       className={`text-xs ${
                         coin.priceChangePercent < 0 ? "text-red-600" : "text-green-500"
                       }`}
                     >
-                      <br />
-                      {formatNumber(coin.priceChangePercent)} %
+                      {" "+ formatNumber(coin.priceChangePercent)} %
                     </span>
-                  </span>
                 </div>
               </Button>
             </div>
@@ -100,11 +102,11 @@ const MarketSummary: React.FC<MarketSummaryProps> = ({
       <div>
         <h3 className="text-lg font-bold mb-2 text-center text-swich">Top 3</h3>
         <p className="text-center">Volume</p>
-        <div className="grid grid-cols-3 w-full gap-4 mb-4">
+        <div className="grid grid-cols-3 w-full place-items-center gap-4 mb-4">
           {topVolumeCoins.map((coin) => (
             <div key={coin.symbol}>
               <Button
-                className="w-full text-left p-4 btn-bg rounded-lg text-s md:text-lg md:font-bold"
+                className="max-w-fit  text-left p-4 btn-bg rounded-lg text-s md:text-lg md:font-bold"
                 onClick={() => handleCoinClick(coin.symbol)}
               >
                 <div className="flex items-center">
@@ -112,6 +114,7 @@ const MarketSummary: React.FC<MarketSummaryProps> = ({
                     <img
                       src={coinLogos[coin.symbol]}
                       alt={coin.symbol}
+                      loading="lazy" 
                       className="w-8 h-8 mr-2"
                     />
                   )}

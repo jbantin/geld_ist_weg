@@ -22,7 +22,7 @@ const OrderBook: React.FC<OrderBookProps> = ({ symbol }) => {
     try {
       const response = await fetch(`https://api.binance.com/api/v3/depth?symbol=${symbol}&limit=100`);
       const data = await response.json();
-      const limit = window.innerWidth < 768 ? 5 : 15 // 5 für mobile Ansicht, 12 für Desktop
+      const limit = window.innerWidth < 768 ? 5 : 13 // 5 für mobile Ansicht, 12 für Desktop
       const sortedBids = data.bids
         .map((bid: string[]) => ({ price: parseFloat(bid[0]), quantity: parseFloat(bid[1]) }))
         .sort((a: Order, b: Order) => b.quantity - a.quantity)

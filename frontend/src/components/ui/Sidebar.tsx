@@ -14,11 +14,10 @@ const formatNumber = (num: number) => {
 };
 
 const Sidebar = () => {
-  const { setSelectedCoin } = useContext(DefaultContext);
+  const { setSelectedCoin, selectedCoins } = useContext(DefaultContext);
   const [coins, setCoins] = useState<Coin[]>([]);
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-  const selectedCoins = ["BTCUSDT", "ETHUSDT", "XRPUSDT", "SOLUSDT", "DOGEUSDT", "ADAUSDT", "LINKUSDT", "LTCUSDT", "BNBUSDT", "XLMUSDT", "POLUSDT", "UNIUSDT", "DOTUSDT", "ICPUSDT", "MATICUSDT", "VETUSDT", "FILUSDT", "TRXUSDT", "ETCUSDT"];
-
+  
   const fetchPrices = () => {
     fetch("https://api.binance.com/api/v3/ticker/price")
       .then((res) => res.json())
@@ -61,7 +60,7 @@ const Sidebar = () => {
       transition={{ duration: 1 }}
     >
       <h2 className="text-xl text-swich font-bold mb-4 p-4">Top Coins</h2>
-      <ul className="md:max-h-[80vh] custom-scrollbar overflow-auto px-4" >
+      <ul className="md:max-h-[74vh] custom-scrollbar overflow-auto px-4" >
         {coins.map((coin) => (
           <li key={coin.symbol} className="mb-2 flex justify-between rounded-lg relative z-0">
             <Button

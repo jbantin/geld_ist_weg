@@ -5,6 +5,7 @@ import Button from "../components/ui/Button";
 import { DefaultContext } from "../context/DefaultContext";
 import useFormatNumber from "../hooks/useFormatNumber"; // Neuer Import
 import MarketSummary from "../components/market/MarketSummary";
+import MarketCoinGrid from "../components/market/MarketCoinGrid"; // Neuer Import
 
 interface Coin {
   symbol: string;
@@ -19,35 +20,15 @@ interface Coin {
 }
 
 const Market: React.FC = () => {
-  const { setSelectedCoin } = useContext(DefaultContext);
+  const { setSelectedCoin, selectedCoins } = useContext(DefaultContext);
   const [coins, setCoins] = useState<Coin[]>([]);
   const [sortBy, setSortBy] = useState<"priceChangePercent" | "marketCap">(
     "priceChangePercent"
   );
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-  const selectedCoins = [
-    "BTCUSDT",
-    "ETHUSDT",
-    "XRPUSDT",
-    "SOLUSDT",
-    "DOGEUSDT",
-    "ADAUSDT",
-    "LINKUSDT",
-    "LTCUSDT",
-    "BNBUSDT",
-    "XLMUSDT",
-    "POLUSDT",
-    "UNIUSDT",
-    "DOTUSDT",
-    "ICPUSDT",
-    "VETUSDT",
-    "FILUSDT",
-    "TRXUSDT",
-    "ETCUSDT",
-  ];
   const navigate = useNavigate();
 
-  // Neues Logo-Mapping hinzufügen:
+  // Neues Logo-Mapping mit allen Coins:
   const coinLogos: { [key: string]: string } = {
     BTCUSDT: "https://assets.coincap.io/assets/icons/btc@2x.png",
     ETHUSDT: "https://assets.coincap.io/assets/icons/eth@2x.png",
@@ -67,6 +48,9 @@ const Market: React.FC = () => {
     FILUSDT: "https://assets.coincap.io/assets/icons/fil@2x.png",
     TRXUSDT: "https://assets.coincap.io/assets/icons/trx@2x.png",
     ETCUSDT: "https://assets.coincap.io/assets/icons/etc@2x.png",
+    EOSUSDT: "https://assets.coincap.io/assets/icons/eos@2x.png",  
+    AAVEUSDT: "https://assets.coincap.io/assets/icons/aave@2x.png",  
+    XTZUSDT: "https://assets.coincap.io/assets/icons/xtz@2x.png",    
   };
 
   const fetch24HourStats = async () => {
@@ -149,7 +133,7 @@ const Market: React.FC = () => {
 
   return (
     <motion.div
-      className="w-full h-full p-4 bg-dark text-swich overflow-auto custom-scrollbar"
+      className="w-full p-4 bg-dark text-swich "
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -184,68 +168,14 @@ const Market: React.FC = () => {
           Sort by Market Cap 
         </Button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
-        {sortedCoins.map((coin) => (
-          <div key={coin.symbol}>
-            <Button
-              className="w-full text-left p-4 btn-bg rounded-lg text-s md:text-lg md:font-bold flex"
-              onClick={() => handleCoinClick(coin.symbol)}
-            >
-            
-              {coinLogos[coin.symbol] && (
-                <img
-                  src={coinLogos[coin.symbol]}
-                  alt={coin.symbol}
-                  className="w-15 h-15 m-auto mr-4"
-                />
-              )}
-              <div className="w-full">
-                <div className="grid grid-cols-4 w-full">
-                  <span className="font-bold ml-4 text-lg ">
-                    {coin.symbol.slice(0, -4)}
-                  </span>      
-                  <span className="text-xs text-center m-auto">
-                    24h:
-                    <span
-                      className={`text-xs ${
-                        coin.priceChangePercent < 0
-                          ? "text-red-600"
-                          : "text-green-500"
-                      }`}
-                    >
-                      <br />
-                      {formatNumber(coin.priceChangePercent)} %
-                    </span>
-                  </span>
-                 <span></span>
-                  <span className="text-lg ml-auto md:font-bold">
-                    {formatNumber(coin.lastPrice)} $
-                  </span>
-                </div>
-                <hr className="m-2" />
-                <div className="grid grid-cols-4 w-full mt-2">
-          
-                  <span className="text-xs text-left ml-4">
-                    High:
-                    <br /> {formatNumber(coin.highPrice)} $
-                  </span>
-                  <span className="text-xs text-center">
-                    Low: <br />
-                    {formatNumber(coin.lowPrice)} $
-                  </span>
-                  <span className="text-xs text-center">
-                    Volume:
-                    <br /> {formatNumber(coin.volume / 1e6)} B
-                  </span>
-                  <span className="text-xs text-right ">
-                    Market Cap: <br /> {formatNumber(coin.quoteVolume / 1e6)} B {/* geändert */}
-                  </span>
-                </div>
-              </div>
-            </Button>
-          </div>
-        ))}
-      </div>
+      
+      {/* Nutzung der ausgelagerten MarketCoinGrid-Komponente */}
+      <MarketCoinGrid
+        sortedCoins={sortedCoins}
+        coinLogos={coinLogos}
+        handleCoinClick={handleCoinClick}
+        formatNumber={formatNumber}
+      />
     </motion.div>
   );
 };

@@ -23,6 +23,8 @@ interface DefaultContextProps {
   setIsIntervalMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
   showOrderBook: boolean;
   setShowOrderBook: (show: boolean) => void;
+  selectedCoins: string[];
+  setSelectedCoins: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export const DefaultContext = createContext<DefaultContextProps>({
@@ -40,6 +42,8 @@ export const DefaultContext = createContext<DefaultContextProps>({
   setIsIntervalMenuOpen: () => {},
   showOrderBook: false,
   setShowOrderBook: () => {},
+  selectedCoins: [],
+  setSelectedCoins: () => {},
 });
 
 interface DefaultContextProviderProps {
@@ -54,8 +58,31 @@ export function DefaultContextProvider({
   const [showTradeInfo, setShowTradeInfo] = useState(false);
   const [coins, setCoins] = useState<Coin[]>([]);
   const [interval, setIntervalState] = useState("1m");
-  const [showOrderBook, setShowOrderBook] = useState(false);
+  const [showOrderBook, setShowOrderBook] = useState(true);
   const [isIntervalMenuOpen, setIsIntervalMenuOpen] = useState(false);
+  const [selectedCoins, setSelectedCoins] = useState([
+    "BTCUSDT",
+    "ETHUSDT",
+    "XRPUSDT",
+    "SOLUSDT",
+    "DOGEUSDT",
+    "ADAUSDT",
+    "LINKUSDT",
+    "LTCUSDT",
+    "XLMUSDT",
+    "POLUSDT",
+    "UNIUSDT",
+    "DOTUSDT",
+    "ICPUSDT",
+    "VETUSDT",
+    "FILUSDT",
+    "TRXUSDT",
+    "ETCUSDT",
+    "EOSUSDT",
+    "AAVEUSDT",
+    "XTZUSDT",
+
+  ]);
 
   const fetchPrices = async () => {
     try {
@@ -89,6 +116,8 @@ export function DefaultContextProvider({
     setIsIntervalMenuOpen,
     showOrderBook,
     setShowOrderBook,
+    selectedCoins,
+    setSelectedCoins,
   };
 
   return (
