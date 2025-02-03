@@ -18,7 +18,7 @@ const ProfileSecurity: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="max-w-100 p-4">
       <h3 className="text-xl font-semibold mb-2">Sicherheitseinstellungen</h3>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -27,8 +27,9 @@ const ProfileSecurity: React.FC = () => {
             type="password"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
-            className="p-2 rounded w-full"
+            className="p-2 rounded w-full bg-dark"
             required
+            placeholder="aktual Password"
           />
         </div>
         <div className="mb-4">
@@ -37,8 +38,9 @@ const ProfileSecurity: React.FC = () => {
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            className="p-2 rounded w-full"
+            className="p-2 rounded w-full bg-dark"
             required
+            placeholder="new Password"
           />
         </div>
         <div className="mb-4">
@@ -47,13 +49,14 @@ const ProfileSecurity: React.FC = () => {
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="p-2 rounded w-full"
+            className="p-2 rounded w-full bg-dark"
             required
+            placeholder="confirm Password"
           />
         </div>
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-accent text-white px-4 py-2 rounded"
         >
           Passwort ändern
         </button>

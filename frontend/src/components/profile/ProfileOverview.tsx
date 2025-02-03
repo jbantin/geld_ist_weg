@@ -1,25 +1,38 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import * as d3 from "d3";
 
-const ProfileOverview = () => {
+interface ProfileOverviewProps {
+  currentPrices: { [key: string]: number };
+  currentChanges: { [key: string]: string }; // neu
+}
+
+const ProfileOverview = ({ currentPrices, currentChanges }: ProfileOverviewProps) => {
   const portfolioData = [
-    { label: "Bitcoin (BTC)", value: 60, color: "#F7931A" },
-    { label: "Ethereum (ETH)", value: 25, color: "#3C3C3D" },
-    { label: "Binance Coin (BNB)", value: 10, color: "#F3BA2F" },
-    { label: "Solana (SOL)", value: 5, color: "#00FFA3" },
+    { label: "Bitcoin (BTC)", ammount: 0.14, color: "#FF9900" },    // neu: Menge 1.2 BTC
+    { label: "Ethereum (ETH)", ammount: 2, color: "#627EEA" },     // neu: Menge 3.4 ETH
+    { label: "Binance Coin (BNB)", ammount: 10, color: "#F0B90B" },  // neu: Menge 15 BNB
+    { label: "Solana (SOL)", ammount: 5,  color: "#9945FF" },        // neu: Menge 200 SOL
   ];
+
+  // Neuer Gesamtwert basierend auf aktuellen Preisen:
+  const totalPortfolioValue = portfolioData.reduce(
+    (sum, coin) => sum + coin.ammount * (currentPrices[coin.label] || 0),
+    0
+  );
 
   const transactions = [
     {
       date: "02.02.2025",
+      time: "12:01:07",
       type: "Kauf",
       coin: "BTC",
       amount: 0.1,
-      price: "$2,000",
+      price: "$9,541",
     },
     {
       date: "01.02.2025",
+      time: "12:01:07",
       type: "Verkauf",
       coin: "ETH",
       amount: 1.5,
@@ -43,59 +56,74 @@ const ProfileOverview = () => {
   const chartRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    if (!chartRef.current) return;
+    const updateChart = () => {
+      if (!chartRef.current) return;
 
-    const width = 300;
-    const height = 300;
-    const radius = Math.min(width, height) / 2;
+      // Erstelle ein Array mit berechnetem Gesamtwert pro Coin
+      const chartData = portfolioData.map(coin => ({
+        ...coin,
+        totalValue: coin.ammount * (currentPrices[coin.label] || 0)
+      }));
 
-    d3.select(chartRef.current).selectAll("*").remove();
+      // Dynamische Dimensionierung basierend auf Fenstergröße
+      const width = window.innerWidth * 0.3;
+      const height = window.innerHeight * 0.3;
+      const radius = Math.min(width, height) / 2;
 
-    const svg = d3
-      .select(chartRef.current)
-      .attr("width", width)
-      .attr("height", height)
-      .append("g")
-      .attr("transform", `translate(${width / 2}, ${height / 2})`);
+      d3.select(chartRef.current).selectAll("*").remove();
 
-    const arc = d3
-      .arc<d3.PieArcDatum<{ label: string; value: number; color: string }>>()
-      .innerRadius(radius * 0.5)
-      .outerRadius(radius);
+      const svg = d3
+        .select(chartRef.current)
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
-    const pie = d3
-      .pie<{ label: string; value: number; color: string }>()
-      .value((d) => d.value);
+      const arc = d3
+        .arc<d3.PieArcDatum<{ label: string; ammount: number; color: string; totalValue: number }>>()
+        .innerRadius(radius * 0.5)
+        .outerRadius(radius);
 
-    svg
-      .selectAll("path")
-      .data(pie(portfolioData))
-      .enter()
-      .append("path")
-      .attr("d", arc)
-      .attr("fill", (d) => d.data.color)
-      .attr("stroke", "#ffffff")
-      .attr("stroke-width", 2);
+      const pie = d3
+        .pie<{ label: string; ammount: number; color: string; totalValue: number }>()
+        .value(d => d.totalValue);
 
-    svg
-      .selectAll("text")
-      .data(pie(portfolioData))
-      .enter()
-      .append("text")
-      .attr("transform", (d) => `translate(${arc.centroid(d)})`)
-      .attr("text-anchor", "middle")
-      .attr("font-size", "10px")
-      .attr("fill", "#ffffff")
-      .text((d) => `${d.data.label}`);
-  }, [portfolioData]);
+      const arcs = pie(chartData);
+
+      svg
+        .selectAll("path")
+        .data(arcs)
+        .enter()
+        .append("path")
+        .attr("d", arc)
+        .attr("fill", d => d.data.color)
+        .attr("stroke", "#ffffff")
+        .attr("stroke-width", 2);
+
+      svg
+        .selectAll("text")
+        .data(arcs)
+        .enter()
+        .append("text")
+        .attr("transform", d => `translate(${arc.centroid(d)})`)
+        .attr("text-anchor", "middle")
+        .attr("font-size", "10px")
+        .attr("fill", "#ffffff")
+        .text(d => d.data.label);
+    };
+
+    updateChart();
+    window.addEventListener("resize", updateChart);
+    return () => window.removeEventListener("resize", updateChart);
+  }, [portfolioData, currentPrices]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="min-h-screen bg-dark text-white p-8">
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="max-w-6xl mx-auto bg-gray-800 p-8 rounded-lg shadow-lg"
+        className="max-w-6xl mx-auto btn-bg p-8 rounded-lg shadow-lg"
       >
         {/* Benutzerinformationen */}
         <div className="mb-8">
@@ -112,7 +140,10 @@ const ProfileOverview = () => {
           <div className="flex flex-col md:flex-row items-center md:justify-between">
             <div className="text-lg font-bold">
               <p>
-                Gesamtwert: <span className="text-green-400">$50,000</span>
+                Gesamtwert:{" "}
+                <span className="text-green-400">
+                  ${totalPortfolioValue.toFixed(2)}
+                </span>
               </p>
               <p>
                 Tagesveränderung:{" "}
@@ -121,6 +152,25 @@ const ProfileOverview = () => {
             </div>
             <svg ref={chartRef} className="mt-6 md:mt-0"></svg>
           </div>
+        </div>
+
+        {/* Neue Sektion: Bestände pro Coin mit aktuellem Preis */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-4">Meine Bestände</h2>
+          <ul className="flex justify-between flex-wrap">
+            {portfolioData.map((coin, index) => {
+              const currentPrice = currentPrices[coin.label] || 0;
+              return (
+                <li key={index} className="mb-2">
+                  <span className="font-bold">{coin.label}:</span> {coin.ammount} 
+                  <span className="text-sm text-gray-400">
+                    {" "}
+                    (Preis: ${(parseFloat(currentPrice.toFixed(2)) * coin.ammount).toFixed(2)})
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
         </div>
 
         {/* Letzte Transaktionen */}
@@ -154,24 +204,27 @@ const ProfileOverview = () => {
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-4">Marktübersicht</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {marketData.map((data, index) => (
-              <div
-                key={index}
-                className="bg-gray-700 p-4 rounded-lg text-center shadow"
-              >
-                <h3 className="text-lg font-bold">{data.coin}</h3>
-                <p className="text-gray-400">{data.price}</p>
-                <p
-                  className={`font-semibold ${
-                    data.change.includes("+")
-                      ? "text-green-400"
-                      : "text-red-400"
-                  }`}
-                >
-                  {data.change}
-                </p>
-              </div>
-            ))}
+            {marketData.map((data, index) => {
+              // Mapping von statischem Coin-Namen auf currentPrices/currentChanges-Schlüssel
+              const coinMapping: { [key: string]: string } = {
+                "Bitcoin": "Bitcoin (BTC)",
+                "Ethereum": "Ethereum (ETH)",
+                "Binance Coin": "Binance Coin (BNB)"
+              };
+              const coinKey = coinMapping[data.coin];
+              const currentPrice = currentPrices[coinKey] || 0;
+              // Verwende den dynamisch abgefragten Change-Wert, Fallback auf den statischen Wert
+              const changeValue = currentChanges[coinKey] || data.change;
+              return (
+                <div key={index} className="bg-accent p-4 rounded-lg text-center shadow">
+                  <h3 className="text-lg font-bold">{data.coin}</h3>
+                  <p className="text-gray-400">Preis: ${currentPrice.toFixed(2)}</p>
+                  <p className={`font-semibold ${changeValue.includes("+") ? "text-green-400" : "text-red-400"}`}>
+                    {changeValue}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
 
