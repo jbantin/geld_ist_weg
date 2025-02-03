@@ -6,6 +6,7 @@ import { DefaultContext } from "../context/DefaultContext";
 import useFormatNumber from "../hooks/useFormatNumber"; // Neuer Import
 import MarketSummary from "../components/market/MarketSummary";
 import MarketCoinGrid from "../components/market/MarketCoinGrid"; // Neuer Import
+import { Loader } from "../components/ui/Loading_spinner"; // neu
 
 interface Coin {
   symbol: string;
@@ -26,6 +27,7 @@ const Market: React.FC = () => {
     "priceChangePercent"
   );
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [loading, setLoading] = useState(true); // neu
   const navigate = useNavigate();
 
   // Neues Logo-Mapping mit allen Coins:
@@ -71,8 +73,10 @@ const Market: React.FC = () => {
           askQty: parseFloat(coin.askQty), // neu
         }));
       setCoins(filteredCoins);
+      setLoading(false); // neu: Daten geladen → Loader ausblenden
     } catch (error) {
       console.error("Fehler beim Abrufen der 24-Stunden Statistiken:", error);
+      setLoading(false); // neu: auch im Fehlerfall beenden
     }
   };
 
@@ -130,6 +134,14 @@ const Market: React.FC = () => {
   const totalBid = coins.reduce((sum, coin) => sum + coin.bidQty, 0);
   const totalAsk = coins.reduce((sum, coin) => sum + coin.askQty, 0);
   const aggregatedBidAskRatio = totalAsk !== 0 ? totalBid / totalAsk : 0;
+
+  if (loading) { // neu: Loader anzeigen, solange loading true ist
+    return (
+      <div className="flex items-center justify-center h-screen bg-dark">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <motion.div

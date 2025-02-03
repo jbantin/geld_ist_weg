@@ -1,5 +1,5 @@
 import { createChart } from "lightweight-charts";
-import { useRef, useEffect, useContext } from "react";
+import { useRef, useEffect, useContext, useState } from "react"; // neu
 import ChartControls from "./ChartControls";
 import OrderBook from "./ChartOrderBook";
 import TradeInfo from "./ChartTradeInfo";
@@ -8,8 +8,7 @@ import { DefaultContext } from "../../context/DefaultContext";
 import { motion } from "framer-motion";
 import News from "../../pages/News";
 import useResize from "../../hooks/useResize"; 
-
-
+import { Loader } from "../ui/Loading_spinner"; // neu
 
 const Chart = () => {
   const {
@@ -25,6 +24,7 @@ const Chart = () => {
   const candlestickSeriesRef = useRef<any>(null);
   const volumeSeriesRef = useRef<any>(null);
   const { width, height } = useResize(); // Statt window.innerWidth / innerHeight
+  const [loading, setLoading] = useState(true); // neu
 
   // Neues Farben-Objekt zur zentralen Verwaltung
   const chartColors = {
@@ -168,6 +168,12 @@ const Chart = () => {
         },
       });
       chart.timeScale().fitContent();
+    
+      // Neu: Nach kurzer Verzögerung den Resize-Handler durchführen und Loading beenden
+      setTimeout(() => {
+        resizeHandler();
+        setLoading(false); // neu: Chart initialisiert → Loader ausblenden
+      }, 200);
     }
     
     resizeHandler(); 
@@ -207,7 +213,7 @@ const Chart = () => {
     >
       <ChartControls />
       <motion.div
-        className="flex flex-col md:flex-col w-full h-full items-center content-center"
+        className="relative flex flex-col md:flex-col w-full h-full items-center content-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -218,9 +224,15 @@ const Chart = () => {
           <div className="flex flex-col max-h-[74vh] md:flex-row md:full rounded-2xl w-full overflow-hidden ">
             {showOrderBook && <OrderBook symbol={selectedCoin} />}
             <div
-              className="flex justify-center p-4 bg-dark h-full w-full min-h-[400px] max-h-[400px] md:max-h-[72vh] md:max-w-[80vw]"
+              className="relative flex justify-center p-4 bg-dark h-full w-full min-h-[400px] max-h-[400px] md:max-h-[72vh] md:max-w-[80vw]"
               ref={container}
-            ></div>
+            >
+              {loading && (
+                <div className="absolute inset-0 flex items-center justify-center z-10">
+                  <Loader />
+                </div>
+              )}
+            </div>
             {showNews && <News />}
           </div>
         )}
