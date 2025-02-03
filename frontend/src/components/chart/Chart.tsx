@@ -173,7 +173,7 @@ const Chart = () => {
       setTimeout(() => {
         resizeHandler();
         setLoading(false); // neu: Chart initialisiert → Loader ausblenden
-      }, 200);
+      }, 1000);
     }
     
     resizeHandler(); 
@@ -221,10 +221,10 @@ const Chart = () => {
         {showTradeInfo ? (
           <TradeInfo symbol={selectedCoin} />
         ) : (
-          <div className="flex flex-col max-h-[74vh] md:flex-row md:full rounded-2xl w-full overflow-hidden ">
+          <div className="flex flex-col md:max-h-[74vh] min-h-[60vh] md:flex-row md:full rounded-2xl w-full ">
             {showOrderBook && <OrderBook symbol={selectedCoin} />}
             <div
-              className="flex justify-center mt-2 bg-dark h-full w-full min-h-[400px] max-h-[400px] md:max-h-[72vh] md:max-w-[70vw]"
+              className="flex justify-center p-4 bg-dark h-full w-full min-h-[400px] max-h-[400px] md:max-h-[72vh] md:max-w-[70vw]"
               ref={container}
             >
               {loading && (

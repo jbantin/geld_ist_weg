@@ -117,7 +117,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-dark text-swich">
+    <div className="bg-dark text-swich overflow-auto custom-scrollbar h-full">
       <div className="container mx-auto p-4">
         <h2 className="text-3xl font-bold mb-6 text-center">Mein Profil</h2>
         {/* Burger-Button: Nur auf mobilen Geräten sichtbar */}

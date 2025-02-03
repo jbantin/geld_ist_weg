@@ -32,7 +32,7 @@ const App = () => {
     <DefaultContextProvider>
       <Router>
         <motion.div
-          className="flex flex-col md:h-screen bg-light w-full max-w-screen"
+          className="flex flex-col md:h-screen bg-light w-full max-w-screen custom-scrollbar max-h-screen overflow-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}

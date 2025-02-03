@@ -57,7 +57,7 @@ const Nav: React.FC<NavProps> = ({ theme, setTheme }) => {
          <Button className="hover:scale-105 w-fit p-2 text-swich ml-auto btn-bg mr-4" onClick={closeMenu}>
             <Link to={userLink}>
               <div className="w-10 h-10 rounded-lg shadow-2xl overflow-hidden">
-                <img src="https://i.pinimg.com/736x/9e/5b/c0/9e5bc04372764479079dcbd8f0196318.jpg" alt="User" className="w-full h-full object-cover" />
+                <img src="../user.png" alt="User" className="w-full h-full object-cover p-2" />
               </div>
             </Link>
           </Button>
@@ -100,7 +100,7 @@ const Nav: React.FC<NavProps> = ({ theme, setTheme }) => {
         <Button className="hover:scale-105 p-2 btn-bg" onClick={closeMenu}>
           <Link to={userLink}>
             <div className="w-10 h-10 rounded-lg shadow-2xl overflow-hidden">
-              <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="User" className="w-full h-full object-cover p-1" />
+              <img src="../user.png" alt="User" className="w-full h-full object-cover p-2" />
             </div>
           </Link>
         </Button>

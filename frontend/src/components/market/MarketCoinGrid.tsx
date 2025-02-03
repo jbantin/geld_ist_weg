@@ -28,7 +28,7 @@ const MarketCoinGrid: React.FC<MarketCoinGridProps> = ({
   formatNumber,
 }) => {
   return (
-    <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 overflow-auto custom-scrollbar md:max-h-[55vh]">
+    <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 overflow-auto custom-scrollbar md:max-h-[55vh] pr-1">
       {sortedCoins.map((coin) => (
         <div key={coin.symbol}>
           <Button

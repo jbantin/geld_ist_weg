@@ -10,9 +10,9 @@ interface ProfileOverviewProps {
 const ProfileOverview = ({ currentPrices, currentChanges }: ProfileOverviewProps) => {
   const portfolioData = [
     { label: "Bitcoin (BTC)", ammount: 0.14, color: "#FF9900" },    // neu: Menge 1.2 BTC
-    { label: "Ethereum (ETH)", ammount: 2, color: "#627EEA" },     // neu: Menge 3.4 ETH
-    { label: "Binance Coin (BNB)", ammount: 10, color: "#F0B90B" },  // neu: Menge 15 BNB
-    { label: "Solana (SOL)", ammount: 5,  color: "#9945FF" },        // neu: Menge 200 SOL
+    { label: "Ethereum (ETH)", ammount: 2.241, color: "#627EEA" },     // neu: Menge 3.4 ETH
+    { label: "Binance Coin (BNB)", ammount: 17.141, color: "#F0B90B" },  // neu: Menge 15 BNB
+    { label: "Solana (SOL)", ammount: 51.1,  color: "#9945FF" },        // neu: Menge 200 SOL
   ];
 
   // Neuer Gesamtwert basierend auf aktuellen Preisen:
@@ -97,8 +97,8 @@ const ProfileOverview = ({ currentPrices, currentChanges }: ProfileOverviewProps
         .append("path")
         .attr("d", arc)
         .attr("fill", d => d.data.color)
-        .attr("stroke", "#ffffff")
-        .attr("stroke-width", 2);
+        .attr("stroke", "#5c5c5c")
+        .attr("stroke-width", 1);
 
       svg
         .selectAll("text")
@@ -127,27 +127,26 @@ const ProfileOverview = ({ currentPrices, currentChanges }: ProfileOverviewProps
       >
         {/* Benutzerinformationen */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold">Profilübersicht</h1>
-          <p className="text-gray-400">Name: John Doe</p>
-          <p className="text-gray-400">Email: user@example.com</p>
+          <h1 className="text-3xl text-swich font-bold">Profilübersicht</h1>
+          <p className="text-swich">Name: John Doe</p>
+          <p className="text-swich">Email: user@example.com</p>
         </div>
 
         {/* Portfoliozusammenfassung */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">
+          <h2 className="text-xl text-swich font-semibold mb-4">
             Portfoliozusammenfassung
           </h2>
           <div className="flex flex-col md:flex-row items-center md:justify-between">
             <div className="text-lg font-bold">
               <p>
-                Gesamtwert:{" "}
-                <span className="text-green-400">
-                  ${totalPortfolioValue.toFixed(2)}
-                </span>
+                <span className="text-swich">Gesamtwert:  </span>
+                <span className="text-accent">{" "+totalPortfolioValue.toFixed(2)} $</span> 
+               
               </p>
-              <p>
+              <p className="text-swich">
                 Tagesveränderung:{" "}
-                <span className="text-green-400">+5% ($2,500)</span>
+                <span className="text-accent">+5% ($2,500)</span>
               </p>
             </div>
             <svg ref={chartRef} className="mt-6 md:mt-0"></svg>
@@ -156,14 +155,14 @@ const ProfileOverview = ({ currentPrices, currentChanges }: ProfileOverviewProps
 
         {/* Neue Sektion: Bestände pro Coin mit aktuellem Preis */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Meine Bestände</h2>
+          <h2 className="text-xl font-semibold mb-4 text-swich">Meine Bestände</h2>
           <ul className="flex justify-between flex-wrap">
             {portfolioData.map((coin, index) => {
               const currentPrice = currentPrices[coin.label] || 0;
               return (
                 <li key={index} className="mb-2">
-                  <span className="font-bold">{coin.label}:</span> {coin.ammount} 
-                  <span className="text-sm text-gray-400">
+                  <span className="font-bold text-swich">{coin.label}: {coin.ammount} </span>
+                  <span className="text-sm text-swich">
                     {" "}
                     (Preis: ${(parseFloat(currentPrice.toFixed(2)) * coin.ammount).toFixed(2)})
                   </span>
@@ -175,10 +174,10 @@ const ProfileOverview = ({ currentPrices, currentChanges }: ProfileOverviewProps
 
         {/* Letzte Transaktionen */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Letzte Transaktionen</h2>
-          <table className="w-full text-left table-auto">
+          <h2 className="text-xl text-swich font-semibold mb-4">Letzte Transaktionen</h2>
+          <table className="w-full text-left table-auto text-swich">
             <thead>
-              <tr className="text-gray-400">
+              <tr className="text-swich">
                 <th className="px-4 py-2">Datum</th>
                 <th className="px-4 py-2">Typ</th>
                 <th className="px-4 py-2">Coin</th>
@@ -202,7 +201,7 @@ const ProfileOverview = ({ currentPrices, currentChanges }: ProfileOverviewProps
 
         {/* Marktübersicht */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Marktübersicht</h2>
+          <h2 className="text-xl font-semibold mb-4 text-swich">Marktübersicht</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {marketData.map((data, index) => {
               // Mapping von statischem Coin-Namen auf currentPrices/currentChanges-Schlüssel
@@ -216,9 +215,9 @@ const ProfileOverview = ({ currentPrices, currentChanges }: ProfileOverviewProps
               // Verwende den dynamisch abgefragten Change-Wert, Fallback auf den statischen Wert
               const changeValue = currentChanges[coinKey] || data.change;
               return (
-                <div key={index} className="bg-accent p-4 rounded-lg text-center shadow">
+                <div key={index} className="bg-accent p-4 rounded-lg text-center shadow text-swich">
                   <h3 className="text-lg font-bold">{data.coin}</h3>
-                  <p className="text-gray-400">Preis: ${currentPrice.toFixed(2)}</p>
+                  <p className="text-swich">Preis: ${currentPrice.toFixed(2)}</p>
                   <p className={`font-semibold ${changeValue.includes("+") ? "text-green-400" : "text-red-400"}`}>
                     {changeValue}
                   </p>
@@ -230,14 +229,14 @@ const ProfileOverview = ({ currentPrices, currentChanges }: ProfileOverviewProps
 
         {/* Sicherheitsstatus */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Sicherheitsstatus</h2>
-          <p>
+          <h2 className="text-xl font-semibold mb-4 text-swich">Sicherheitsstatus</h2>
+          <p className="text-swich">
             2-Faktor-Authentifizierung:{" "}
             <span className="text-green-400">Aktiv</span>
           </p>
-          <p>
+          <p className="text-swich">
             Letzte Anmeldung:{" "}
-            <span className="text-gray-400">Berlin, 02.02.2025</span>
+            <span className="text-swich">Berlin, 02.02.2025</span>
           </p>
         </div>
       </motion.div>

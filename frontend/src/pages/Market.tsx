@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
 import Button from "../components/ui/Button";
 import { DefaultContext } from "../context/DefaultContext";
-import useFormatNumber from "../hooks/useFormatNumber"; // Neuer Import
+import useFormatNumber from "../hooks/useFormatNumber"; 
 import MarketSummary from "../components/market/MarketSummary";
-import MarketCoinGrid from "../components/market/MarketCoinGrid"; // Neuer Import
-import { Loader } from "../components/ui/Loading_spinner"; // neu
+import MarketCoinGrid from "../components/market/MarketCoinGrid"; 
+import { Loader } from "../components/ui/Loading_spinner";
 
 interface Coin {
   symbol: string;
@@ -16,8 +16,8 @@ interface Coin {
   lowPrice: number;
   volume: number;
   quoteVolume: number;
-  bidQty: number; // neu
-  askQty: number; // neu
+  bidQty: number; 
+  askQty: number;
 }
 
 const Market: React.FC = () => {
@@ -27,7 +27,7 @@ const Market: React.FC = () => {
     "priceChangePercent"
   );
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-  const [loading, setLoading] = useState(true); // neu
+  const [loading, setLoading] = useState(true); 
   const navigate = useNavigate();
 
   // Neues Logo-Mapping mit allen Coins:
@@ -69,14 +69,14 @@ const Market: React.FC = () => {
           lowPrice: parseFloat(coin.lowPrice),
           volume: parseFloat(coin.volume),
           quoteVolume: parseFloat(coin.quoteVolume),
-          bidQty: parseFloat(coin.bidQty), // neu
-          askQty: parseFloat(coin.askQty), // neu
+          bidQty: parseFloat(coin.bidQty), 
+          askQty: parseFloat(coin.askQty),
         }));
       setCoins(filteredCoins);
-      setLoading(false); // neu: Daten geladen → Loader ausblenden
+      setLoading(false);
     } catch (error) {
       console.error("Fehler beim Abrufen der 24-Stunden Statistiken:", error);
-      setLoading(false); // neu: auch im Fehlerfall beenden
+      setLoading(false); 
     }
   };
 
