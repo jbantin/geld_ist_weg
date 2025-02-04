@@ -1,6 +1,8 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useContext } from "react";
 import { motion } from "framer-motion";
 import * as d3 from "d3";
+import { DefaultContext } from "../../context/DefaultContext";
+import { useNavigate } from "react-router-dom";
 
 interface ProfileOverviewProps {
   currentPrices: { [key: string]: number };
@@ -8,6 +10,27 @@ interface ProfileOverviewProps {
 }
 
 const ProfileOverview = ({ currentPrices, currentChanges }: ProfileOverviewProps) => {
+  const { setIsLoggedIn } = useContext(DefaultContext);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:9001/user/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      if (response.ok) {
+        setIsLoggedIn(false);
+        navigate("/login");
+      } else {
+        alert("Logout fehlgeschlagen");
+      }
+    } catch (error) {
+      console.error("Logout-Fehler:", error);
+      alert("Ein Fehler ist aufgetreten");
+    }
+  };
+
   const portfolioData = [
     { label: "Bitcoin (BTC)", ammount: 0.14, color: "#FF9900" },    // neu: Menge 1.2 BTC
     { label: "Ethereum (ETH)", ammount: 2.241, color: "#627EEA" },     // neu: Menge 3.4 ETH
@@ -118,18 +141,26 @@ const ProfileOverview = ({ currentPrices, currentChanges }: ProfileOverviewProps
   }, [portfolioData, currentPrices]);
 
   return (
-    <div className="min-h-screen bg-dark text-white p-8">
+    
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="max-w-6xl mx-auto btn-bg p-8 rounded-lg shadow-lg"
+        className="max-w-6xl mx-auto btn-bg p-4 rounded-lg "
       >
         {/* Benutzerinformationen */}
-        <div className="mb-8">
-          <h1 className="text-3xl text-swich font-bold">Profilübersicht</h1>
-          <p className="text-swich">Name: John Doe</p>
-          <p className="text-swich">Email: user@example.com</p>
+        <div className="mb-8 flex flex-col md:flex-row justify-between items-center">
+          <div className="text-center md:text-left">
+            <h1 className="text-3xl text-swich font-bold">Profilübersicht</h1>
+            <p className="text-swich">Name: John Doe</p>
+            <p className="text-swich">Email: user@example.com</p>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4 md:mt-0"
+          >
+            Logout
+          </button>
         </div>
 
         {/* Portfoliozusammenfassung */}
@@ -138,11 +169,10 @@ const ProfileOverview = ({ currentPrices, currentChanges }: ProfileOverviewProps
             Portfoliozusammenfassung
           </h2>
           <div className="flex flex-col md:flex-row items-center md:justify-between">
-            <div className="text-lg font-bold">
+            <div className="text-lg font-bold text-center md:text-left">
               <p>
                 <span className="text-swich">Gesamtwert:  </span>
                 <span className="text-accent">{" "+totalPortfolioValue.toFixed(2)} $</span> 
-               
               </p>
               <p className="text-swich">
                 Tagesveränderung:{" "}
@@ -156,7 +186,7 @@ const ProfileOverview = ({ currentPrices, currentChanges }: ProfileOverviewProps
         {/* Neue Sektion: Bestände pro Coin mit aktuellem Preis */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-4 text-swich">Meine Bestände</h2>
-          <ul className="flex justify-between flex-wrap">
+          <ul className="flex flex-col md:flex-row justify-between flex-wrap text-sm">
             {portfolioData.map((coin, index) => {
               const currentPrice = currentPrices[coin.label] || 0;
               return (
@@ -175,24 +205,24 @@ const ProfileOverview = ({ currentPrices, currentChanges }: ProfileOverviewProps
         {/* Letzte Transaktionen */}
         <div className="mb-8">
           <h2 className="text-xl text-swich font-semibold mb-4">Letzte Transaktionen</h2>
-          <table className="w-full text-left table-auto text-swich">
+          <table className="w-full text-left table-auto text-swich text-sm">
             <thead>
               <tr className="text-swich">
-                <th className="px-4 py-2">Datum</th>
-                <th className="px-4 py-2">Typ</th>
-                <th className="px-4 py-2">Coin</th>
-                <th className="px-4 py-2">Menge</th>
-                <th className="px-4 py-2">Preis</th>
+                <th className="px-2 py-1">Datum</th>
+                <th className="px-2 py-1">Typ</th>
+                <th className="px-2 py-1">Coin</th>
+                <th className="px-2 py-1">Menge</th>
+                <th className="px-2 py-1">Preis</th>
               </tr>
             </thead>
             <tbody>
               {transactions.map((tx, index) => (
                 <tr key={index} className="border-t border-gray-700">
-                  <td className="px-4 py-2">{tx.date}</td>
-                  <td className="px-4 py-2">{tx.type}</td>
-                  <td className="px-4 py-2">{tx.coin}</td>
-                  <td className="px-4 py-2">{tx.amount}</td>
-                  <td className="px-4 py-2">{tx.price}</td>
+                  <td className="px-2 py-1">{tx.date}</td>
+                  <td className="px-2 py-1">{tx.type}</td>
+                  <td className="px-2 py-1">{tx.coin}</td>
+                  <td className="px-2 py-1">{tx.amount}</td>
+                  <td className="px-2 py-1">{tx.price}</td>
                 </tr>
               ))}
             </tbody>
@@ -215,7 +245,7 @@ const ProfileOverview = ({ currentPrices, currentChanges }: ProfileOverviewProps
               // Verwende den dynamisch abgefragten Change-Wert, Fallback auf den statischen Wert
               const changeValue = currentChanges[coinKey] || data.change;
               return (
-                <div key={index} className="bg-accent p-4 rounded-lg text-center shadow text-swich">
+                <div key={index} className="bg-accent p-4 rounded-lg text-center shadow text-swich text-sm">
                   <h3 className="text-lg font-bold">{data.coin}</h3>
                   <p className="text-swich">Preis: ${currentPrice.toFixed(2)}</p>
                   <p className={`font-semibold ${changeValue.includes("+") ? "text-green-400" : "text-red-400"}`}>
@@ -240,7 +270,7 @@ const ProfileOverview = ({ currentPrices, currentChanges }: ProfileOverviewProps
           </p>
         </div>
       </motion.div>
-    </div>
+   
   );
 };
 

@@ -9,7 +9,7 @@ const ProfilePersonal = () => {
           <input
             type="text"
             placeholder="Name"
-            className="p-2 rounded w-full bg-dark"
+            className="p-4 rounded w-full bg-dark"
           />
         </div>
         <div className="mb-4">
@@ -17,7 +17,7 @@ const ProfilePersonal = () => {
           <input
             type="email"
             placeholder="Email"
-            className="p-2 rounded w-full bg-dark"
+            className="p-4 rounded w-full bg-dark"
           />
         </div>
         {/* Weitere Felder */}

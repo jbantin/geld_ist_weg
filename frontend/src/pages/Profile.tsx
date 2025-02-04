@@ -150,7 +150,7 @@ const Profile = () => {
           </nav>
 
           {/* Inhalt des aktuell ausgewählten Tabs */}
-          <section className="flex-1 mt-2 btn-bg p-6 rounded">
+          <section className="flex-1 mt-2 btn-bg p-4 rounded-xl">
             {renderContent()}
           </section>
         </div>

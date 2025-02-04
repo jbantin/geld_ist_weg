@@ -1,20 +1,17 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import Button from "./Button";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { DefaultContext } from "../../context/DefaultContext";
 
 interface NavProps {
   theme: string;
   setTheme: (theme: string) => void;
 }
 
-// Fügen Sie hier ggf. Ihre Auth-Logik ein, z.B. aus einem Kontext
-// Beispiel: const { isLoggedin } = useAuth();
 const Nav: React.FC<NavProps> = ({ theme, setTheme }) => {
   const [isOpen, setIsOpen] = useState(false);
-  // Beispielhafter isLoggedin-Wert – ersetzen Sie diesen mit Ihrer Auth-Logik
-  const isLoggedin = false;
-  const userLink = isLoggedin ? "/profile" : "/login";
+  const { isLoggedIn } = useContext(DefaultContext);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -53,14 +50,14 @@ const Nav: React.FC<NavProps> = ({ theme, setTheme }) => {
       <div className="flex justify-between w-full md:hidden">
         <Button className="hover:scale-105 p-4 text-swich burger-menu btn-bg" onClick={toggleMenu}>
           ☰
-        </Button> 
-         <Button className="hover:scale-105 w-fit p-2 text-swich ml-auto btn-bg mr-4" onClick={closeMenu}>
-            <Link to={userLink}>
-              <div className="w-10 h-10 rounded-lg shadow-2xl overflow-hidden">
-                <img src="../user.png" alt="User" className="w-full h-full object-cover p-2" />
-              </div>
-            </Link>
-          </Button>
+        </Button>
+        <Button className="hover:scale-105 w-fit p-2 text-swich ml-auto btn-bg mr-4" onClick={closeMenu}>
+          <Link to={isLoggedIn ? "/profile" : "/login"}>
+            <div className="w-10 h-10 rounded-lg shadow-2xl overflow-hidden">
+              <img src="../user.png" alt="User" className="w-full h-full object-cover p-2" />
+            </div>
+          </Link>
+        </Button>
         <Button className="hover:scale-105 btn-bg p-4 text-swich" onClick={toggleTheme}>
           {theme === "dark" ? "Light Mode" : "Dark Mode"}
         </Button>
@@ -68,7 +65,7 @@ const Nav: React.FC<NavProps> = ({ theme, setTheme }) => {
       {isOpen && (
         <motion.div
           className="absolute top-18 left-0 p-4 z-1000 w-full bg-dark flex flex-col items-center md:hidden burger-menu"
-          initial={{ opacity:0 }}
+          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
@@ -81,7 +78,6 @@ const Nav: React.FC<NavProps> = ({ theme, setTheme }) => {
           <Button className="hover:scale-105 w-full p-2 text-swich" onClick={closeMenu}>
             <Link to="/trade">Trade</Link>
           </Button>
-        
         </motion.div>
       )}
       <div className="hidden md:flex space-x-4">
@@ -96,9 +92,8 @@ const Nav: React.FC<NavProps> = ({ theme, setTheme }) => {
         </Button>
       </div>
       <div className="hidden md:flex space-x-4">
-        {/* Angepasster User-Button */}
         <Button className="hover:scale-105 p-2 btn-bg" onClick={closeMenu}>
-          <Link to={userLink}>
+          <Link to={isLoggedIn ? "/profile" : "/login"}>
             <div className="w-10 h-10 rounded-lg shadow-2xl overflow-hidden">
               <img src="../user.png" alt="User" className="w-full h-full object-cover p-2" />
             </div>
