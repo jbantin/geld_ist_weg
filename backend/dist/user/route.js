@@ -49,7 +49,7 @@ exports.userRoute.post("/login", async (req, res) => {
         const jwt = (0, jwt_1.createJwt)(user);
         res.cookie("jwt", jwt, {
             httpOnly: true,
-            secure: true,
+            secure: false, // Setze dies auf true, wenn du HTTPS verwendest
             sameSite: "lax",
             maxAge: 3600000,
         });

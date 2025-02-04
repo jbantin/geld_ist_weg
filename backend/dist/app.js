@@ -11,7 +11,10 @@ const prisma_js_1 = require("./prisma.js");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const PORT = 9001;
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: "http://localhost:5173", // Ersetze dies durch die URL deines Frontends
+    credentials: true, // Erlaube das Senden von Cookies
+}));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use("/user", route_js_1.userRoute);
